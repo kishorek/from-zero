@@ -38,10 +38,11 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 5 of 16</p>
       <h1>What are JavaScript and Node.js?</h1>
+      <p class="one-idea"><strong>One idea.</strong> JavaScript is the language. Node.js runs it outside the browser.</p>
       <h2>The idea</h2>
       <p>JavaScript is a programming language. It was first built for web pages. A browser still runs JavaScript inside a page. That kind of JavaScript can change what you see, and it is kept away from your files for safety.</p>
 <p>Node.js is a program you install. It runs JavaScript on your computer, outside any page. Node.js can read files, talk on the network, and start other programs. It cannot see a web page by itself. Playwright, much later, is the tool that lets a Node.js program drive a browser.</p>
-<p>Install the Long Term Support release from <code>https://nodejs.org</code>. Then open a terminal and run <code>node -v</code>. You want version 20 or newer. Playwright requires that. <code>npm -v</code> should also print a number. npm is the installer for JavaScript packages, and it arrives with Node.js.</p>
+<p>You can practice in the box on each page before you install anything. When you want to run a file yourself, install the Long Term Support release from <code>https://nodejs.org</code>, then run <code>node -v</code> in a terminal. A number starting at 20 or higher is what you want. <code>npm -v</code> should also print a number. npm is the installer for JavaScript packages, and it arrives with Node.js.</p>
       <h2>Why it matters</h2>
       <p>Mixing these up causes a specific kind of confusion: copying browser code into Node, or Node code into a page, and watching it fail. The example shows a clean test. In Node, <code>document</code> is not there, because <code>document</code> means “the page.”</p>
       <h2>A picture to hold</h2>
@@ -61,7 +62,16 @@ undefined</pre></div>
       <ol class="walk"><li><code>console.log(&quot;Running with Node &quot; + process.version);</code><span><code>process</code> is a Node.js object that describes the running program. <code>process.version</code> is the Node.js version text.</span></li>
 <li><code>console.log(typeof document);</code><span><code>typeof</code> asks what kind of thing a name points at. <code>document</code> was never created in Node.js, so the answer is <code>undefined</code>.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Install Node.js if you have not. Run <code>node -v</code> and <code>npm -v</code>. Then run <code>where.js</code>. In the last line of the file, replace <code>document</code> with <code>process</code> and run it again. <code>typeof process</code> prints <code>object</code>, because Node.js did create that name.</p>
+      <p>Run the box. In this pretend Node room, document is missing and process exists. You can install real Node.js later, when you want files of your own.</p>
+      <div class="demo" data-kind="js" data-match="exact" data-hint="Leave both lines. document is missing here. process exists.">
+      <p class="demo-lead"><strong>Practice.</strong> typeof asks what kind of thing a name points at.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">console.log(typeof document);
+console.log(typeof process);</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">undefined
+object</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Opening a <code>.js</code> file by double-clicking it and expecting Node.js to run. Use the terminal: <code>node where.js</code>.</li>
 <li>Pasting <code>document.querySelector</code> into a Node.js file. That name belongs to the browser.</li>
@@ -73,5 +83,6 @@ undefined</pre></div>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

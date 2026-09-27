@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 9 of 20</p>
       <h1>Locators</h1>
+      <p class="one-idea"><strong>One idea.</strong> Find an element by its job and its name.</p>
       <h2>The idea</h2>
       <p>A locator is a description of an element, rechecked every time you use it. It is not a snapshot of the element from five seconds ago. <code>page.getByRole(&quot;heading&quot;, { name: &quot;Example Domain&quot; })</code> means “the heading whose accessible name is Example Domain.”</p>
 <p>The accessible name is the name assistive technology would announce. For a heading or a link, it is usually the visible text. For an input, it is usually its label.</p>
@@ -73,7 +74,16 @@ test(&quot;the heading and the learn-more link&quot;, async ({ page }) =&gt; {
 <li><code>await expect(heading).toBeVisible();</code><span>Visible means a person could see it: it is on screen, not hidden. The expectation retries.</span></li>
 <li><code>toHaveAttribute(&quot;href&quot;, /iana\.org/)</code><span>Read the <code>href</code> attribute and match the pattern. The backslash makes the dot a literal dot inside the pattern.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>On <code>example.com</code>, locate the heading by level as well as name. Then deliberately use the wrong name, <code>&quot;Example&quot;,</code> and read the failure. Playwright lists what it did find. Put the correct name back. That error text is part of the tool.</p>
+      <p>Find the heading named Example Domain. Then change the name to Example and see the miss.</p>
+      <div class="demo" data-kind="stage" data-stage="locator">
+      <p class="demo-lead"><strong>Demo.</strong> Role is the job. Name is the text a person sees.</p>
+      
+      <div class="mini-page"><h4 data-role="heading" data-name="Example Domain">Example Domain</h4><p><a data-role="link" data-name="Learn more">Learn more</a></p><p><button type="button" data-role="button" data-name="Save">Save</button></p></div>
+      <label class="demo-field">Role<select class="role"><option>heading</option><option>link</option><option>button</option></select></label>
+      <label class="demo-field">Name<input class="el-name" type="text" value="Example Domain"></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Find</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Starting with CSS because it feels precise. It is precise about structure, which is the brittle part.</li>
 <li>Saving a located element with old APIs such as <code>page.$</code> and reusing the handle later. A locator re-finds. A handle goes stale.</li>
@@ -85,5 +95,6 @@ test(&quot;the heading and the learn-more link&quot;, async ({ page }) =&gt; {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

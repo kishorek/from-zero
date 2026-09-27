@@ -38,6 +38,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 16 of 16</p>
       <h1>Putting everything together</h1>
+      <p class="one-idea"><strong>One idea.</strong> A small program stores a list, makes a choice, and repeats a function.</p>
       <h2>The idea</h2>
       <p>The pieces from this layer combine. A real program is rarely one idea at a time. It stores values, keeps them in a list or a record, decides, repeats, and calls functions.</p>
 <p>The program below turns a list of tasks into numbered lines. If the list is empty, it says so instead of printing nothing and leaving you unsure.</p>
@@ -76,7 +77,25 @@ if (tasks.length === 0) {
 <li><code>for (let i = 0; i &lt; tasks.length; i = i + 1) {</code><span>A counted loop. <code>i</code> is 0, then 1, then 2. The test <code>i &lt; tasks.length</code> stops it at the end.</span></li>
 <li><code>console.log(formatTask(tasks[i], i));</code><span>Take the item at index <code>i</code>, hand it to the function with that index, and print the returned line.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Add a fourth task and run the program. Then set <code>tasks</code> to an empty array <code>[]</code> and run it again. You should see <code>Nothing to do.</code>. Finally, change <code>formatTask</code> so the line looks like <code>Buy milk (1)</code> and confirm every line follows.</p>
+      <p>Run the four-task list. Then set tasks to [] and run again. You should see Nothing to do.</p>
+      <div class="demo" data-kind="js" data-match="one-of" data-hint="With tasks, the first line is Buy milk (1). With an empty list, the line is Nothing to do.">
+      <p class="demo-lead"><strong>Practice.</strong> formatTask builds one line. The loop calls it.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const tasks = ["Buy milk", "Reply to Ada", "Water the plant", "Stretch"];
+function formatTask(task, index) {
+  return task + " (" + (index + 1) + ")";
+}
+if (tasks.length === 0) {
+  console.log("Nothing to do.");
+} else {
+  for (let i = 0; i &lt; tasks.length; i = i + 1) {
+    console.log(formatTask(tasks[i], i));
+  }
+}</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">Buy milk (1)
+Nothing to do.</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Doing the formatting inside the loop and also inside the function, so the number appears twice. Give each job one home.</li>
 <li>Printing <code>i</code> to humans without adding 1, so the list appears to start at 0.</li>
@@ -88,5 +107,6 @@ if (tasks.length === 0) {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

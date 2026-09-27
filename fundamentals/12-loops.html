@@ -38,6 +38,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 12 of 16</p>
       <h1>Loops</h1>
+      <p class="one-idea"><strong>One idea.</strong> A loop repeats one block for each item in a list.</p>
       <h2>The idea</h2>
       <p>A loop repeats a block. <code>for...of</code> walks an array from first item to last and gives you each item under a name. A counted <code>for</code> is useful when you also need the index.</p>
 <p>The block must make progress. A <code>while</code> that never becomes false runs until you stop the program. In the terminal, Ctrl+C stops it.</p>
@@ -65,7 +66,17 @@ Now: pour</pre></div>
 <li><code>console.log(&quot;Now: &quot; + step);</code><span>This line runs once per item. Plus joins the label and the current item.</span></li>
 <li><code>}</code><span>The closing brace ends the repeated block. After the last item, the program continues under the loop. In this file, that is the end.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Loop over an array of three names and print each one with its number, starting at 1. Use the counted form so you have <code>i</code>. Print <code>i + 1</code> and the name. The first line should start with <code>1</code>.</p>
+      <p>Print three names numbered from 1. The first line should start with 1.</p>
+      <div class="demo" data-kind="js" data-match="includes" data-hint="Print i + 1, then the name.">
+      <p class="demo-lead"><strong>Practice.</strong> People count from 1. The index starts at 0, so add 1 when you print.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const names = ["Ada", "Grace", "Lin"];
+for (let i = 0; i &lt; names.length; i = i + 1) {
+  console.log((i + 1) + ". " + names[i]);
+}</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">1. Ada</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Writing <code>for (const step of steps.length)</code>. <code>of</code> wants the array, not the number of items.</li>
 <li>Forgetting to move <code>i</code> forward in a counted loop, which makes an infinite loop. The <code>i = i + 1</code> part is the step.</li>
@@ -77,5 +88,6 @@ Now: pour</pre></div>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

@@ -38,6 +38,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 6 of 16</p>
       <h1>Your first program</h1>
+      <p class="one-idea"><strong>One idea.</strong> A first program is one file and one command: node, then the file name.</p>
       <h2>The idea</h2>
       <p>A JavaScript file is a plain text file whose name ends in <code>.js</code>. Node.js runs that file when you type <code>node</code>, a space, and the file name.</p>
 <p>The terminal is the window where you type those commands. On macOS it is Terminal. The folder you are “in” matters, because Node.js looks for the file there.</p>
@@ -66,7 +67,15 @@ node hello.js</code></pre>
 <li><code>console.log(&quot;Hello, I am your first program.&quot;);</code><span>The whole program. One instruction. Node.js prints the text and then finishes.</span></li>
 <li><code>node hello.js</code><span>Starts Node.js and tells it which file to read. You type this in the terminal, not inside the JavaScript file.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Make <code>hello.js</code> print two lines: your name, then the city you are in. Run <code>node hello.js</code> from the folder that contains the file. If Node.js says it cannot find the file, you are in the wrong folder. Type <code>pwd</code> to see where you are.</p>
+      <p>Print your name on one line and your city on the next. Two console.log lines are enough.</p>
+      <div class="demo" data-kind="js" data-match="lines" data-min="2" data-hint="Print two lines.">
+      <p class="demo-lead"><strong>Practice.</strong> Replace the sample name and city with yours.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">console.log("Ada");
+console.log("Lagos");</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Typing <code>console.log</code> into the terminal by itself. The terminal runs commands such as <code>node</code>. The JavaScript goes in the file.</li>
 <li>Saving the file as <code>hello.js.txt</code>. Turn on file extensions in your editor and confirm the name ends in <code>.js</code>.</li>
@@ -78,5 +87,6 @@ node hello.js</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

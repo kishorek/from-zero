@@ -38,11 +38,12 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 1 of 16</p>
       <h1>What is a computer program?</h1>
+      <p class="one-idea"><strong>One idea.</strong> A program is a list of instructions in order.</p>
       <h2>The idea</h2>
       <p>A computer program is a list of instructions you write down before anything runs. The computer starts at the top and follows the list. It does each step, then the next step, until the list ends or a step tells it to stop.</p>
 <p>The computer does not supply missing steps. If you forget to say “open the cupboard,” a person might guess. A computer will not. The quality of a program is the quality of the instructions.</p>
       <h2>Why it matters</h2>
-      <p>Every script in this course is a program, including the Playwright tests at the end. Those tests feel less mysterious once you can see them as a list: open this page, find this heading, check this sentence.</p>
+      <p>Later programs in this course are still lists like this one: do this, then this, then this.</p>
       <h2>A picture to hold</h2>
       <p>A player piano roll is a program. The holes are instructions. The piano is the computer. The piano has no opinion about the song. It plays the holes you punched, including a wrong note, the same way, every time you turn the crank.</p>
       
@@ -63,7 +64,16 @@ Wait.</pre></div>
 <li><code>console.log(&quot;Add tea.&quot;);</code><span>The second instruction runs after the first one has finished. Nothing in this file runs at the same time as something else.</span></li>
 <li><code>console.log(&quot;Wait.&quot;);</code><span>The third instruction. Three ordered instructions are already a complete program.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Create <code>morning.js</code>. Print three lines that describe how you make breakfast, in the order you do them. Run <code>node morning.js</code>. The terminal should show those three lines in that same order.</p>
+      <p>Print three breakfast steps in the practice box. Change the words to your own breakfast, then press Run.</p>
+      <div class="demo" data-kind="js" data-match="lines" data-min="3" data-hint="Use three console.log lines.">
+      <p class="demo-lead"><strong>Practice.</strong> Three lines, in the order you do them.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">console.log("Crack the egg.");
+console.log("Heat the pan.");
+console.log("Eat.");</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Writing a paragraph and expecting the computer to pick the actions out of it. A program is separate instructions.</li>
 <li>Leaving out a step because it feels obvious. The computer does not share your habits.</li>
@@ -75,5 +85,6 @@ Wait.</pre></div>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

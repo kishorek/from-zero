@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 3 of 17</p>
       <h1>npm and package.json</h1>
+      <p class="one-idea"><strong>One idea.</strong> package.json is the shopping list. npm refills node_modules from that list.</p>
       <h2>The idea</h2>
       <p>A package is someone else’s code, published so you can install it. npm is the tool that downloads packages. It comes with Node.js.</p>
 <p><code>package.json</code> is a file that describes your project: its name, and the packages it needs. <code>npm init -y</code> creates a starter <code>package.json</code> in the current folder. <code>npm install some-package</code> downloads that package into a <code>node_modules</code> folder and writes the name into <code>package.json</code>.</p>
@@ -70,7 +71,18 @@ console.log(raw);</code></pre>
 <li><code>const raw = readFileSync(new URL(&quot;./package.json&quot;, import.meta.url), &quot;utf8&quot;);</code><span>Read the file as text. <code>utf8</code> is the character encoding, the right choice for JSON and for English source code.</span></li>
 <li><code>console.log(raw);</code><span>Print the JSON text. You will parse it properly in the JSON lesson. Today, seeing the text is enough.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Run <code>npm init -y</code> in a new folder. Open <code>package.json</code> and change <code>&quot;description&quot;</code> to a sentence about your lab. Run <code>read-manifest.mjs</code> and find your sentence in the printout.</p>
+      <p>The file box is a tiny package.json. Change the description, then run. Your sentence should show up in the print.</p>
+      <div class="demo" data-kind="js" data-match="includes" data-hint="Keep a description in package.json, then print the file.">
+      <p class="demo-lead"><strong>Practice.</strong> readFile stands in for readFileSync in this box.</p>
+      <label class="demo-field">package.json<textarea class="demo-file" data-name="package.json">{
+  "name": "lab",
+  "description": "my first lab"
+}</textarea></label><label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const raw = readFile("package.json");
+console.log(raw);</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">my first lab</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Editing files inside <code>node_modules</code>. The next install overwrites them. Your code stays outside that folder.</li>
 <li>Forgetting to share <code>package.json</code> and then wondering why a classmate’s <code>npm install</code> does nothing useful.</li>
@@ -82,5 +94,6 @@ console.log(raw);</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

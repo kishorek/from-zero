@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 9 of 17</p>
       <h1>Cleaning up text</h1>
+      <p class="one-idea"><strong>One idea.</strong> Trim the edges, split on a separator, then compare in one case.</p>
       <h2>The idea</h2>
       <p>Text from files and websites is messy. <code>trim</code> removes spaces, tabs, and newlines from both ends. <code>toLowerCase</code> makes comparison calmer. <code>split</code> cuts one string into an array. <code>includes</code> asks whether a smaller string sits inside.</p>
 <p>None of these change the original string. Strings are immutable: methods return a new string. You store that new string if you want to keep it.</p>
@@ -68,7 +69,23 @@ true</pre></div>
 <li><code>console.log(clean.toLowerCase());</code><span>A new string in lowercase. Useful before you compare names that may arrive as <code>Ada</code> or <code>ada</code>.</span></li>
 <li><code>console.log(&quot;Hello&quot;.includes(&quot;ell&quot;));</code><span><code>includes</code> returns a boolean. <code>ell</code> sits inside <code>Hello</code>, so the answer is <code>true</code>.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Start from <code>&quot;  Tea, Milk, tea  &quot;</code>. Trim it, split on <code>&quot;, &quot;</code>, lowercase each piece, and print the array. You should see tea twice. Then keep only the unique words. A direct way: walk the array and <code>push</code> a word when the result does not already <code>includes</code> it.</p>
+      <p>Run the box. You should see tea twice, then a list that keeps tea once.</p>
+      <div class="demo" data-kind="js" data-match="includes" data-hint="Lowercase the pieces and print them.">
+      <p class="demo-lead"><strong>Practice.</strong> trim clears the ends. It does not clear spaces between words.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const messy = "  Tea, Milk, tea  ";
+const parts = messy.trim().split(", ").map(function (word) {
+  return word.toLowerCase();
+});
+console.log(parts);
+const unique = [];
+for (const word of parts) {
+  if (!unique.includes(word)) unique.push(word);
+}
+console.log(unique);</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">tea</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Comparing <code>&quot;Ada&quot;</code> and <code>&quot;ada&quot;</code> with <code>===</code> and treating the mismatch as a mystery. Case is part of the text.</li>
 <li>Splitting on <code>&quot;,&quot;</code> when the file has <code>&quot;, &quot;</code>, and then wondering about the leftover spaces. Include the spaces in the separator, or <code>trim</code> each piece.</li>
@@ -80,5 +97,6 @@ true</pre></div>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

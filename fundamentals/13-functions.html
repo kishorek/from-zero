@@ -38,12 +38,13 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 13 of 16</p>
       <h1>Functions</h1>
+      <p class="one-idea"><strong>One idea.</strong> A function is a named block you can run with different inputs.</p>
       <h2>The idea</h2>
       <p>A function packages instructions under a name. You define it once. You call it whenever you need that work, possibly with different inputs.</p>
 <p>Inputs are parameters, the names in the parentheses. A call passes arguments, the actual values. <code>return</code> sends a value back to the caller and ends the function.</p>
 <p>An arrow function is another spelling of the same idea: const labelFor = (item, price) =&gt; item + &quot; &quot; + price. It is still a function. This course mentions it now so later pages are readable.</p>
       <h2>Why it matters</h2>
-      <p>Copying the same lines five times makes five places to fix. A function makes one. Playwright tests are functions. <code>async ({ page }) =&gt; { ... }</code> is an arrow function that receives a page.</p>
+      <p>Copying the same lines five times makes five places to fix. A function makes one place. You will reuse functions whenever a job repeats.</p>
       <h2>A picture to hold</h2>
       <p>A function is a custom rubber stamp you carve yourself. The parameters are the blank spaces on the stamp. Each call inks the stamp with different words and presses it. <code>return</code> is the paper you hand back.</p>
       
@@ -66,7 +67,17 @@ milk costs 2</pre></div>
 <li><code>console.log(labelFor(&quot;tea&quot;, 4.5));</code><span>Call the function. <code>&quot;tea&quot;</code> becomes <code>item</code>. <code>4.5</code> becomes <code>price</code>. <code>console.log</code> prints whatever the function returns.</span></li>
 <li><code>console.log(labelFor(&quot;milk&quot;, 2));</code><span>A second call with different arguments. The same definition does new work.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Write <code>function initials(first, last)</code> that returns the first letter of each name joined by a period, such as <code>A.L</code>. Use <code>first[0]</code> to read one character of a string. Call it with your names and print the result.</p>
+      <p>Finish initials so Ada and Lovelace print A.L. Then try your own names.</p>
+      <div class="demo" data-kind="js" data-match="pattern" data-pattern="^[A-Za-z]\.[A-Za-z]$" data-hint="Return the first letter, a period, and the other first letter.">
+      <p class="demo-lead"><strong>Practice.</strong> first[0] is the first character of a string.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">function initials(first, last) {
+  return first[0] + "." + last[0];
+}
+console.log(initials("Ada", "Lovelace"));</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Forgetting to call the function. A definition alone prints nothing.</li>
 <li>Forgetting <code>return</code> and then wondering why the caller got <code>undefined</code>. If you want a value out, return it.</li>
@@ -78,5 +89,6 @@ milk costs 2</pre></div>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

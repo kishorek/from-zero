@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 4 of 17</p>
       <h1>Command-line arguments</h1>
+      <p class="one-idea"><strong>One idea.</strong> Arguments are the extra words you type after the script name.</p>
       <h2>The idea</h2>
       <p>Arguments are extra words on the command. In <code>node greet.mjs Ada</code>, the word <code>Ada</code> is an argument. Node.js stores the whole command in <code>process.argv</code>, an array of strings.</p>
 <p>Index <code>0</code> is the path to <code>node</code>. Index <code>1</code> is the path to your script. Your first real argument is index <code>2</code>.</p>
@@ -67,7 +68,22 @@ if (!name) {
 <li><code>console.log(&quot;Usage: node greet.mjs &lt;name&gt;&quot;);</code><span>A usage line is a tiny manual. Angle brackets mean “put a value here.” You do not type the brackets.</span></li>
 <li><code>console.log(`Hello, ${name}.`);</code><span>The argument was present. Build a sentence with it.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Extend the script so the second argument is a city: <code>node greet.mjs Ada Lagos</code> prints <code>Hello, Ada from Lagos.</code> Use <code>process.argv[3]</code>. If either word is missing, print the usage line and set the exit code.</p>
+      <p>Fill in the name and the city, then run. Empty words should print the usage line.</p>
+      <div class="demo" data-kind="js" data-match="one-of" data-hint="With two words, say hello. With a missing word, print Usage.">
+      <p class="demo-lead"><strong>Practice.</strong> Your first word is process.argv[2]. The next is process.argv[3].</p>
+      <label class="demo-field">Words after the script name<input class="demo-args" type="text" value="Ada Lagos"></label><label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const name = process.argv[2];
+const city = process.argv[3];
+if (!name || !city) {
+  console.log("Usage: node greet.mjs &lt;name> &lt;city>");
+  process.exitCode = 1;
+} else {
+  console.log("Hello, " + name + " from " + city + ".");
+}</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">Hello, Ada from Lagos.
+Usage:</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Reading <code>process.argv[0]</code> and expecting your name. That slot is Node.js itself.</li>
 <li>Forgetting that every argument arrives as text. The number <code>3</code> arrives as <code>&quot;3&quot;</code> until you convert it with <code>Number</code>.</li>
@@ -79,5 +95,6 @@ if (!name) {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

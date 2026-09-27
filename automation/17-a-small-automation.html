@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 17 of 17</p>
       <h1>A script that turns a list into a report</h1>
+      <p class="one-idea"><strong>One idea.</strong> Read a list, skip blanks and comments, write a numbered report.</p>
       <h2>The idea</h2>
       <p>This script is the layer in one file. It reads <code>tasks.txt</code> from the script’s folder, drops blank lines and comments, numbers what remains, and writes <code>report.txt</code> with today’s date. If the source file is missing, it prints an error and exits <code>1</code>.</p>
 <p>The rules live in functions. The reading and writing sit in <code>main</code>. That split is what you will keep doing: pure decisions in one place, effects (files, network, browsers) at the edge.</p>
@@ -110,7 +111,29 @@ main();</code></pre>
 <li><code>raw = readFileSync(source, &quot;utf8&quot;);</code><span>Read the inbox. A missing file throws. The <code>catch</code> turns that into a sentence and exit code <code>1</code>.</span></li>
 <li><code>writeFileSync(target, reportText(tasks));</code><span>Replace <code>report.txt</code> with the new report. Open that file and check the date and the numbering.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Add a third real task and a second comment line. Run the script. <code>report.txt</code> should number three tasks and ignore both comments. Delete <code>tasks.txt</code> and run again. You should see the error, exit code <code>1</code>, and the old report left untouched because the write never ran.</p>
+      <p>Run the box. Comments and blank lines are skipped. Add a third task in the file and run again. The report should number three tasks.</p>
+      <div class="demo" data-kind="js" data-match="includes" data-hint="Number the real tasks. Skip blanks and lines that start with #.">
+      <p class="demo-lead"><strong>Practice.</strong> Lines that start with # are notes, not tasks.</p>
+      <label class="demo-field">tasks.txt<textarea class="demo-file" data-name="tasks.txt"># today
+Buy milk
+
+Reply to Ada
+</textarea></label><label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const raw = readFile("tasks.txt");
+const tasks = raw.split("\n").map(function (line) {
+  return line.trim();
+}).filter(function (line) {
+  return line.length > 0 &amp;&amp; !line.startsWith("#");
+});
+const lines = ["Report", ""];
+if (tasks.length === 0) lines.push("No tasks today.");
+else tasks.forEach(function (task, index) { lines.push((index + 1) + ". " + task); });
+writeFile("report.txt", lines.join("\n"));
+console.log("Wrote " + tasks.length + " tasks.");
+console.log(readFile("report.txt"));</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">1. Buy milk</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Catching the read error and still writing an empty report. You just destroyed yesterday’s report because today’s inbox was missing.</li>
 <li>Numbering comment lines. Filter first, then number.</li>
@@ -122,5 +145,6 @@ main();</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

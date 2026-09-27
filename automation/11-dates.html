@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 11 of 17</p>
       <h1>Dates and times</h1>
+      <p class="one-idea"><strong>One idea.</strong> A Date is one instant. Month numbers in the constructor start at 0.</p>
       <h2>The idea</h2>
       <p>A <code>Date</code> is a single moment in time. <code>new Date()</code> is “now,” according to the computer’s clock. <code>toISOString()</code> prints that moment in UTC, the shared clock used by files and APIs, in a form like <code>2026-09-27T18:04:00.000Z</code>.</p>
 <p><code>Intl.DateTimeFormat</code> prints the same moment for humans, in a language and a style you choose. Building a date from parts is the sharp edge: in the <code>Date</code> constructor, months are numbered <code>0</code> through <code>11</code>. January is <code>0</code>.</p>
@@ -67,7 +68,16 @@ console.log(formatted);</code></pre>
 <li><code>new Intl.DateTimeFormat(&quot;en&quot;, {</code><span>Make a formatter. <code>&quot;en&quot;</code> is English. The options choose a medium date and a short time.</span></li>
 <li><code>}).format(now);</code><span>Apply the formatter to the instant. This returns a string. It does not change <code>now</code>.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Print today’s ISO string. Then create <code>new Date(2026, 0, 27)</code> and format it. Confirm you landed in January, not February. Write the month number you meant in a comment next to the <code>0</code>, so future you remembers.</p>
+      <p>Run the box. January is month 0. Change 0 to 1 and the formatted line moves to February.</p>
+      <div class="demo" data-kind="js" data-match="includes" data-hint="Use month 0 if you want January.">
+      <p class="demo-lead"><strong>Practice.</strong> toISOString is for machines. The formatted line is for people.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const day = new Date(2026, 0, 27);
+console.log(day.toISOString().slice(0, 10));
+console.log(new Intl.DateTimeFormat("en", { month: "long" }).format(day));</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">January</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Treating month <code>1</code> as January. In this constructor, <code>1</code> is February.</li>
 <li>Comparing dates by their formatted strings. Two locales format the same instant differently. Compare ISO strings, or compare <code>getTime()</code>, which is milliseconds.</li>
@@ -79,5 +89,6 @@ console.log(formatted);</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

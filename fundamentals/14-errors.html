@@ -38,6 +38,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 14 of 16</p>
       <h1>Errors</h1>
+      <p class="one-idea"><strong>One idea.</strong> An error points at a line. try and catch let you answer it.</p>
       <h2>The idea</h2>
       <p>An error means the engine could not do a step. A <code>SyntaxError</code> is bad spelling, found before the program really starts. A <code>ReferenceError</code> means you used a name that does not exist. A <code>TypeError</code> means the value you have cannot do what you asked, such as reading a property of <code>undefined</code>.</p>
 <p>The message includes a file and a line. That line is where to look first. <code>try</code> and <code>catch</code> let you handle an error instead of crashing. <code>catch</code> receives the error object. <code>error.message</code> is the sentence.</p>
@@ -68,7 +69,22 @@ try {
 <li><code>} catch (error) {</code><span><code>error</code> is the object that was thrown. It has a <code>message</code> property.</span></li>
 <li><code>console.log(&quot;Could not pour: &quot; + error.message);</code><span>Print your own context plus the engine’s sentence. The program then ends normally, because the error was caught.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Remove the <code>try</code> and <code>catch</code> and call <code>pour(undefined)</code> directly. Read the stack: it names <code>pour.js</code> and a line. Put the <code>try</code> back. Then call <code>pour({ volumeMl: 300 })</code> inside the <code>try</code> and confirm it prints <code>300</code> and does not enter <code>catch</code>.</p>
+      <p>The starter pours a real cup and prints 300. Change the call to pour(undefined) and run again to see the caught message.</p>
+      <div class="demo" data-kind="js" data-match="one-of" data-hint="Either pour a cup with volumeMl 300, or pour undefined inside the try.">
+      <p class="demo-lead"><strong>Practice.</strong> Start with the working cup. Then try undefined on purpose.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">function pour(cup) {
+  return cup.volumeMl;
+}
+try {
+  console.log(pour({ volumeMl: 300 }));
+} catch (error) {
+  console.log("Could not pour: " + error.message);
+}</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">300
+Could not pour:</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Empty <code>catch</code> blocks that hide the failure. If you catch, print the message or rethrow.</li>
 <li>Guessing the cause before you read the line number.</li>
@@ -80,5 +96,6 @@ try {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

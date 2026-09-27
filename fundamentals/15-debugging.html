@@ -38,12 +38,13 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 15 of 16</p>
       <h1>Debugging</h1>
+      <p class="one-idea"><strong>One idea.</strong> Debugging means printing the value you are unsure about.</p>
       <h2>The idea</h2>
       <p>A bug is a difference between what you meant and what the engine did. Debugging is how you find the first line where those two diverge.</p>
 <p>The practical method is small. Read the error. Print the values just before the bad line. Check the assumption you are least sure of. Change one thing. Run again.</p>
 <p>The Node.js debugger (<code>node inspect file.js</code>) can pause on a line. You do not need it yet. <code>console.log</code> is enough for this course, and professionals still use it.</p>
       <h2>Why it matters</h2>
-      <p>Playwright failures look noisy: a locator, a timeout, a call log. The skill underneath is the same one you practice here. Find the first surprise. Do not change five things at once.</p>
+      <p>Later error messages can look noisy. The skill underneath is the same one you practice here. Find the first surprise. Change one thing, then run again.</p>
       <h2>A picture to hold</h2>
       <p>Looking for a lost key by walking your route backwards. You do not redecorate the house. You stand where you last know you had the key, then take one step.</p>
       
@@ -66,7 +67,19 @@ third undefined</pre></div>
 <li><code>console.log(&quot;first&quot;, steps[0]);</code><span>Confirm the first item is what you think. Here it is <code>boil</code>.</span></li>
 <li><code>console.log(&quot;third&quot;, steps[2]);</code><span>Ask for an index that does not exist. The evidence is <code>undefined</code>. Your theory of “there is a third step” is the bug.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Write a function <code>lastItem(list)</code> that returns <code>list[list.length - 1]</code>. Call it with an empty array and with <code>['a', 'b']</code>. Print both results before you decide whether the function is right. The empty call returns <code>undefined</code>. The other returns <code>b</code>.</p>
+      <p>Print the last item of an empty list and of ["a", "b"]. You should see undefined, then b.</p>
+      <div class="demo" data-kind="js" data-match="exact" data-hint="Call lastItem twice and print both results.">
+      <p class="demo-lead"><strong>Practice.</strong> Look at both results before you decide the function is right.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">function lastItem(list) {
+  return list[list.length - 1];
+}
+console.log(lastItem([]));
+console.log(lastItem(["a", "b"]));</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">undefined
+b</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Changing several lines before the next run. You will not know which change mattered.</li>
 <li>Printing so much that you stop reading it. Print the one value tied to your current guess.</li>
@@ -78,5 +91,6 @@ third undefined</pre></div>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

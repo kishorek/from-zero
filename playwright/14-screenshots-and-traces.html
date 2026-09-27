@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 14 of 20</p>
       <h1>Screenshots, video, and traces</h1>
+      <p class="one-idea"><strong>One idea.</strong> Keep a picture when a test fails, so you can look instead of guess.</p>
       <h2>The idea</h2>
       <p><code>page.screenshot({ path: &quot;page.png&quot;, fullPage: true })</code> writes a picture. In the runner you rarely call that yourself. Set <code>screenshot: &quot;only-on-failure&quot;</code> and <code>trace: &quot;on-first-retry&quot;</code> in the config. A trace is a zip of actions, DOM snapshots, console lines, and network calls.</p>
 <p>Open a trace with <code>npx playwright show-trace trace.zip</code>, or open the HTML report with <code>npx playwright show-report</code> after a run. The report links the trace, the screenshot, and the error.</p>
@@ -73,7 +74,15 @@ console.log(&quot;Wrote page.png&quot;);</code></pre>
 <li><code>trace: &quot;on-first-retry&quot;</code><span>Record a trace if the test is running again after a failure. Open it from the HTML report.</span></li>
 <li><code>video: &quot;retain-on-failure&quot;</code><span>Keep a video only when the test failed. Videos are larger than traces. Turn them on when motion is the bug.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>In a test, call <code>page.screenshot({ path: &quot;example.png&quot; })</code> after opening <code>https://example.com</code>. Find the PNG next to the project (or under <code>test-results</code>, depending on the path you chose) and open it. Then delete the manual call and rely on <code>only-on-failure</code> once your config has it.</p>
+      <p>Take a picture of the pretend page.</p>
+      <div class="demo" data-kind="stage" data-stage="picture">
+      <p class="demo-lead"><strong>Demo.</strong> One picture is enough to see this page.</p>
+      
+      <div class="mini-page"><h4>Example Domain</h4><p>A small page.</p></div>
+      <div class="shot" hidden><p>page.png</p><div class="mini-page"><h4>Example Domain</h4><p>Saved picture.</p></div></div>
+      <div class="demo-actions"><button type="button" class="demo-run">Take picture</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Turning video on for every test forever. The archive gets huge, and nobody watches the passes.</li>
 <li>Storing screenshots of pages that contain real customer data and then committing them. They are evidence, and they can also be private.</li>
@@ -85,5 +94,6 @@ console.log(&quot;Wrote page.png&quot;);</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

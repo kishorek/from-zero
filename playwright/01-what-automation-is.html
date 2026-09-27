@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 1 of 20</p>
       <h1>What browser automation is</h1>
+      <p class="one-idea"><strong>One idea.</strong> Browser automation is a list of actions a program performs in a browser.</p>
       <h2>The idea</h2>
       <p>Browser automation means a program uses a web browser the way a person would. It opens an address, waits for the page, clicks a link, types into a box, and reads the result.</p>
 <p>The program does not become the page. It stands outside the page and drives the browser. That is different from JavaScript that lives inside the page, and different from <code>fetch</code>, which only receives the document the server sent.</p>
@@ -73,7 +74,25 @@ close</pre></div>
 <li><code>{ do: &quot;open&quot;, url: &quot;https://example.com&quot; },</code><span>The first action names a URL. A URL is the address of a page.</span></li>
 <li><code>console.log(step.do, step.url ?? step.what ?? &quot;&quot;);</code><span><code>??</code> means “if the left side is missing, use the right side.” The line prints the verb and whichever detail exists.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Add a fourth step, <code>{ do: &quot;click&quot;, what: &quot;Learn more&quot; }</code>, in the position where a person would click, after reading the heading and before closing. Run the file and read the plan aloud. In later lessons Playwright will perform a plan like this for real.</p>
+      <p>Add a click step after the read step and before close. Then run.</p>
+      <div class="demo" data-kind="js" data-match="exact" data-hint="Print open, read, click, close, in that order.">
+      <p class="demo-lead"><strong>Practice.</strong> Order matters. Open, read, click, close.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const steps = [
+  { do: "open", url: "https://example.com" },
+  { do: "read", what: "heading" },
+  { do: "click", what: "Learn more" },
+  { do: "close" },
+];
+for (const step of steps) {
+  console.log(step.do);
+}</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">open
+read
+click
+close</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Describing the goal (“make sure the site works”) and calling that a script. Automation needs the actions.</li>
 <li>Assuming <code>fetch</code> and a browser see the same thing. <code>fetch</code> sees the response. A browser also runs the page.</li>
@@ -85,5 +104,6 @@ close</pre></div>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

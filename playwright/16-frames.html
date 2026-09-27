@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 16 of 20</p>
       <h1>Frames</h1>
+      <p class="one-idea"><strong>One idea.</strong> A frame is a page inside the page. Look there before you look for the field.</p>
       <h2>The idea</h2>
       <p>An iframe embeds another document inside the page. Locators on <code>page</code> do not see inside that document. <code>page.frameLocator(&quot;iframe[title=\&quot;Payment\&quot;]&quot;)</code> points at the frame. Locators you call on the frame locator look inside it.</p>
 <p>Give the iframe a title in pages you control, and use that title in the frame locator. A CSS description of the frame is reasonable here because you are naming the frame, not the button inside it. The button inside should still use <code>getByRole</code> or <code>getByLabel</code>.</p>
@@ -75,7 +76,14 @@ test(&quot;fill a field inside a frame&quot;, async ({ page }) =&gt; {
 <li><code>const frame = page.frameLocator(&quot;iframe[title=\&quot;Payment\&quot;]&quot;);</code><span>Describe the frame. This value is a frame locator, not a page. You call <code>getByLabel</code> on it.</span></li>
 <li><code>await frame.getByLabel(&quot;Card number&quot;).fill(&quot;4242&quot;);</code><span>The label lookup happens inside the frame. The same lookup on <code>page</code> would not see this input.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Try <code>page.getByLabel(&quot;Card number&quot;).fill(&quot;4242&quot;)</code> without the frame locator and read the timeout. Then put the frame locator back. Add a heading inside the frame and expect it with <code>frame.getByRole(&quot;heading&quot;, ...)</code>.</p>
+      <p>Look in the outer page, then look in the frame.</p>
+      <div class="demo" data-kind="stage" data-stage="frame">
+      <p class="demo-lead"><strong>Demo.</strong> The card field lives in the white frame.</p>
+      
+      <div class="mini-page"><p>Outer page. No card field here.</p><div class="frame-box"><label>Card number <input class="card" type="text" value=""></label></div></div>
+      <div class="demo-actions"><button type="button" class="outer quiet">Look in the page</button><button type="button" class="inner">Look in the frame</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Searching the outer page for an element that lives in the frame.</li>
 <li>Using a long CSS path inside the frame when the inner control has a label.</li>
@@ -87,5 +95,6 @@ test(&quot;fill a field inside a frame&quot;, async ({ page }) =&gt; {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

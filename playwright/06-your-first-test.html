@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 6 of 20</p>
       <h1>Your first test</h1>
+      <p class="one-idea"><strong>One idea.</strong> A test opens a page and expects one fact.</p>
       <h2>The idea</h2>
       <p>A test is a function with a name and an opinion. The name says what should be true. The body makes that true-or-false observable. <code>npx playwright test</code> finds files named like <code>tests/*.spec.js</code>, runs each <code>test</code>, and prints a summary.</p>
 <p>Run one file with <code>npx playwright test tests/example.spec.js</code>. Run one test by its name with <code>npx playwright test -g &quot;title&quot;</code>. The <code>-g</code> flag filters by title.</p>
@@ -69,7 +70,14 @@ test(&quot;example.com names itself in the title&quot;, async ({ page }) =&gt; {
 <li><code>await page.goto(&quot;https://example.com&quot;);</code><span>Open the address and wait for the load event. The load event means the document and its immediate resources have finished.</span></li>
 <li><code>await expect(page).toHaveTitle(&quot;Example Domain&quot;);</code><span>Retry until the page title matches, or until the timeout. The default timeout is enough for this site.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Add a second test in the same file that expects the title to contain <code>Example</code>. Use <code>await expect(page).toHaveTitle(/Example/)</code>. A slash pair is a regular expression, a pattern. Run both tests. Then run only the new one with <code>-g</code>.</p>
+      <p>Run the check. Then type Wrong and run it again so you can see a failure. Put Example Domain back.</p>
+      <div class="demo" data-kind="stage" data-stage="title">
+      <p class="demo-lead"><strong>Demo.</strong> The page title really is Example Domain.</p>
+      
+      <label class="demo-field">Expected title<input class="expect-title" type="text" value="Example Domain"></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run test</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Giving tests names like <code>test 1</code>. The report is unreadable. Name the fact you care about.</li>
 <li>Forgetting <code>async</code>. <code>await</code> inside a non-async test is a syntax error.</li>
@@ -81,5 +89,6 @@ test(&quot;example.com names itself in the title&quot;, async ({ page }) =&gt; {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

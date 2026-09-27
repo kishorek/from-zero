@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 7 of 20</p>
       <h1>Browser, context, and page</h1>
+      <p class="one-idea"><strong>One idea.</strong> A context is a fresh profile. A page is one tab inside it.</p>
       <h2>The idea</h2>
       <p>Playwright splits the browser into three objects. The browser is the running application. A browser context is an isolated profile: its own cookies, its own storage, like a fresh guest window. A page is one tab inside a context.</p>
 <p>In the runner you usually receive <code>page</code> and never mention the other two. They are still there. The <code>page</code> fixture’s context is new for every test, which is why tests do not leak logins into each other. When you need a second tab, you ask the context for another page.</p>
@@ -72,7 +73,13 @@ await browser.close();</code></pre>
 <li><code>const page = await context.newPage();</code><span>Open a tab in that room. Most actions (<code>goto</code>, <code>click</code>, locators) happen on the page.</span></li>
 <li><code>await context.close();</code><span>Close the room, which closes its tabs. Closing the browser next shuts the building.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Create two contexts. In each, open a page to <code>https://example.com</code> and print the title. Then close both contexts and the browser. You have just run two isolated sessions in one process. In the runner, you get that isolation without writing these lines.</p>
+      <p>Save a cookie in room A, then look in room B.</p>
+      <div class="demo" data-kind="stage" data-stage="cookies">
+      <p class="demo-lead"><strong>Demo.</strong> Two rooms do not share a minibar.</p>
+      
+      <div class="demo-actions"><button type="button" class="save-a">Save a cookie in room A</button><button type="button" class="look-b quiet">Look in room B</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Storing cookies in one test and expecting the next test to see them. Each test has a new context.</li>
 <li>Calling <code>browser.newPage()</code> in old examples you find online. Current code creates a context, then a page, so the isolation is visible. The runner’s <code>page</code> fixture already follows that shape.</li>
@@ -84,5 +91,6 @@ await browser.close();</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

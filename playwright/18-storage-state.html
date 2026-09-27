@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 18 of 20</p>
       <h1>Saving a login with storage state</h1>
+      <p class="one-idea"><strong>One idea.</strong> Log in once, save the ticket, and hand that ticket to the next visit.</p>
       <h2>The idea</h2>
       <p>Logging in through the form on every test is slow, and it pounds the login service. Playwright can save a context’s cookies and local storage to a JSON file: <code>await context.storageState({ path: &quot;auth.json&quot; })</code>. Later, a context created with <code>storageState: &quot;auth.json&quot;</code> starts already logged in.</p>
 <p>In the runner, put that setting in <code>use</code> for a project, or on a single <code>test.use</code>. Produce the file in a setup step you control. Treat <code>auth.json</code> as a secret. Do not commit it.</p>
@@ -77,7 +78,14 @@ await again.close();</code></pre>
 <li><code>await again.newContext({ storageState: &quot;auth.json&quot; });</code><span>A new context starts from that file. It does not share a live connection with the old context. It shares the saved snapshot.</span></li>
 <li><code>console.log(&quot;reopened&quot;, await page2.title());</code><span>Proof the second browser could open a page. On a real app you would assert a heading that only a signed-in person sees.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Open <code>auth.json</code> and see the shape: an <code>origins</code> array and a <code>cookies</code> array. Add <code>auth.json</code> to <code>.gitignore</code> if the folder is a git repo. In a test file, add <code>test.use({ storageState: &quot;auth.json&quot; })</code> at the top and <code>goto</code> a page. Remove the line afterward if this lab should stay anonymous.</p>
+      <p>Log in, start a new visit, then throw the ticket away and visit again.</p>
+      <div class="demo" data-kind="stage" data-stage="ticket">
+      <p class="demo-lead"><strong>Demo.</strong> The ticket is the saved storage state. It is not the live room.</p>
+      
+      <p class="who"></p>
+      <div class="demo-actions"><button type="button" class="login">Log in and save a ticket</button><button type="button" class="visit quiet">New visit</button><button type="button" class="drop quiet">Throw the ticket away</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Committing <code>auth.json</code>. It is a key to an account.</li>
 <li>Saving storage in the middle of a test and expecting other workers to see it instantly. Generate it in setup, before the tests that need it.</li>
@@ -89,5 +97,6 @@ await again.close();</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

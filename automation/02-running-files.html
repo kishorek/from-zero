@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 2 of 17</p>
       <h1>Running JavaScript files with Node.js</h1>
+      <p class="one-idea"><strong>One idea.</strong> node runs a file. The exit code tells the shell whether it worked.</p>
       <h2>The idea</h2>
       <p><code>node file.js</code> starts Node.js, asks it to read that file from the top, and waits until the program finishes. When it finishes, it returns an exit code to the shell. Code <code>0</code> means “finished as planned.” Any other code means “something was wrong.”</p>
 <p>You can also type <code>node</code> with no file. That opens a prompt, a REPL, where each line runs immediately. It is useful for a quick question. Real programs live in files so you can run them again.</p>
@@ -61,7 +62,16 @@ process.exitCode = 0;</code></pre>
       <ol class="walk"><li><code>console.log(&quot;Running with Node &quot; + process.version);</code><span><code>process.version</code> is text like <code>v22.14.0</code>. Plus joins your sentence to that text.</span></li>
 <li><code>process.exitCode = 0;</code><span>Set the code the process will hand back when it ends. Setting it does not stop the program immediately. <code>process.exit(0)</code> would stop at once, and it can cut off work that is still finishing, so prefer <code>exitCode</code>.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Run <code>node version.js</code> and then, in the same terminal, print the exit code. On macOS and Linux that command is <code>echo $?</code>. On Windows PowerShell it is <code>echo $LASTEXITCODE</code>. You should see <code>0</code>. Change the file to <code>process.exitCode = 2</code>, run it again, and confirm the shell now reports <code>2</code>.</p>
+      <p>Run the box and read the exit code. Change it from 0 to 2 and run again.</p>
+      <div class="demo" data-kind="js" data-match="one-of" data-show-exit data-hint="Set process.exitCode to 0 or 2.">
+      <p class="demo-lead"><strong>Practice.</strong> 0 means finished as planned. Any other code means something was wrong.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">console.log("Running with Node " + process.version);
+process.exitCode = 0;</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">Exit code: 0
+Exit code: 2</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Opening the REPL and pasting a whole file without saving it. You then have nothing to rerun tomorrow.</li>
 <li>Calling <code>process.exit(1)</code> in the middle of a script that still needs to close a file. Set <code>process.exitCode</code> and let the script reach its end.</li>
@@ -73,5 +83,6 @@ process.exitCode = 0;</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

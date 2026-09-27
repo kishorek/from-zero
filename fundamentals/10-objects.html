@@ -38,6 +38,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 10 of 16</p>
       <h1>Objects</h1>
+      <p class="one-idea"><strong>One idea.</strong> An object is a record of named facts about one thing.</p>
       <h2>The idea</h2>
       <p>An object groups values under names. You write it with curly braces. Each entry is a property: a name, a colon, and a value.</p>
 <p>You read a property with a dot: <code>cup.kind</code>. You change a property by assigning to it. This is how one “thing” in your program carries several facts at once.</p>
@@ -69,7 +70,18 @@ true</pre></div>
 <li><code>console.log(cup.kind);</code><span>The dot reads the <code>kind</code> property. This prints <code>mug</code>.</span></li>
 <li><code>cup.empty = true;</code><span>Replace the <code>empty</code> property. The name <code>cup</code> still points at the same object. <code>const</code> allows this.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Make an object <code>book</code> with <code>title</code> and <code>pages</code>. Print the title. Change <code>pages</code> and print it. Then try <code>console.log(book.author)</code>. A missing property prints <code>undefined</code>. It does not throw an error by itself.</p>
+      <p>Print the title, change the pages, and print a missing author. The last line is undefined.</p>
+      <div class="demo" data-kind="js" data-match="includes" data-hint="Ask for book.author, a name the record does not have.">
+      <p class="demo-lead"><strong>Practice.</strong> A missing name prints undefined. It does not crash by itself.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const book = { title: "Little Women", pages: 400 };
+console.log(book.title);
+book.pages = 420;
+console.log(book.pages);
+console.log(book.author);</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">undefined</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Using a dot for an array index, or brackets-with-a-number for a property you meant to name. <code>steps[0]</code> is an index. <code>cup.kind</code> is a property.</li>
 <li>Forgetting commas between properties.</li>
@@ -81,5 +93,6 @@ true</pre></div>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

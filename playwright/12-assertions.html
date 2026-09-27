@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 12 of 20</p>
       <h1>Assertions</h1>
+      <p class="one-idea"><strong>One idea.</strong> A check on a locator keeps looking. A check on a copied string looks once.</p>
       <h2>The idea</h2>
       <p>An assertion says what should be true. <code>await expect(locator).toBeVisible()</code>, <code>toHaveText</code>, <code>toHaveValue</code>, <code>toBeEnabled</code>, and <code>toBeChecked</code> are web-first assertions. They retry until the timeout.</p>
 <p><code>await expect(page).toHaveTitle</code> and <code>toHaveURL</code> retry as well. The moment you pull a plain value out, retrying stops. <code>const text = await locator.textContent(); expect(text).toBe(&quot;Saved&quot;)</code> checks once. If the text arrives a moment later, the test fails even though a person would have seen it.</p>
@@ -75,7 +76,14 @@ test(&quot;status becomes Submitted&quot;, async ({ page }) =&gt; {
 <li><code>textContent = &quot;Submitted&quot;</code><span>The page changes its own text shortly after load. A one-shot check can lose this race.</span></li>
 <li><code>await expect(page.getByTestId(&quot;status&quot;)).toHaveText(&quot;Submitted&quot;);</code><span>Retry until the text is exactly <code>Submitted</code>. Exact means the whole string. <code>toContainText</code> is the looser cousin when you mean “includes.”</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Write the glancing version next to the retrying one: read <code>textContent</code> immediately and <code>expect</code> it to be <code>Submitted</code>. Run several times if you need to, or raise the delay to a full second. The glancing version fails. The locator version passes. Delete the glancing version.</p>
+      <p>Reload, then check once immediately. Then keep looking. The second way sees Submitted.</p>
+      <div class="demo" data-kind="stage" data-stage="glance">
+      <p class="demo-lead"><strong>Demo.</strong> The status changes to Submitted shortly after load.</p>
+      
+      <div class="mini-page"><p>Status: <strong class="status">Waiting</strong></p></div>
+      <div class="demo-actions"><button type="button" class="once quiet">Check once now</button><button type="button" class="keep">Keep looking</button><button type="button" class="reload quiet">Reload</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Using <code>toHaveText</code> when the element has extra whitespace you do not care about. <code>toHaveText</code> can take a pattern. Or assert the part that matters with <code>toContainText</code>.</li>
 <li>Asserting a CSS class to mean “the success message showed.” Assert the text a person reads.</li>
@@ -87,5 +95,6 @@ test(&quot;status becomes Submitted&quot;, async ({ page }) =&gt; {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

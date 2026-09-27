@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 3 of 20</p>
       <h1>Browser JavaScript, Node.js, and Playwright</h1>
+      <p class="one-idea"><strong>One idea.</strong> Page JavaScript, Node.js, and Playwright are three different rooms.</p>
       <h2>The idea</h2>
       <p>Keep three rooms separate. In the page, JavaScript can read and change that page, and the browser stops it from freely reading your disk. In Node.js, your script can read files and the network, and it cannot see a page. In a Playwright run, a Node.js script drives a separate browser. The page may also be running its own JavaScript. Those are two programs at once.</p>
 <p>Playwright can ask the page to run a snippet, with <code>page.evaluate</code>. Use that rarely, when you truly need a value from inside the page. Prefer locators and assertions, which look at the page the way a person does.</p>
@@ -64,7 +65,14 @@ console.log(&quot;This file is running in &quot; + room + &quot;.&quot;);</code>
 <li><code>? &quot;Node.js&quot; : &quot;a browser page&quot;</code><span>A conditional expression. When the test is true, the result is <code>&quot;Node.js&quot;</code>. Otherwise it is the other string.</span></li>
 <li><code>console.log(&quot;This file is running in &quot; + room + &quot;.&quot;);</code><span>Run in Node.js, the sentence names Node.js. The same line in a browser console would name the page.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Add a second log: <code>console.log(typeof process)</code>. In Node.js it prints <code>object</code>. If you paste only that line into a browser console, it prints <code>undefined</code>. Write down both results. That pair is the whole distinction.</p>
+      <p>Ask both rooms the same question.</p>
+      <div class="demo" data-kind="stage" data-stage="rooms">
+      <p class="demo-lead"><strong>Demo.</strong> process exists in Node.js. A normal web page does not have it.</p>
+      
+      <div class="choice"><div><strong>Node.js</strong><p>typeof process</p></div><div><strong>Browser page</strong><p>typeof process</p></div></div>
+      <div class="demo-actions"><button type="button" class="demo-run">Ask both rooms</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Using <code>document</code> in the test file. In the test file, you use <code>page</code>.</li>
 <li>Using <code>page</code> inside <code>page.evaluate</code>. The snippet inside <code>evaluate</code> runs in the page, where <code>page</code> does not exist. It may use <code>document</code>.</li>
@@ -76,5 +84,6 @@ console.log(&quot;This file is running in &quot; + room + &quot;.&quot;);</code>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

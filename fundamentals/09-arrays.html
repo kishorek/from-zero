@@ -38,6 +38,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 9 of 16</p>
       <h1>Arrays</h1>
+      <p class="one-idea"><strong>One idea.</strong> An array is an ordered list. The first item is index 0.</p>
       <h2>The idea</h2>
       <p>An array holds values in order. You write it with square brackets: <code>[&quot;boil&quot;, &quot;steep&quot;, &quot;pour&quot;]</code>. Each item has an index, a number address. The first index is <code>0</code>, not <code>1</code>. The second is <code>1</code>.</p>
 <p><code>length</code> tells you how many items are in the array. <code>push</code> adds an item at the end.</p>
@@ -67,7 +68,19 @@ console.log(steps);</code></pre>
 <li><code>steps.push(&quot;sip&quot;);</code><span><code>push</code> adds <code>sip</code> at the end. <code>const</code> blocks replacing <code>steps</code> itself. It does not block changing the contents of the array.</span></li>
 <li><code>console.log(steps);</code><span>Print the whole array. Node.js shows it in brackets.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Make an array of three breakfast items. Print the first item, the last item, and the length. The last item’s index is <code>length - 1</code>. Then <code>push</code> one more item and print the length again. It should be 4.</p>
+      <p>Print the first breakfast, the last one, and the length. Then push one more item and print the length again. The last number should be 4.</p>
+      <div class="demo" data-kind="js" data-match="includes" data-hint="After push, the length is 4.">
+      <p class="demo-lead"><strong>Practice.</strong> The last index is length - 1.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const breakfast = ["eggs", "toast", "tea"];
+console.log(breakfast[0]);
+console.log(breakfast[breakfast.length - 1]);
+console.log(breakfast.length);
+breakfast.push("fruit");
+console.log(breakfast.length);</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">4</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Starting at index 1 and skipping the first item.</li>
 <li>Using <code>length</code> as if it were the last index. The last index is <code>length - 1</code>.</li>
@@ -79,5 +92,6 @@ console.log(steps);</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 12 of 17</p>
       <h1>Modules</h1>
+      <p class="one-idea"><strong>One idea.</strong> export shares a name. import uses that name from another file.</p>
       <h2>The idea</h2>
       <p>A module is a file that shares some of its names and keeps the rest private. <code>export</code> marks a name as public. <code>import</code> brings that name into another file.</p>
 <p>The other file is named with a relative path starting with <code>./</code>. You include the <code>.mjs</code> ending. Node.js does not guess file endings for your own modules.</p>
@@ -69,7 +70,23 @@ console.log(priceWithTax(4));</code></pre>
 <li><code>import { priceWithTax } from &quot;./money.mjs&quot;;</code><span>Ask for that public name from the neighboring file. The path is relative to <code>shop.mjs</code>, not to the shell’s current folder.</span></li>
 <li><code>console.log(priceWithTax(4));</code><span>Call it as if it lived here. The function still runs in the module that defined it.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Add <code>export function half(n)</code> in <code>money.mjs</code>. Import it in <code>shop.mjs</code> and print <code>half(9)</code>. Then try to import a function you did not export. Node.js will say the export does not exist. That privacy is the feature.</p>
+      <p>Add export function half in money.mjs. Import half in shop.mjs and print half(9). You should see 4.5.</p>
+      <div class="demo" data-kind="modules" data-mode="modules" data-match="includes" data-hint="Export half, import half, and print half(9).">
+      <p class="demo-lead"><strong>Practice.</strong> If shop imports a name money does not export, the box says so.</p>
+      <label class="demo-field">money.mjs<textarea class="demo-money" spellcheck="false">export function priceWithTax(price) {
+  return Math.round(price * 1.1 * 100) / 100;
+}
+
+export function half(n) {
+  return n / 2;
+}</textarea></label>
+      <label class="demo-field">shop.mjs<textarea class="demo-shop" spellcheck="false">import { half } from "./money.mjs";
+
+console.log(half(9));</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">4.5</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Forgetting the file ending in the import path. <code>./money</code> is not enough for your own files.</li>
 <li>Using a path from the project root out of habit. <code>./</code> means “beside this file.” <code>../</code> means “the parent of this file’s folder.”</li>
@@ -81,5 +98,6 @@ console.log(priceWithTax(4));</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

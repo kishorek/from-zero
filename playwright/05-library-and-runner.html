@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 5 of 20</p>
       <h1>The library and the test runner</h1>
+      <p class="one-idea"><strong>One idea.</strong> The library means you open and close the browser. The test runner does that for you.</p>
       <h2>The idea</h2>
       <p>There are two ways to use the same browser powers. The library (<code>playwright</code>) is for a script: you launch, you close, you decide what to print. The runner (<code>@playwright/test</code>) is for checks: you write <code>test(...)</code>, you receive a <code>page</code>, you <code>expect</code> something, and the runner collects pass, fail, retries, and a report.</p>
 <p>Use the runner for anything you want to repeat and trust. Use the library for a one-off tool, such as saving a login or scraping a page you are allowed to read. This course teaches the runner as the default and shows the library where the launch itself is the lesson.</p>
@@ -80,7 +81,13 @@ test(&quot;title is Example Domain&quot;, async ({ page }) =&gt; {
 <li><code>test(&quot;title is Example Domain&quot;, async ({ page }) =&gt; {</code><span>Declare one test. The name is what the report prints. <code>{ page }</code> pulls the page fixture out of the argument. A fixture is a tool the runner sets up for you.</span></li>
 <li><code>await expect(page).toHaveTitle(&quot;Example Domain&quot;);</code><span>An assertion. If the title never becomes that string, the test fails. If it does, the test passes.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Run the library script and the test. Then remove <code>await browser.close()</code> from the script, run it, and notice a Chromium process still around. Put <code>close</code> back. In the test, change the expected title to <code>&quot;Wrong&quot;</code>, run <code>npx playwright test</code>, read the failure, and put the title back.</p>
+      <p>Turn the checkbox on and off. Watch which side leaves a browser open.</p>
+      <div class="demo" data-kind="stage" data-stage="split">
+      <p class="demo-lead"><strong>Demo.</strong> Same car. One of them is an exam with an examiner.</p>
+      
+      <label class="demo-field"><input class="forget" type="checkbox"> The library script forgets browser.close()</label>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Calling <code>chromium.launch</code> inside a <code>test</code>. The runner already did the launch. You would be opening a second browser the runner does not track.</li>
 <li>Forgetting <code>await</code> on <code>goto</code> or <code>close</code>. The process moves on while the browser is still working.</li>
@@ -92,5 +99,6 @@ test(&quot;title is Example Domain&quot;, async ({ page }) =&gt; {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

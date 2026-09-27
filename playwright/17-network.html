@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 17 of 20</p>
       <h1>Network routing</h1>
+      <p class="one-idea"><strong>One idea.</strong> You can answer a request yourself so the page can be practiced without the real server.</p>
       <h2>The idea</h2>
       <p>A page asks its server for data. <code>page.route(pattern, handler)</code> intercepts requests whose URL matches the pattern. <code>route.fulfill</code> answers without the network, with a status, headers, and a body you supply. <code>route.continue</code> sends the request onward. <code>route.abort</code> fails it.</p>
 <p>Call <code>page.route</code> before the navigation or the click that triggers the request. As with popups, the listener has to be ready early. Fulfill with JSON when the page expects JSON, and set <code>contentType</code> to <code>application/json</code>.</p>
@@ -86,7 +87,14 @@ test(&quot;the page shows the task we fulfill&quot;, async ({ page }) =&gt; {
 <li><code>fetch(&quot;/api/tasks&quot;)</code><span>This fetch runs inside the page. Playwright sees it and fulfills it because the route was armed first.</span></li>
 <li><code>await expect(page.getByText(&quot;Buy milk&quot;)).toBeVisible();</code><span>Assert what the person sees after the page used the data. Do not assert only that <code>fulfill</code> was called.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Add a second test that fulfills with status <code>500</code> and a short text body. Change the page script to show <code>Could not load tasks</code> when <code>response.ok</code> is false. Expect that sentence. You have tested the failure path without a broken server.</p>
+      <p>Switch the server between 200 and 500. Read the sentence the page shows.</p>
+      <div class="demo" data-kind="stage" data-stage="network">
+      <p class="demo-lead"><strong>Demo.</strong> The page believes the answer came from the server.</p>
+      
+      <label class="demo-field">Server answer<select class="status"><option value="200">200 OK</option><option value="500">500 Error</option></select></label>
+      <div class="mini-page"><p class="page-text"></p></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Routing after <code>goto</code>, when the request already happened during <code>goto</code>. Arm the route first.</li>
 <li>Fulfilling with a JavaScript object as <code>body</code>. The body is text. Stringify JSON.</li>
@@ -98,5 +106,6 @@ test(&quot;the page shows the task we fulfill&quot;, async ({ page }) =&gt; {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

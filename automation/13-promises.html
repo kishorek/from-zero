@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 13 of 17</p>
       <h1>Promises</h1>
+      <p class="one-idea"><strong>One idea.</strong> A promise is an IOU. then runs after the current lines finish.</p>
       <h2>The idea</h2>
       <p>Some work does not finish on this line: reading a large file, waiting on the network, waiting on a timer. A promise is JavaScript’s IOU for that work. It will either settle by fulfilling with a value, or settle by rejecting with an error.</p>
 <p><code>.then(function)</code> registers what to do when the promise fulfills. <code>.catch(function)</code> registers what to do when it rejects. Even if the promise is already fulfilled, the <code>.then</code> function runs after the current stretch of code finishes. That ordering surprises people once, and then it explains a lot.</p>
@@ -77,7 +78,31 @@ Tea is ready</pre></div>
 <li><code>pourTea().then((message) =&gt; {</code><span>Register the next step. <code>message</code> will be <code>&quot;Tea is ready&quot;</code>.</span></li>
 <li><code>console.log(&quot;Kettle started&quot;);</code><span>This line is still in the current stretch, so it prints first. Then the <code>.then</code> callback prints <code>Tea is ready</code>.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Set <code>kettleOn</code> to <code>false</code> and add <code>.catch((error) =&gt; { console.log(error.message); })</code> after <code>.then</code>. You should see <code>Kettle started</code> and then <code>Kettle is off</code>. A rejection with no <code>.catch</code> ends the program with an unhandled rejection. Always give a rejection somewhere to land.</p>
+      <p>Run it and read the order. Kettle started prints before Tea is ready. Then set kettleOn to false and keep the catch.</p>
+      <div class="demo" data-kind="js" data-match="one-of" data-hint="With the kettle on, end on Tea is ready. With it off, end on Kettle is off.">
+      <p class="demo-lead"><strong>Practice.</strong> The line under pourTea() still runs before then.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">function pourTea() {
+  return new Promise(function (resolve, reject) {
+    const kettleOn = true;
+    if (!kettleOn) {
+      reject(new Error("Kettle is off"));
+      return;
+    }
+    resolve("Tea is ready");
+  });
+}
+pourTea().then(function (message) {
+  console.log(message);
+}).catch(function (error) {
+  console.log(error.message);
+});
+console.log("Kettle started");</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">Kettle started
+Tea is ready
+Kettle is off</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Expecting <code>.then</code> to run before the lines under it. The callback is scheduled after the current stretch.</li>
 <li>Forgetting to <code>return</code> the promise from a function. The caller then has nothing to wait on.</li>
@@ -89,5 +114,6 @@ Tea is ready</pre></div>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

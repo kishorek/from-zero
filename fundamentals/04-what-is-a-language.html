@@ -38,9 +38,10 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 4 of 16</p>
       <h1>What is a programming language?</h1>
+      <p class="one-idea"><strong>One idea.</strong> A programming language is a set of spelling rules for instructions.</p>
       <h2>The idea</h2>
       <p>A programming language is a set of rules for writing instructions so a translator can accept them. JavaScript is one language. Python is another. The processor does not prefer either. The tools you install do.</p>
-<p>Languages differ in vocabulary and punctuation. They can still express the same job: remember a name, repeat a step, stop when a condition is met. You are learning JavaScript because Node.js and Playwright speak it.</p>
+<p>Languages differ in vocabulary and punctuation. They can still express the same job: remember a name, repeat a step, stop when a condition is met. You are learning JavaScript because the tools in this course speak it.</p>
       <h2>Why it matters</h2>
       <p>When a later lesson says “this is JavaScript, and it runs in Node,” you will know that the language and the tool are two things. The language is the rules. Node.js is a program that carries out JavaScript on your computer.</p>
       <h2>A picture to hold</h2>
@@ -59,7 +60,15 @@ console.log(&quot;This file is written in &quot; + language + &quot;.&quot;);</c
       <ol class="walk"><li><code>const language = &quot;JavaScript&quot;;</code><span><code>const</code> creates a name, <code>language</code>, and stores the text <code>JavaScript</code> under that name. Lesson 7 spends a whole page on this.</span></li>
 <li><code>console.log(&quot;This file is written in &quot; + language + &quot;.&quot;);</code><span>Plus joins three pieces: text, the stored name, and a period. The engine looks up <code>language</code> and uses the text stored there.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Change the stored text to <code>&quot;Python&quot;</code> and run the file again. The sentence changes, and the file is still a JavaScript program. The word inside the quotes is data. The rules around it are the language.</p>
+      <p>Change the word inside the quotes to Python and run. The sentence changes. The file is still JavaScript.</p>
+      <div class="demo" data-kind="js" data-match="includes" data-hint="Store Python in the language name.">
+      <p class="demo-lead"><strong>Practice.</strong> The word in quotes is data. The rules around it are the language.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const language = "Python";
+console.log("This file is written in " + language + ".");</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">Python</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Treating the programming language and the application as the same thing. JavaScript is the language. Node.js, Chrome, and Playwright are programs that use it.</li>
 <li>Expecting Python spelling to work in a JavaScript file. Each language has its own rules.</li>
@@ -71,5 +80,6 @@ console.log(&quot;This file is written in &quot; + language + &quot;.&quot;);</c
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

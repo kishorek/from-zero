@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 6 of 17</p>
       <h1>Reading and writing files</h1>
+      <p class="one-idea"><strong>One idea.</strong> A file remembers text after the program stops.</p>
       <h2>The idea</h2>
       <p>A file on disk outlives the program. <code>writeFileSync</code> stores text. <code>readFileSync</code> reads it back. Both come from <code>node:fs</code>. The <code>Sync</code> in the name means this line waits for the disk before the next line runs. That is a clear model while the files are small.</p>
 <p>Later, <code>async</code> and <code>await</code> will show the non-blocking versions, <code>readFile</code> and <code>writeFile</code> from <code>node:fs/promises</code>. Playwright uses that waiting style. The ideas are the same: a path, the text, and the encoding.</p>
@@ -67,7 +68,15 @@ console.log(text);</code></pre>
 <li><code>const text = readFileSync(file, &quot;utf8&quot;);</code><span>Read the bytes and decode them as text. Without <code>utf8</code>, you get a buffer of bytes, which is the wrong tool for a note.</span></li>
 <li><code>console.log(text);</code><span>Print the note. The newline makes the shell move to the next line after <code>milk</code>.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Write two lines into <code>note.txt</code>, read them back, and print them. Then run the script twice and open the file. It still holds only the latest write, because <code>writeFileSync</code> replaces. Switch the write to <code>appendFileSync</code> and run twice. The file should grow.</p>
+      <p>Run once. The note is written, then read back. Change writeFile to appendFile, press Run twice, and watch the note grow. Reset starts the file over.</p>
+      <div class="demo" data-kind="js" data-match="includes" data-hint="Write two lines, then print the file.">
+      <p class="demo-lead"><strong>Practice.</strong> writeFile replaces the note. appendFile adds to it. Each Run continues from the file box.</p>
+      <label class="demo-field">note.txt<textarea class="demo-file" data-name="note.txt"></textarea></label><label class="demo-field">Code<textarea class="demo-code" spellcheck="false">writeFile("note.txt", "Buy milk\nBuy tea\n");
+console.log(readFile("note.txt"));</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">Buy milk</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Passing a folder to <code>readFileSync</code>. Reading a folder throws. Read a file path.</li>
 <li>Forgetting <code>utf8</code> and then calling string methods on a buffer.</li>
@@ -79,5 +88,6 @@ console.log(text);</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

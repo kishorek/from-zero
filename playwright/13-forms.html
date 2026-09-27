@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 13 of 20</p>
       <h1>Forms</h1>
+      <p class="one-idea"><strong>One idea.</strong> Find a field by its label, set it, then read the result.</p>
       <h2>The idea</h2>
       <p>A form control should have a label. <code>getByLabel(&quot;Your name&quot;)</code> finds the input connected to that label text. <code>getByRole(&quot;textbox&quot;, { name: &quot;Your name&quot; })</code> is the same idea, said through the role.</p>
 <p><code>fill</code> sets a text field. <code>check</code> ticks a checkbox. <code>selectOption</code> picks a value in a dropdown, by the value or by the visible label. Then assert the value that stuck, with <code>toHaveValue</code> or <code>toBeChecked</code>, and assert whatever the form did next.</p>
@@ -86,7 +87,13 @@ test(&quot;saving a name&quot;, async ({ page }) =&gt; {
 <li><code>await page.getByRole(&quot;button&quot;, { name: &quot;Save&quot; }).click();</code><span>Press the button that submits, here by running the page’s own listener.</span></li>
 <li><code>await expect(page.getByText(&quot;Saved Asha&quot;)).toBeVisible();</code><span>Confirm the outcome a person would read, not only the click.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Add a <code>&lt;select&gt;</code> with two options, <code>Tea</code> and <code>Milk</code>. Select <code>Milk</code> with <code>selectOption({ label: &quot;Milk&quot; })</code>. Assert <code>toHaveValue</code>. If you used values distinct from labels, notice that <code>toHaveValue</code> checks the value attribute, and choose the assertion that matches what you set.</p>
+      <p>Type a name, choose Milk, and press Save.</p>
+      <div class="demo" data-kind="stage" data-stage="form">
+      <p class="demo-lead"><strong>Demo.</strong> The label is how a person finds the field.</p>
+      
+      <div class="mini-page"><label>Your name <input class="person" type="text" value=""></label><label> Drink <select class="drink"><option>Tea</option><option>Milk</option></select></label><p><button type="button" class="save">Save</button></p><p class="saved"></p></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Locating inputs by a CSS name that the designer will rename, when a visible label already exists.</li>
 <li>Using <code>click</code> on a checkbox when you mean “make it checked.” <code>check</code> states the goal.</li>
@@ -98,5 +105,6 @@ test(&quot;saving a name&quot;, async ({ page }) =&gt; {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

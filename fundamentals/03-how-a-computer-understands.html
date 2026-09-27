@@ -38,6 +38,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 3 of 16</p>
       <h1>How does a computer understand instructions?</h1>
+      <p class="one-idea"><strong>One idea.</strong> The computer follows rules for the marks you typed. Quotes change the rule.</p>
       <h2>The idea</h2>
       <p>The processor inside a computer follows extremely small electrical steps. It does not read English, and it does not read JavaScript either. A translator sits between your file and the processor.</p>
 <p>For JavaScript, that translator is an engine. Chrome and Node.js both use an engine called V8. V8 reads your file, checks the spelling, and carries out the instructions. When people say “the computer understands the code,” they mean this engine accepted it and did it.</p>
@@ -60,7 +61,14 @@ console.log(&quot;2&quot; + &quot;3&quot;);</code></pre>
       <ol class="walk"><li><code>console.log(2 + 3);</code><span>There are no quotes, so <code>2</code> and <code>3</code> are numbers. Plus adds them. The engine prints <code>5</code>.</span></li>
 <li><code>console.log(&quot;2&quot; + &quot;3&quot;);</code><span>The quotes make text. Plus on text glues the pieces into a longer text. The engine prints <code>23</code>, not <code>5</code>.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Predict the result of <code>console.log(&quot;2&quot; + 3)</code> before you run it. Then run it. The number is turned into text and glued, so the line prints <code>23</code>. Write one sentence about why, in a comment above the line.</p>
+      <p>Run the line as it is. You should see 23, because the quotes make text and plus glues text.</p>
+      <div class="demo" data-kind="js" data-match="exact" data-hint="Keep the quotes around 2. Plus glues text.">
+      <p class="demo-lead"><strong>Practice.</strong> Predict first, then press Run.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">console.log("2" + 3);</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">23</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Believing the computer grasps your goal. It applies rules to the text you wrote.</li>
 <li>Assuming <code>+</code> always means arithmetic. With text, <code>+</code> joins.</li>
@@ -72,5 +80,6 @@ console.log(&quot;2&quot; + &quot;3&quot;);</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

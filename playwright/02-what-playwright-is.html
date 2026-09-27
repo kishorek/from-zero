@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 2 of 20</p>
       <h1>What Playwright is</h1>
+      <p class="one-idea"><strong>One idea.</strong> Playwright is a library that drives Chromium, Firefox, and WebKit.</p>
       <h2>The idea</h2>
       <p>Playwright is an open source project from Microsoft. You install it with npm. Your Node.js script asks Playwright to launch a browser, and Playwright speaks to that browser through a debugging channel.</p>
 <p>The same script can target three engine families: Chromium (the family Chrome and Edge belong to), Firefox, and WebKit (the family Safari belongs to). You write the actions once. A setting chooses the browser.</p>
@@ -68,7 +69,16 @@ Playwright can drive webkit.</pre></div>
       <ol class="walk"><li><code>const engines = [&quot;chromium&quot;, &quot;firefox&quot;, &quot;webkit&quot;];</code><span>The three browser engines Playwright supports with one API. An API is the set of function names you are allowed to call.</span></li>
 <li><code>console.log(&quot;Playwright can drive &quot; + engine + &quot;.&quot;);</code><span>One sentence per engine. The real launch comes after installation. Today you are learning the names.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Write one sentence, in a comment, that uses all three of these words correctly: language, runtime, library. A solid version: JavaScript is the language, Node.js is the runtime, Playwright is a library that Node.js can import.</p>
+      <p>Match each word to its job, then press Check.</p>
+      <div class="demo" data-kind="stage" data-stage="words">
+      <p class="demo-lead"><strong>Demo.</strong> Pick one answer for each blank.</p>
+      
+      <label class="demo-field">Language<select data-pick="language"><option>Playwright</option><option>JavaScript</option><option>Node.js</option></select></label>
+      <label class="demo-field">Runtime<select data-pick="runtime"><option>Playwright</option><option>JavaScript</option><option>Node.js</option></select></label>
+      <label class="demo-field">Library<select data-pick="library"><option>JavaScript</option><option>Node.js</option><option>Playwright</option></select></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Check</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Calling Playwright a browser. It drives browsers. You still install browser binaries, which the install lesson does.</li>
 <li>Assuming a passing Chromium run guarantees Safari. WebKit is a separate engine. Run it when Safari behavior matters.</li>
@@ -80,5 +90,6 @@ Playwright can drive webkit.</pre></div>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

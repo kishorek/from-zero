@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 10 of 20</p>
       <h1>Actions</h1>
+      <p class="one-idea"><strong>One idea.</strong> click presses. fill replaces the whole field.</p>
       <h2>The idea</h2>
       <p>An action is a locator plus a verb. <code>click</code> presses. <code>fill</code> clears an input and types the whole value at once, which is what you want for form fields. <code>press</code> sends one key, such as <code>Enter</code>. <code>check</code> and <code>uncheck</code> handle checkboxes. <code>selectOption</code> chooses from a <code>&lt;select&gt;</code>.</p>
 <p>Playwright refuses to act on an element that is hidden, disabled, or still moving. That refusal is protection. The auto-waiting lesson explains the rules. This lesson is the verbs.</p>
@@ -69,7 +70,13 @@ test(&quot;follow Learn more&quot;, async ({ page }) =&gt; {
 <li><code>getByRole(&quot;link&quot;, { name: &quot;Learn more&quot; }).click()</code><span>Find the link and click it. <code>click</code> returns a promise. <code>await</code> waits until the click has been issued and the navigation it caused has settled.</span></li>
 <li><code>await expect(page).toHaveURL(/iana\.org/);</code><span>The click should have changed the address. Assert the result, not only the fact that <code>click</code> returned.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Build a tiny page with <code>page.setContent</code> containing a text field labeled <code>Note</code> and a button named <code>Save</code>. <code>fill</code> the field with <code>milk</code>, click <code>Save</code>, and expect the text <code>Saved milk</code> if you wire the button with a few lines of page JavaScript. The forms lesson shows this page in full. Try <code>fill</code> here once, and notice it replaces the value instead of appending.</p>
+      <p>Type a note, press Save, and read the line the page shows.</p>
+      <div class="demo" data-kind="stage" data-stage="form">
+      <p class="demo-lead"><strong>Demo.</strong> fill replaces what was there. It does not add to the end.</p>
+      
+      <div class="mini-page"><label>Note <input class="person" type="text" value=""></label><p><button type="button" class="save">Save</button></p><p class="saved"></p></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Using <code>pressSequentially</code> for every input. It is for fields that listen to each key. <code>fill</code> is the default for normal inputs.</li>
 <li>Clicking a locator that matches two buttons. Playwright will complain that it resolved to more than one element. Make the name more specific.</li>
@@ -81,5 +88,6 @@ test(&quot;follow Learn more&quot;, async ({ page }) =&gt; {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 20 of 20</p>
       <h1>Debugging a failing test</h1>
+      <p class="one-idea"><strong>One idea.</strong> Read the expected line and the received line. Change one thing.</p>
       <h2>The idea</h2>
       <p>When a test fails, the runner prints the assertion, the expected value, the received value, and a call log of the actions it took. Read that before you change code. Then open the HTML report.</p>
 <p>For a live look, <code>npx playwright test --debug</code> pauses with the inspector. <code>npx playwright test --ui</code> opens UI mode, where you can watch a test and time-travel through actions. Use these to gather one fact. Then stop the debugger and change one thing.</p>
@@ -74,7 +75,14 @@ test(&quot;read the example and follow Learn more&quot;, async ({ page }) =&gt; 
 <li><code>await page.getByRole(&quot;link&quot;, { name: &quot;Learn more&quot; }).click();</code><span>Step 3. Auto-waiting applies. If two links share the name, the error says the locator matched two elements.</span></li>
 <li><code>await expect(page).toHaveURL(/iana\.org/);</code><span>Step 4. The address must contain <code>iana.org</code>. A wrong click fails here with the URL you did reach.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Break the heading text on purpose, run the test, and read the expected-versus-received block out loud. Open the report if it was generated. Put the text back. Then run <code>--debug</code>, step over <code>goto</code>, and look at the page before the assertion. Close the inspector. One deliberate failure, one reading, one repair.</p>
+      <p>Run the failing check. Change the received text to Example Domain and run again.</p>
+      <div class="demo" data-kind="stage" data-stage="debug">
+      <p class="demo-lead"><strong>Demo.</strong> Expected is Example Domain. Received starts out wrong on purpose.</p>
+      
+      <label class="demo-field">Received heading<input class="received" type="text" value="Wrong title"></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run the check</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Rewriting locators before reading which step failed. The log already narrowed it down.</li>
 <li>Leaving <code>.only</code> on a test. <code>test.only</code> runs that test and skips the rest. Fine for an afternoon. Surprising tomorrow. The config can set <code>forbidOnly</code> so CI rejects it.</li>
@@ -86,5 +94,6 @@ test(&quot;read the example and follow Learn more&quot;, async ({ page }) =&gt; 
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

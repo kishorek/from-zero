@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 4 of 20</p>
       <h1>Installing Playwright</h1>
+      <p class="one-idea"><strong>One idea.</strong> Install Node, the test runner, and the browsers. The library alone is not the browser.</p>
       <h2>The idea</h2>
       <p>You need Node.js 20 or newer. In an empty folder, the official starter is <code>npm init playwright@latest</code>. It asks four things. Choose JavaScript, not TypeScript. Put tests in <code>tests</code>. Skip the GitHub Actions workflow for this course. Say yes to installing browsers.</p>
 <p>That command writes <code>package.json</code>, a config file, an example test, and it downloads browser binaries. Those binaries are the actual browsers Playwright will launch. The npm package alone is not enough.</p>
@@ -74,7 +75,14 @@ console.log(chromium.executablePath());</code></pre>
 <li><code>import { chromium } from &quot;playwright&quot;;</code><span>Load the browser type from the library. This file is a script, not a test. Tests import from <code>@playwright/test</code> instead.</span></li>
 <li><code>console.log(chromium.executablePath());</code><span>Ask which Chromium binary will launch. A real filesystem path means the browsers were installed.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Complete the install. Run <code>npx playwright --version</code> and <code>node check.mjs</code>. Both should print without an error. Then run <code>npx playwright test</code> once, even before you study the example test. A passing or a clearly reported run means the runner works.</p>
+      <p>Walk the four steps in order. This picture is the install. The real commands can wait until the picture is familiar.</p>
+      <div class="demo" data-kind="stage" data-stage="install">
+      <p class="demo-lead"><strong>Demo.</strong> Press the button once per step.</p>
+      
+      <p>Steps done: <span class="step-count">0 of 4</span></p>
+      <div class="demo-actions"><button type="button" class="demo-run">Do the next step</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Installing Node.js 18 or older. Current <code>@playwright/test</code> requires Node.js 20 or newer.</li>
 <li>Forgetting <code>npx playwright install</code> after a manual <code>npm i</code>. The library is present and the browsers are not.</li>
@@ -86,5 +94,6 @@ console.log(chromium.executablePath());</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

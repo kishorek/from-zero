@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 1 of 17</p>
       <h1>The terminal</h1>
+      <p class="one-idea"><strong>One idea.</strong> The terminal takes one short command at a time.</p>
       <h2>The idea</h2>
       <p>The terminal is a text window onto a shell. A shell is a program that reads a command, runs it, and prints the result. You have already used <code>node</code>. The same window also moves you between folders.</p>
 <p><code>pwd</code> prints the folder you are in. <code>ls</code> lists what is there. <code>cd somewhere</code> enters a folder. <code>cd ..</code> goes up to the parent. <code>mkdir notes</code> creates a folder.</p>
@@ -72,7 +73,15 @@ console.log(process.cwd());</code></pre>
 <li><code>cd notes</code><span>Change the shell’s current folder to <code>notes</code>. Later commands, including <code>node</code>, start from here.</span></li>
 <li><code>console.log(process.cwd());</code><span>The same fact, asked from JavaScript. <code>cwd</code> means current working directory. It matches <code>pwd</code> when you launched <code>node</code> from that folder.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Make a folder called <code>lab</code>, enter it, and run <code>pwd</code>. Then run <code>where-am-i.js</code> from inside <code>lab</code> and from its parent. The printed path changes with the folder you launched from.</p>
+      <p>In the pretend terminal, make a folder named lab, step into it, and ask where you are.</p>
+      <div class="demo" data-kind="stage" data-stage="terminal">
+      <p class="demo-lead"><strong>Demo.</strong> Type a command and press Enter. Useful commands: pwd, ls, mkdir lab, cd lab.</p>
+      
+      <pre class="term-screen"></pre>
+      <label class="demo-field">Command<input class="term-input" type="text" autocomplete="off"></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Enter</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Typing a JavaScript line into the shell and a shell command into a <code>.js</code> file. They are different languages at the same counter.</li>
 <li>Assuming <code>cd</code> inside one terminal window changes any other window. Each window has its own current folder.</li>
@@ -84,5 +93,6 @@ console.log(process.cwd());</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

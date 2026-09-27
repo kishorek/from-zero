@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 10 of 17</p>
       <h1>Transforming lists</h1>
+      <p class="one-idea"><strong>One idea.</strong> map makes a new list. filter keeps some items. The old list stays.</p>
       <h2>The idea</h2>
       <p><code>map</code> builds a new array by turning each item into something else. <code>filter</code> builds a new array of the items that pass a test. <code>reduce</code> folds the whole array into one value, such as a total.</p>
 <p>Each of these accepts a function. That function is a callback: a function you hand over, which the array method calls for you. Arrow functions are the usual spelling here. The original array stays as it was.</p>
@@ -69,7 +70,21 @@ console.log(total);</code></pre>
 <li><code>const expensive = prices.filter((price) =&gt; price &gt;= 4);</code><span><code>filter</code> keeps items whose arrow returns true. <code>2.5</code> fails the test and is left out.</span></li>
 <li><code>const total = prices.reduce((sum, price) =&gt; sum + price, 0);</code><span><code>reduce</code> starts <code>sum</code> at <code>0</code>. Each price is added to <code>sum</code>. The final <code>sum</code> is the total.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>From <code>[&quot;  Tea &quot;, &quot;milk&quot;, &quot;  &quot;]</code>, trim every string, drop the empty ones, and lowercase the rest. Chain <code>map</code>, then <code>filter</code>. The result should be <code>[&quot;tea&quot;, &quot;milk&quot;]</code>. Print the original array last and confirm it is unchanged.</p>
+      <p>Trim each item, drop the blanks, and lowercase the rest. The result is tea, then milk. The original list is unchanged.</p>
+      <div class="demo" data-kind="js" data-match="includes" data-hint="Print the cleaned list. It should contain tea and milk, not a blank.">
+      <p class="demo-lead"><strong>Practice.</strong> Chain map, then filter.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const raw = ["  Tea ", "milk", "  "];
+const cleaned = raw.map(function (item) {
+  return item.trim().toLowerCase();
+}).filter(function (item) {
+  return item.length > 0;
+});
+console.log(cleaned);
+console.log(raw);</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">tea</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Forgetting that the arrow in <code>map</code> must return the new item. An arrow with braces and no <code>return</code> fills the new array with <code>undefined</code>.</li>
 <li>Using <code>map</code> when you only want to keep some items. That is <code>filter</code>. Using <code>filter</code> when you want to change the items. That is <code>map</code>.</li>
@@ -81,5 +96,6 @@ console.log(total);</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

@@ -38,6 +38,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 7 of 16</p>
       <h1>Variables</h1>
+      <p class="one-idea"><strong>One idea.</strong> A variable is a name attached to a value.</p>
       <h2>The idea</h2>
       <p>A variable is a name you choose for a value, so you can use the value again. <code>let</code> creates a name whose value may be replaced later. <code>const</code> creates a name you will not reassign.</p>
 <p>The name is for you and for later lines. The engine does not care that you called it <code>cups</code>. It cares that the spelling matches wherever you use it.</p>
@@ -66,7 +67,17 @@ electric</pre></div>
 <li><code>console.log(cups);</code><span>Print the current value of <code>cups</code>, which is the number 2.</span></li>
 <li><code>console.log(kettle);</code><span>Print the text stored in <code>kettle</code>.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Create <code>score.js</code> with <code>let score = 0</code>. Add 10, then add 5, then print <code>score</code>. You should see <code>15</code>. Try to reassign a <code>const</code> on purpose and read the error. It will say <code>Assignment to constant variable</code>.</p>
+      <p>Start from 0, add 10, add 5, and print the score. You should see 15.</p>
+      <div class="demo" data-kind="js" data-match="exact" data-hint="Add 10 and then add 5. Print score once at the end.">
+      <p class="demo-lead"><strong>Practice.</strong> The second addition is the piece to check.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">let score = 0;
+score = score + 10;
+score = score + 5;
+console.log(score);</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">15</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Using one equals sign to ask “are these the same?”. <code>=</code> stores. <code>===</code> compares, and it arrives in the conditions lesson.</li>
 <li>Misspelling a name on a later line. <code>cup</code> and <code>cups</code> are two different names.</li>
@@ -78,5 +89,6 @@ electric</pre></div>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

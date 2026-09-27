@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 14 of 17</p>
       <h1>async and await</h1>
+      <p class="one-idea"><strong>One idea.</strong> await pauses one function until a promise finishes.</p>
       <h2>The idea</h2>
       <p><code>async</code> marks a function that returns a promise. Inside it, <code>await</code> pauses that function until a promise fulfills, then continues with the value. If the promise rejects, <code>await</code> throws, and a <code>try</code> / <code>catch</code> in that function can handle it.</p>
 <p><code>await</code> pauses the function, not the whole computer. Other work can run. In a short script, you mostly notice that the lines below <code>await</code> happen in the order you wrote, which is the order you meant.</p>
@@ -75,7 +76,24 @@ after the wait</pre></div>
 <li><code>await delay(200);</code><span>Pause <code>main</code> until the delay fulfills. The next line does not run before that.</span></li>
 <li><code>main();</code><span>Start the function. Without this call, nothing happens. An async function you forget to call is a recipe nobody started.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Add a third log after a second <code>await delay(200)</code>. Then wrap <code>await delay</code> in <code>try</code> / <code>catch</code> and reject on purpose: change <code>delay</code> so it returns <code>Promise.reject(new Error(&quot;no kettle&quot;))</code>. The catch should print <code>no kettle</code>, and the program should set <code>process.exitCode = 1</code>.</p>
+      <p>Run the box. start prints, then after the wait. The wait is short on purpose.</p>
+      <div class="demo" data-kind="js" data-match="includes" data-hint="Log start, await the delay, then log after the wait.">
+      <p class="demo-lead"><strong>Practice.</strong> await delay pauses main, not the whole computer.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">function delay(ms) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, ms);
+  });
+}
+async function main() {
+  console.log("start");
+  await delay(200);
+  console.log("after the wait");
+}
+main();</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">after the wait</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Using <code>await</code> in a function that is not <code>async</code>. The engine reports a syntax error.</li>
 <li>Forgetting to call the async function, or forgetting to <code>await</code> it at the top. The script can exit before the work finishes.</li>
@@ -87,5 +105,6 @@ after the wait</pre></div>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

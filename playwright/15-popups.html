@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 15 of 20</p>
       <h1>Pages and popups</h1>
+      <p class="one-idea"><strong>One idea.</strong> Start listening for the new tab before the click that opens it.</p>
       <h2>The idea</h2>
       <p>A link with <code>target=&quot;_blank&quot;</code>, or a script that calls <code>window.open</code>, creates another page. In Playwright that other page arrives as a <code>popup</code> event on the current page. You must start waiting before the click. If you click first, the popup can happen before you began listening, and the wait misses it.</p>
 <p>The pattern is: create the promise with <code>page.waitForEvent(&quot;popup&quot;)</code>, then click, then <code>await</code> the promise. The result is a <code>Page</code>. You assert on that page the same way you assert on any page.</p>
@@ -75,7 +76,13 @@ test(&quot;a new tab opens&quot;, async ({ page }) =&gt; {
 <li><code>const popup = await popupPromise;</code><span>Receive the new <code>Page</code>. It has its own URL, locators, and assertions.</span></li>
 <li><code>await expect(popup).toHaveTitle(&quot;Example Domain&quot;);</code><span>Assert against the new page, not the original one. The original page still shows the link.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Log <code>page.url()</code> and <code>popup.url()</code> after the wait. They differ. Then reverse the order on purpose: click, then start <code>waitForEvent</code>. See the timeout. Restore the original order. The failure is the lesson.</p>
+      <p>Try both orders. Only hands-first catches the tab.</p>
+      <div class="demo" data-kind="stage" data-stage="popup">
+      <p class="demo-lead"><strong>Demo.</strong> If you put your hands out after the toss, you miss the key.</p>
+      
+      <div class="demo-actions"><button type="button" class="hands-first">Hands out, then click</button><button type="button" class="click-first quiet">Click, then put hands out</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Awaiting <code>waitForEvent</code> before the click. That line never returns, because the click has not happened, so the event never arrives.</li>
 <li>Asserting the title on <code>page</code> when the title changed on <code>popup</code>.</li>
@@ -87,5 +94,6 @@ test(&quot;a new tab opens&quot;, async ({ page }) =&gt; {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

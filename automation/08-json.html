@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 8 of 17</p>
       <h1>JSON</h1>
+      <p class="one-idea"><strong>One idea.</strong> JSON is text for data. Parse turns that text into values.</p>
       <h2>The idea</h2>
       <p>JSON is a text format for numbers, strings, booleans, arrays, and objects. It looks like JavaScript and it is stricter. Keys are in double quotes. There are no comments, no trailing commas, and no functions.</p>
 <p><code>JSON.stringify(value)</code> turns a value into JSON text. <code>JSON.parse(text)</code> turns JSON text back into a value. Files and web APIs use this pair constantly.</p>
@@ -67,7 +68,16 @@ console.log(again.cups);</code></pre>
 <li><code>const again = JSON.parse(raw);</code><span>Read the label and build a new object.</span></li>
 <li><code>console.log(again.cups);</code><span>The new object has a number property <code>cups</code>. The trip out to text and back preserved it.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Put a small array of task strings into a file as JSON: <code>[&quot;Buy milk&quot;,&quot;Reply to Ada&quot;]</code>. Read the file with <code>readFileSync</code>, <code>JSON.parse</code> the text, and print the first task. Then add a trailing comma inside the file and parse again. Read the <code>SyntaxError</code>. Remove the comma.</p>
+      <p>Run it and print the first task. Then add a comma before the ] and run again. Read the error, then remove the comma.</p>
+      <div class="demo" data-kind="js" data-match="includes" data-hint="Keep the JSON valid, then print the first task.">
+      <p class="demo-lead"><strong>Practice.</strong> JSON uses double quotes and does not allow a trailing comma.</p>
+      <label class="demo-field">tasks.json<textarea class="demo-file" data-name="tasks.json">["Buy milk", "Reply to Ada"]</textarea></label><label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const raw = readFile("tasks.json");
+const tasks = JSON.parse(raw);
+console.log(tasks[0]);</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">Buy milk</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Calling <code>JSON.parse</code> on an object that is already parsed. Parse eats text.</li>
 <li>Trailing commas and single quotes in a <code>.json</code> file. Legal in many JavaScript objects. Illegal in JSON.</li>
@@ -79,5 +89,6 @@ console.log(again.cups);</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

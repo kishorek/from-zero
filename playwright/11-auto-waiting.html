@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 11 of 20</p>
       <h1>Auto-waiting</h1>
+      <p class="one-idea"><strong>One idea.</strong> Wait until the button is ready. Do not guess a number of seconds.</p>
       <h2>The idea</h2>
       <p>Before Playwright clicks, it checks that the element is attached to the page, visible, stable (not mid-animation), able to receive events, and, where it applies, enabled. If not, it waits and tries again until the timeout.</p>
 <p>Assertions such as <code>toBeVisible</code> and <code>toHaveText</code> retry too. A fixed pause does not. <code>page.waitForTimeout</code> exists for debugging a single run. Playwright’s documentation is plain: do not put it in tests you trust. It passes on your laptop and fails when the pause was a little short.</p>
@@ -77,7 +78,14 @@ test(&quot;the button can be clicked when it appears&quot;, async ({ page }) =&g
 <li><code>setTimeout(() =&gt; {</code><span>The page’s own JavaScript reveals the button 300 milliseconds later. This <code>setTimeout</code> is inside the page, not a sleep in the test.</span></li>
 <li><code>await page.getByRole(&quot;button&quot;, { name: &quot;Save&quot; }).click();</code><span>This line waits until the button is a real, visible, stable click target, then clicks. No pause is written in the test.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Change <code>300</code> to <code>3000</code> and run the test. It should still pass, a bit slower. Then add <code>await page.waitForTimeout(100)</code> before the click and set the reveal to <code>1000</code>. Watch it get brittle. Remove the timeout line. The condition was “the button is clickable,” and <code>click</code> already waits for that.</p>
+      <p>Load the page. Click when ready succeeds. The short fixed wait misses if you press it too soon.</p>
+      <div class="demo" data-kind="stage" data-stage="wait">
+      <p class="demo-lead"><strong>Demo.</strong> The Save button appears after about a second.</p>
+      
+      <div class="demo-actions"><button type="button" class="load">Load page</button><button type="button" class="click-ready">Click when ready</button><button type="button" class="click-early quiet">Short fixed wait</button></div>
+      <div class="mini-page"><button type="button" class="save" hidden>Save</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Adding <code>waitForTimeout</code> whenever a test fails once. Find the fact you should have waited for, and assert it.</li>
 <li>Waiting for <code>networkidle</code> before every click. Auto-waiting on the action is already the wait.</li>
@@ -89,5 +97,6 @@ test(&quot;the button can be clicked when it appears&quot;, async ({ page }) =&g
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

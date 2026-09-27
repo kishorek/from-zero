@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 19 of 20</p>
       <h1>Configuration, projects, and hooks</h1>
+      <p class="one-idea"><strong>One idea.</strong> The config holds shared settings. A hook runs a small setup before each test.</p>
       <h2>The idea</h2>
       <p><code>playwright.config.js</code> exports <code>defineConfig({ ... })</code>. <code>testDir</code> says where tests live. <code>use</code> holds defaults: <code>baseURL</code>, traces, screenshots. With <code>baseURL</code> set, <code>page.goto(&quot;/&quot;)</code> opens <code>baseURL + &quot;/&quot;</code>.</p>
 <p>A project is a named bundle of settings, usually a browser. The starter’s <code>projects</code> array runs your tests in each browser you leave in the list. While you learn, one project, Chromium, is enough. Add Firefox and WebKit when you want that coverage.</p>
@@ -96,7 +97,14 @@ test(&quot;has the example heading&quot;, async ({ page }) =&gt; {
 <li><code>{ name: &quot;chromium&quot;, use: { ...devices[&quot;Desktop Chrome&quot;] } },</code><span>One project, with a desktop Chrome viewport and user agent from Playwright’s device list. The three dots copy those settings into <code>use</code>.</span></li>
 <li><code>test.beforeEach(async ({ page }) =&gt; {</code><span>Run this before each test in the file. The test body can assume the page is already on <code>/</code>.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Put the config in your lab and shorten a previous test to <code>goto(&quot;/&quot;)</code>. Run <code>npx playwright test --project=chromium</code>. Add a second test to <code>home.spec.js</code> and confirm the hook runs for both: the heading assertion should pass without its own <code>goto</code>.</p>
+      <p>Run either test with the hook on. Turn the hook off and run one again.</p>
+      <div class="demo" data-kind="stage" data-stage="hook">
+      <p class="demo-lead"><strong>Demo.</strong> The hook opens the home page so each test does not repeat that line.</p>
+      
+      <label class="demo-field"><input class="hook" type="checkbox" checked> Open the home page before every test</label>
+      <div class="demo-actions"><button type="button" class="test-a">Run heading test</button><button type="button" class="test-b quiet">Run title test</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Depending on test order. Parallel projects and workers will break that dependency on a different day.</li>
 <li>Setting <code>baseURL</code> and also pasting the full URL, then “fixing” the wrong one later. Pick the config as the source of the origin.</li>
@@ -108,5 +116,6 @@ test(&quot;has the example heading&quot;, async ({ page }) =&gt; {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

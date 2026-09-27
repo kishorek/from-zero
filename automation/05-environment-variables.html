@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 5 of 17</p>
       <h1>Environment variables</h1>
+      <p class="one-idea"><strong>One idea.</strong> A setting can live outside the file. The file only knows the name.</p>
       <h2>The idea</h2>
       <p>An environment variable is a named setting that lives outside your file, in the environment of the process. <code>process.env</code> is an object of those settings. <code>process.env.API_KEY</code> reads the one named <code>API_KEY</code>.</p>
 <p>Secrets (passwords, tokens) do not belong in source code. Anyone who receives the file would receive the secret. Put them in the environment. Node.js 20 and newer can load a file of settings when you start the program: <code>node --env-file=.env app.mjs</code>. The file is named <code>.env</code> by convention. Do not commit that file.</p>
@@ -71,7 +72,21 @@ if (!key) {
 <li><code>console.log(&quot;Missing API_KEY. Set it in the environment.&quot;);</code><span>Tell the reader what to fix. Do not invent a fallback password inside the file.</span></li>
 <li><code>console.log(&quot;API_KEY is set. Length:&quot;, key.length);</code><span>Prove the value arrived without printing it. Length is enough evidence while you learn.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Create <code>.env</code> with <code>CITY=Lisbon</code>. Read <code>process.env.CITY</code> in a script started with <code>--env-file=.env</code>. Print the city. Then rename the variable in <code>.env</code> only, run again, and watch the script report it missing. That is the point: the script and the secret can change separately.</p>
+      <p>Run with CITY=Lisbon. Then erase that line and run again. The script should say the city is missing.</p>
+      <div class="demo" data-kind="js" data-match="one-of" data-hint="Print the city when CITY is set. Say it is missing when the line is gone.">
+      <p class="demo-lead"><strong>Practice.</strong> The box reads the settings above. It does not hide a city inside the code.</p>
+      <label class="demo-field">Settings, one NAME=value per line<textarea class="demo-env">CITY=Lisbon</textarea></label><label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const city = process.env.CITY;
+if (!city) {
+  console.log("Missing CITY.");
+  process.exitCode = 1;
+} else {
+  console.log(city);
+}</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">Lisbon
+Missing CITY.</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Printing the secret “just to check.” Logs get copied into bug reports.</li>
 <li>Committing <code>.env</code>. Commit a <code>.env.example</code> that lists the names with blank values.</li>
@@ -83,5 +98,6 @@ if (!key) {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

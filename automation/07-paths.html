@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 7 of 17</p>
       <h1>Paths and folders</h1>
+      <p class="one-idea"><strong>One idea.</strong> A path is an address. Join the pieces. Do not glue slashes by hand.</p>
       <h2>The idea</h2>
       <p>A path is the address of a file or folder. On macOS and Linux the pieces are separated by <code>/</code>. On Windows the separator is <code>\</code>. If you glue strings by hand, you will get it wrong on one of those systems.</p>
 <p><code>node:path</code> knows the separator. <code>path.join(folder, &quot;notes&quot;, &quot;today.txt&quot;)</code> builds the address. <code>path.dirname</code> takes the folder part of a file address. <code>path.basename</code> takes the file name.</p>
@@ -67,7 +68,17 @@ console.log(path.basename(note));</code></pre>
 <li><code>const note = path.join(here, &quot;notes&quot;, &quot;today.txt&quot;);</code><span>Join three pieces with the separator your operating system uses.</span></li>
 <li><code>console.log(path.basename(note));</code><span>Print only <code>today.txt</code>. Useful when you want the name without the address.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Print <code>path.join(here, &quot;..&quot;, &quot;outside.txt&quot;)</code> and also print <code>path.resolve</code> of that same join. <code>..</code> means the parent folder. <code>path.resolve</code> turns the address into a full path with the <code>..</code> folded in. Read both lines and say which folder <code>outside.txt</code> would live in.</p>
+      <p>Run the box. .. means the parent folder. The second line folds that into a full address.</p>
+      <div class="demo" data-kind="js" data-match="includes" data-hint="Join /lab, .., and outside.txt, then resolve it.">
+      <p class="demo-lead"><strong>Practice.</strong> path.join builds the address. path.resolve folds the .. away.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const here = "/lab";
+const note = path.join(here, "..", "outside.txt");
+console.log(note);
+console.log(path.resolve(note));</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">/outside.txt</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Building paths with <code>folder + &quot;/&quot; + name</code>. That breaks on Windows and breaks again if <code>folder</code> already ended with a slash.</li>
 <li>Confusing <code>dirname</code> and <code>basename</code>. Directory is the folder. Base name is the last piece.</li>
@@ -79,5 +90,6 @@ console.log(path.basename(note));</code></pre>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

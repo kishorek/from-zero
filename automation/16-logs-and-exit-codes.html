@@ -39,6 +39,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 16 of 17</p>
       <h1>Logs and exit codes</h1>
+      <p class="one-idea"><strong>One idea.</strong> People read the message. The shell reads the exit code.</p>
       <h2>The idea</h2>
       <p><code>console.log</code> is for ordinary progress. <code>console.error</code> is for failures. They are both just streams of text. By convention, error text goes to standard error, a second channel the shell can separate from normal output.</p>
 <p>The exit code is the program’s official result. Use <code>0</code> when the job worked and <code>1</code> when it did not. Set <code>process.exitCode</code>. Let the function return. The process ends, and the code goes with it.</p>
@@ -69,7 +70,22 @@ if (!name) {
 <li><code>console.log(&quot;Hello, &quot; + name);</code><span>Ordinary output. This is the result a person wanted.</span></li>
 <li><code>process.exitCode = 0;</code><span>Explicit success. Ending with no assignment also exits <code>0</code>. Setting it makes the success look as deliberate as the failure.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Run the script with a name and without one. After each run, print the exit code (<code>echo $?</code> on macOS or Linux). Then add a second error case: if the name is shorter than 2 characters, print an error and exit <code>1</code>. Check that <code>Al</code> still works and <code>A</code> fails.</p>
+      <p>Run with a name, then clear the words and run again. A missing name should exit 1. A one-letter name should exit 1 too.</p>
+      <div class="demo" data-kind="js" data-match="one-of" data-show-exit data-hint="Greet Al. Reject a missing name or a one-letter name.">
+      <p class="demo-lead"><strong>Practice.</strong> Al is long enough. A is not.</p>
+      <label class="demo-field">Words after the script name<input class="demo-args" type="text" value="Al"></label><label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const name = process.argv[2];
+if (!name || name.length &lt; 2) {
+  console.log("Need a name of at least 2 letters.");
+  process.exitCode = 1;
+} else {
+  console.log("Hello, " + name);
+  process.exitCode = 0;
+}</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">Hello, Al
+Need a name</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Printing <code>Success</code> and exiting <code>1</code>, or printing an error and exiting <code>0</code>. The lamp and the tray disagree, and callers believe the lamp.</li>
 <li>Using <code>console.log</code> for every failure. When someone redirects normal output to a file, the failures vanish into the file too.</li>
@@ -81,5 +97,6 @@ if (!name) {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

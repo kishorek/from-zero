@@ -38,6 +38,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 8 of 16</p>
       <h1>Numbers and text</h1>
+      <p class="one-idea"><strong>One idea.</strong> Numbers calculate. Quoted text is glued together.</p>
       <h2>The idea</h2>
       <p>A number is for arithmetic: <code>4.5</code>, <code>2</code>, <code>-1</code>. Text is called a string, because it is a string of characters. You write a string between quotes: <code>&quot;tea&quot;</code> or <code>'tea'</code>.</p>
 <p>A template literal is a string written with backticks. Inside it, ${price} is replaced with the value of price. You will see that spelling in the example as a sentence that includes the item and the price.</p>
@@ -69,7 +70,16 @@ string</pre></div>
 <li><code>console.log(typeof price);</code><span><code>typeof</code> returns the string <code>&quot;number&quot;</code> for a number.</span></li>
 <li><code>console.log(typeof item);</code><span><code>typeof</code> returns the string <code>&quot;string&quot;</code> for text.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Print <code>&quot;10&quot; + 2</code> and then print <code>Number(&quot;10&quot;) + 2</code>. The first is <code>102</code>. The second is <code>12</code>, because <code>Number(&quot;10&quot;)</code> turns the text into a number before the addition.</p>
+      <p>Run both lines. The first prints 102. The second prints 12.</p>
+      <div class="demo" data-kind="js" data-match="exact" data-hint="Keep both lines.">
+      <p class="demo-lead"><strong>Practice.</strong> Number("10") turns text into a number before the addition.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">console.log("10" + 2);
+console.log(Number("10") + 2);</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">102
+12</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Putting quotes around a number you mean to add. <code>&quot;4.5&quot;</code> is text.</li>
 <li>Mixing up template punctuation. The insert is <code>${name}</code> with a dollar sign and braces, inside backticks.</li>
@@ -81,5 +91,6 @@ string</pre></div>
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

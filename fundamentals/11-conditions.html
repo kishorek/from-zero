@@ -38,6 +38,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 11 of 16</p>
       <h1>Conditions</h1>
+      <p class="one-idea"><strong>One idea.</strong> if chooses one branch. The other branches stay quiet.</p>
       <h2>The idea</h2>
       <p>A condition chooses a branch. <code>if</code> runs its block only when the test is true. <code>else if</code> tries another test when earlier ones were false. <code>else</code> runs when none of the tests were true.</p>
 <p><code>===</code> asks whether two values are the same kind and the same value. <code>&gt;</code> and <code>&lt;</code> compare numbers. <code>&amp;&amp;</code> means both sides must be true. <code>||</code> means either side may be true.</p>
@@ -68,7 +69,26 @@ if (temperatureC &gt;= 100) {
 <li><code>console.log(&quot;Hot enough for tea.&quot;);</code><span>This is the only print that runs. The other branches are skipped.</span></li>
 <li><code>} else {</code><span>This would run only if both tests above were false. They were not, so it is skipped.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>Set <code>temperatureC</code> to <code>70</code>, then to <code>100</code>, and run the file each time. You should see <code>Still heating.</code> and then <code>Boiling.</code>. Add a second test of your own: print <code>Too cold.</code> when the number is below 40, and make sure your branch order still makes sense.</p>
+      <p>Run it at 70. Then change the number to 100, and then to 30. Each run should print one sentence.</p>
+      <div class="demo" data-kind="js" data-match="one-of" data-hint="Use 70, 100, 90, or 30 so one branch matches.">
+      <p class="demo-lead"><strong>Practice.</strong> Only one message should print.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const temperatureC = 70;
+if (temperatureC >= 100) {
+  console.log("Boiling.");
+} else if (temperatureC >= 80) {
+  console.log("Hot enough for tea.");
+} else if (temperatureC &lt; 40) {
+  console.log("Too cold.");
+} else {
+  console.log("Still heating.");
+}</textarea></label>
+      <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+      <div class="demo-out" role="status"></div>
+      <template class="demo-expect">Still heating.
+Boiling.
+Hot enough for tea.
+Too cold.</template>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Writing <code>=</code> inside an <code>if</code> when you meant <code>===</code>. One equals sign stores a value.</li>
 <li>Using <code>==</code>. It converts types before comparing, so <code>&quot;92&quot; == 92</code> is true. Prefer <code>===</code>, which requires the same type and the same value.</li>
@@ -80,5 +100,6 @@ if (temperatureC &gt;= 100) {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>

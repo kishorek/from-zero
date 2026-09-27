@@ -42,6 +42,7 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 8 of 20</p>
       <h1>Navigating</h1>
+      <p class="one-idea"><strong>One idea.</strong> goto opens an address. Back returns to the previous one.</p>
       <h2>The idea</h2>
       <p><code>page.goto(url)</code> opens an address and waits until the load event, unless you change <code>waitUntil</code>. After that, <code>page.url()</code> is the address you actually landed on, which might differ if the site redirected you. <code>page.title()</code> is the document title.</p>
 <p><code>reload</code> loads the same address again. <code>goBack</code> walks history, like the browser’s back button. Prefer waiting for a specific fact afterward (<code>toHaveURL</code>, a heading) over waiting for the network to go quiet.</p>
@@ -72,7 +73,14 @@ test(&quot;open example.com and read the address&quot;, async ({ page }) =&gt; {
 <li><code>await expect(page).toHaveTitle(&quot;Example Domain&quot;);</code><span>The title lives in the document, not in the address bar. Check the one you mean.</span></li>
 <li><code>await page.reload();</code><span>Ask for the same document again, and wait for load again.</span></li></ol>
       <h2>Try it yourself</h2>
-      <p>After <code>goto</code>, click the “Learn more” link with <code>page.getByRole(&quot;link&quot;, { name: &quot;Learn more&quot; }).click()</code>, which the locators lesson will explain in full. Then expect the URL to match <code>/iana.org/</code>. <code>goBack()</code>, and expect the title <code>Example Domain</code> again.</p>
+      <p>Click Learn more, then press Back.</p>
+      <div class="demo" data-kind="stage" data-stage="browser">
+      <p class="demo-lead"><strong>Demo.</strong> This is a tiny pretend browser.</p>
+      
+      <div class="mini-browser"><div class="mini-bar"></div><div class="mini-page"></div></div>
+      <div class="demo-actions"><button type="button" class="reload quiet">Reload</button><button type="button" class="back quiet">Back</button></div>
+      <div class="demo-out" role="status"></div>
+    </div>
       <h2>Common mistakes</h2>
       <ul><li>Passing <code>waitUntil: &quot;networkidle&quot;</code> as a default. Use it only when you have a measured reason. Prefer a visible fact.</li>
 <li>Comparing <code>page.url()</code> with a string that forgot the trailing slash or the <code>https</code>.</li>
@@ -84,5 +92,6 @@ test(&quot;open example.com and read the address&quot;, async ({ page }) =&gt; {
     </main>
   </div>
   <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
 </body>
 </html>
