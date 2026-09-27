@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Operators · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html" aria-current="page">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Programming fundamentals">
+    <h2>Programming fundamentals</h2>
+    <ol><li><a href="01-what-is-a-program.html" data-lesson="fundamentals/01-what-is-a-program">01 What is a computer program? <span class="done-flag"></span></a></li>
+<li><a href="02-what-is-code.html" data-lesson="fundamentals/02-what-is-code">02 What is code? <span class="done-flag"></span></a></li>
+<li><a href="03-how-a-computer-understands.html" data-lesson="fundamentals/03-how-a-computer-understands">03 How does a computer understand instructions? <span class="done-flag"></span></a></li>
+<li><a href="04-what-is-a-language.html" data-lesson="fundamentals/04-what-is-a-language">04 What is a programming language? <span class="done-flag"></span></a></li>
+<li><a href="05-javascript-and-node.html" data-lesson="fundamentals/05-javascript-and-node">05 What are JavaScript and Node.js? <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-program.html" data-lesson="fundamentals/06-your-first-program">06 Your first program <span class="done-flag"></span></a></li>
+<li><a href="07-variables.html" data-lesson="fundamentals/07-variables">07 Variables <span class="done-flag"></span></a></li>
+<li><a href="08-numbers-and-text.html" data-lesson="fundamentals/08-numbers-and-text">08 Numbers and text <span class="done-flag"></span></a></li>
+<li><a href="09-operators.html" data-lesson="fundamentals/09-operators" aria-current="page">09 Operators <span class="done-flag"></span></a></li>
+<li><a href="10-arrays.html" data-lesson="fundamentals/10-arrays">10 Arrays <span class="done-flag"></span></a></li>
+<li><a href="11-objects.html" data-lesson="fundamentals/11-objects">11 Objects <span class="done-flag"></span></a></li>
+<li><a href="12-conditions.html" data-lesson="fundamentals/12-conditions">12 Conditions <span class="done-flag"></span></a></li>
+<li><a href="13-loops.html" data-lesson="fundamentals/13-loops">13 Loops <span class="done-flag"></span></a></li>
+<li><a href="14-functions.html" data-lesson="fundamentals/14-functions">14 Functions <span class="done-flag"></span></a></li>
+<li><a href="15-errors.html" data-lesson="fundamentals/15-errors">15 Errors <span class="done-flag"></span></a></li>
+<li><a href="16-debugging.html" data-lesson="fundamentals/16-debugging">16 Debugging <span class="done-flag"></span></a></li>
+<li><a href="17-putting-it-together.html" data-lesson="fundamentals/17-putting-it-together">17 Putting everything together <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 01 · Lesson 9 of 17</p>
+      <h1>Operators</h1>
+      <p class="one-idea"><strong>One idea.</strong> An operator is a symbol that does something with values.</p>
+      <h2>The idea</h2>
+      <p>An operator sits between values, or just in front of one value, and produces a result. <code>+</code> adds. <code>===</code> asks a yes-or-no question. <code>&amp;&amp;</code> combines two of those answers.</p>
+      <p><code>=</code> is not an operator that compares. It stores a value in a variable. You already used it. Comparison uses <code>===</code>.</p>
+      <table>
+        <thead><tr><th>Symbol</th><th>Name</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><code>+</code> <code>-</code> <code>*</code> <code>/</code></td><td>Arithmetic</td><td><code>10 + 2</code> is <code>12</code>. <code>10 / 2</code> is <code>5</code>.</td></tr>
+          <tr><td><code>%</code></td><td>Remainder</td><td><code>10 % 3</code> is <code>1</code>. Three fits into ten three times, and one is left over.</td></tr>
+          <tr><td><code>===</code> <code>!==</code></td><td>Equality</td><td><code>3 === 3</code> is true. <code>3 !== "3"</code> is true, because a number and text are different kinds.</td></tr>
+          <tr><td><code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code></td><td>Comparison</td><td><code>10 &gt; 5</code> is true. <code>10 &gt;= 10</code> is true.</td></tr>
+          <tr><td><code>&amp;&amp;</code> <code>||</code> <code>!</code></td><td>Logic</td><td><code>&amp;&amp;</code> means both. <code>||</code> means either. <code>!</code> flips true and false.</td></tr>
+        </tbody>
+      </table>
+      <h2>Why it matters</h2>
+      <p>Every later decision is an operator. A condition is a comparison. A loop stops because a comparison becomes false. A price with tax is arithmetic. If the symbols are fuzzy, those lessons feel like spelling tricks.</p>
+      <h2>A picture to hold</h2>
+      <p>Arithmetic is a calculator. Comparison is a yes-or-no question on a form. <code>&amp;&amp;</code> is two light switches in a row: both must be on. <code>||</code> is two switches side by side: either one is enough. <code>!</code> is the switch that says the opposite of what it sees.</p>
+      <h2>A small example</h2>
+      <figure class="code">
+        <figcaption>apples.js · node apples.js</figcaption>
+        <pre><code class="language-js">const apples = 10;
+const people = 3;
+console.log(apples + 2);
+console.log(apples - 2);
+console.log(apples * 2);
+console.log(apples / 2);
+console.log(apples % people);
+const enough = apples &gt;= 5 &amp;&amp; people !== 0;
+console.log(enough);
+console.log(!enough);</code></pre>
+      </figure>
+      <div class="output"><strong>What you should see</strong><pre>12
+8
+20
+5
+1
+true
+false</pre></div>
+      <h2>Line by line</h2>
+      <ol class="walk">
+        <li><code>console.log(apples + 2);</code><span><code>+</code> adds. 10 plus 2 is 12.</span></li>
+        <li><code>console.log(apples - 2);</code><span><code>-</code> subtracts. 10 minus 2 is 8.</span></li>
+        <li><code>console.log(apples * 2);</code><span><code>*</code> multiplies. The star is the multiply sign in code.</span></li>
+        <li><code>console.log(apples / 2);</code><span><code>/</code> divides. 10 divided by 2 is 5.</span></li>
+        <li><code>console.log(apples % people);</code><span><code>%</code> is the remainder. 3 fits into 10 three times, and 1 apple is left.</span></li>
+        <li><code>const enough = apples &gt;= 5 &amp;&amp; people !== 0;</code><span><code>&gt;=</code> asks “at least 5?”. <code>!==</code> asks “not zero?”. <code>&amp;&amp;</code> keeps the answer only when both are true.</span></li>
+        <li><code>console.log(!enough);</code><span><code>!</code> flips the answer. enough is true, so <code>!enough</code> is false.</span></li>
+      </ol>
+      <h2>Try it yourself</h2>
+      <p>7 cookies are shared by 3 friends. Print the remainder, then print whether there are cookies and there is at least one friend.</p>
+      <div class="demo" data-kind="js" data-match="exact" data-hint="7 % 3 is 1. Both parts of &amp;&amp; should be true.">
+        <p class="demo-lead"><strong>Practice.</strong> Remainder first. Then a yes-or-no answer.</p>
+        <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const cookies = 7;
+const friends = 3;
+console.log(cookies % friends);
+console.log(cookies &gt; 0 &amp;&amp; friends !== 0);</textarea></label>
+        <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
+        <div class="demo-out" role="status"></div>
+        <template class="demo-expect">1
+true</template>
+      </div>
+      <h2>Common mistakes</h2>
+      <ul>
+        <li>Writing <code>=</code> to ask “are these the same?”. One equals sign stores. <code>===</code> compares.</li>
+        <li>Using <code>+</code> on text and expecting a sum. <code>&quot;10&quot; + 2</code> glues text and produces <code>&quot;102&quot;</code>.</li>
+        <li>Reading <code>&amp;&amp;</code> as the word “and” that you print. It produces true or false.</li>
+      </ul>
+      <h2>Recap</h2>
+      <p>Arithmetic operators calculate. Comparison operators answer yes or no. <code>&amp;&amp;</code>, <code>||</code>, and <code>!</code> combine those answers. The next lessons use these symbols inside lists, records, and choices.</p>
+      <label class="done"><input type="checkbox" data-done="fundamentals/09-operators"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="08-numbers-and-text.html"><small>Previous</small>Numbers and text</a><a class="next" href="10-arrays.html"><small>Next</small>Arrays</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+  <script src="../js/demo.js"></script>
+</body>
+</html>
