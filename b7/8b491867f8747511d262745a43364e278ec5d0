@@ -1,0 +1,20 @@
+js/demo.js
+  s_e5479899d78dbc::t_5a2a7480c958b9 1-546
+  s_e5479899d78dbc::t_a2987098902061 547-549
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "b78b491867f8747511d262745a43364e278ec5d0",
+  "prompts": {},
+  "sessions": {
+    "s_e5479899d78dbc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "01a0e2ef-60df-7603-9d9a-a2c64f212f7d",
+        "model": "unknown"
+      },
+      "human_author": "Kishore Kumar Uthirapathy <libcomet@gmail.com>"
+    }
+  }
+}
