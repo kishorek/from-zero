@@ -1,0 +1,52 @@
+automation/01-the-terminal.html
+  h_b7e40170a559db 92
+fundamentals/01-what-is-a-program.html
+  h_b7e40170a559db 29-37,40
+fundamentals/02-what-is-code.html
+  h_b7e40170a559db 29-37,40
+fundamentals/03-how-a-computer-understands.html
+  h_b7e40170a559db 29-37,40
+fundamentals/04-what-is-a-language.html
+  h_b7e40170a559db 29-37,40
+fundamentals/05-javascript-and-node.html
+  h_b7e40170a559db 29-37,40
+fundamentals/06-your-first-program.html
+  h_b7e40170a559db 29-37,40
+fundamentals/07-variables.html
+  h_b7e40170a559db 29-37,40
+fundamentals/08-numbers-and-text.html
+  h_b7e40170a559db 29-37,40,89,91
+fundamentals/09-operators.html
+  h_b7e40170a559db 1-119
+fundamentals/10-arrays.html
+  h_b7e40170a559db 29-37,40,91-92
+fundamentals/11-objects.html
+  h_b7e40170a559db 29-37,40,92-93
+fundamentals/12-conditions.html
+  h_b7e40170a559db 29-37,40,45,99-100
+fundamentals/13-loops.html
+  h_b7e40170a559db 29-37,40,87-88
+fundamentals/14-functions.html
+  h_b7e40170a559db 29-37,40,88-89
+fundamentals/15-errors.html
+  h_b7e40170a559db 29-37,40,95-96
+fundamentals/16-debugging.html
+  h_b7e40170a559db 29-37,40,90-91
+fundamentals/17-putting-it-together.html
+  h_b7e40170a559db 29-37,40,106-107
+fundamentals/index.html
+  h_b7e40170a559db 21-23,32-40
+index.html
+  h_b7e40170a559db 28,30,37-39,48-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "b17f88d2abbf3b295759317ddeaf812c4d8f52b9",
+  "prompts": {},
+  "humans": {
+    "h_b7e40170a559db": {
+      "author": "Kishore Kumar Uthirapathy <libcomet@gmail.com>"
+    }
+  }
+}
