@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Locators · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html" aria-current="page">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Playwright">
+    <h2>Playwright</h2>
+    <ol><li><a href="01-what-automation-is.html" data-lesson="playwright/01-what-automation-is">01 What browser automation is <span class="done-flag"></span></a></li>
+<li><a href="02-what-playwright-is.html" data-lesson="playwright/02-what-playwright-is">02 What Playwright is <span class="done-flag"></span></a></li>
+<li><a href="03-where-javascript-runs.html" data-lesson="playwright/03-where-javascript-runs">03 Browser JavaScript, Node.js, and Playwright <span class="done-flag"></span></a></li>
+<li><a href="04-installing.html" data-lesson="playwright/04-installing">04 Installing Playwright <span class="done-flag"></span></a></li>
+<li><a href="05-library-and-runner.html" data-lesson="playwright/05-library-and-runner">05 The library and the test runner <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-test.html" data-lesson="playwright/06-your-first-test">06 Your first test <span class="done-flag"></span></a></li>
+<li><a href="07-browser-context-page.html" data-lesson="playwright/07-browser-context-page">07 Browser, context, and page <span class="done-flag"></span></a></li>
+<li><a href="08-navigating.html" data-lesson="playwright/08-navigating">08 Navigating <span class="done-flag"></span></a></li>
+<li><a href="09-locators.html" data-lesson="playwright/09-locators" aria-current="page">09 Locators <span class="done-flag"></span></a></li>
+<li><a href="10-actions.html" data-lesson="playwright/10-actions">10 Actions <span class="done-flag"></span></a></li>
+<li><a href="11-auto-waiting.html" data-lesson="playwright/11-auto-waiting">11 Auto-waiting <span class="done-flag"></span></a></li>
+<li><a href="12-assertions.html" data-lesson="playwright/12-assertions">12 Assertions <span class="done-flag"></span></a></li>
+<li><a href="13-forms.html" data-lesson="playwright/13-forms">13 Forms <span class="done-flag"></span></a></li>
+<li><a href="14-screenshots-and-traces.html" data-lesson="playwright/14-screenshots-and-traces">14 Screenshots, video, and traces <span class="done-flag"></span></a></li>
+<li><a href="15-popups.html" data-lesson="playwright/15-popups">15 Pages and popups <span class="done-flag"></span></a></li>
+<li><a href="16-frames.html" data-lesson="playwright/16-frames">16 Frames <span class="done-flag"></span></a></li>
+<li><a href="17-network.html" data-lesson="playwright/17-network">17 Network routing <span class="done-flag"></span></a></li>
+<li><a href="18-storage-state.html" data-lesson="playwright/18-storage-state">18 Saving a login with storage state <span class="done-flag"></span></a></li>
+<li><a href="19-configuration.html" data-lesson="playwright/19-configuration">19 Configuration, projects, and hooks <span class="done-flag"></span></a></li>
+<li><a href="20-debugging-a-flow.html" data-lesson="playwright/20-debugging-a-flow">20 Debugging a failing test <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 03 · Lesson 9 of 20</p>
+      <h1>Locators</h1>
+      <h2>The idea</h2>
+      <p>A locator is a description of an element, rechecked every time you use it. It is not a snapshot of the element from five seconds ago. <code>page.getByRole(&quot;heading&quot;, { name: &quot;Example Domain&quot; })</code> means “the heading whose accessible name is Example Domain.”</p>
+<p>The accessible name is the name assistive technology would announce. For a heading or a link, it is usually the visible text. For an input, it is usually its label.</p>
+<p>Prefer this order: <code>getByRole</code>, <code>getByLabel</code>, <code>getByPlaceholder</code>, <code>getByText</code>, <code>getByAltText</code>, <code>getByTitle</code>, <code>getByTestId</code>. CSS and XPath through <code>page.locator</code> still work, and they break when the layout markup changes. Use them when no user-facing description exists, and prefer a stable <code>data-testid</code> over a CSS path when you control the page.</p>
+      <h2>Why it matters</h2>
+      <p>Tests that depend on <code>div &gt; div &gt; span:nth-child(2)</code> fail whenever someone wraps the span. Tests that depend on “the button named Save” fail when the button stops being Save, which is the failure you actually wanted.</p>
+      <h2>A picture to hold</h2>
+      <p>Asking a stranger for “the door labeled Exit” instead of “the third rectangle from the left.” The building can be repainted. The job of the door and the word on it are what a person uses. Roles are jobs: button, link, heading, textbox, checkbox.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>tests/locate.spec.js · npx playwright test</figcaption>
+    <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
+
+test(&quot;the heading and the learn-more link&quot;, async ({ page }) =&gt; {
+  await page.goto(&quot;https://example.com&quot;);
+  const heading = page.getByRole(&quot;heading&quot;, { name: &quot;Example Domain&quot; });
+  const more = page.getByRole(&quot;link&quot;, { name: &quot;Learn more&quot; });
+  await expect(heading).toBeVisible();
+  await expect(more).toHaveAttribute(&quot;href&quot;, /iana\.org/);
+});</code></pre>
+  </figure>
+      
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>page.getByRole(&quot;heading&quot;, { name: &quot;Example Domain&quot; })</code><span>Role <code>heading</code> matches <code>h1</code> through <code>h6</code>. <code>name</code> is the accessible name. You can add <code>{ level: 1 }</code> when you care that it is an <code>h1</code>.</span></li>
+<li><code>page.getByRole(&quot;link&quot;, { name: &quot;Learn more&quot; })</code><span>Role <code>link</code> matches an anchor a person can follow. The name is its text.</span></li>
+<li><code>await expect(heading).toBeVisible();</code><span>Visible means a person could see it: it is on screen, not hidden. The expectation retries.</span></li>
+<li><code>toHaveAttribute(&quot;href&quot;, /iana\.org/)</code><span>Read the <code>href</code> attribute and match the pattern. The backslash makes the dot a literal dot inside the pattern.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>On <code>example.com</code>, locate the heading by level as well as name. Then deliberately use the wrong name, <code>&quot;Example&quot;,</code> and read the failure. Playwright lists what it did find. Put the correct name back. That error text is part of the tool.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Starting with CSS because it feels precise. It is precise about structure, which is the brittle part.</li>
+<li>Saving a located element with old APIs such as <code>page.$</code> and reusing the handle later. A locator re-finds. A handle goes stale.</li>
+<li>Matching a name that includes hidden text you did not know about. The accessible name can include text from a label. Read the failure’s suggestion.</li></ul>
+      <h2>Recap</h2>
+      <p>Locators describe an element by role and name, and they re-find it on every use. Prefer <code>getByRole</code> and <code>getByLabel</code>. Leave CSS for last.</p>
+      <label class="done"><input type="checkbox" data-done="playwright/09-locators"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="08-navigating.html"><small>Previous</small>Navigating</a><a class="next" href="10-actions.html"><small>Next</small>Actions</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

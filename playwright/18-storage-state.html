@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Saving a login with storage state · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html" aria-current="page">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Playwright">
+    <h2>Playwright</h2>
+    <ol><li><a href="01-what-automation-is.html" data-lesson="playwright/01-what-automation-is">01 What browser automation is <span class="done-flag"></span></a></li>
+<li><a href="02-what-playwright-is.html" data-lesson="playwright/02-what-playwright-is">02 What Playwright is <span class="done-flag"></span></a></li>
+<li><a href="03-where-javascript-runs.html" data-lesson="playwright/03-where-javascript-runs">03 Browser JavaScript, Node.js, and Playwright <span class="done-flag"></span></a></li>
+<li><a href="04-installing.html" data-lesson="playwright/04-installing">04 Installing Playwright <span class="done-flag"></span></a></li>
+<li><a href="05-library-and-runner.html" data-lesson="playwright/05-library-and-runner">05 The library and the test runner <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-test.html" data-lesson="playwright/06-your-first-test">06 Your first test <span class="done-flag"></span></a></li>
+<li><a href="07-browser-context-page.html" data-lesson="playwright/07-browser-context-page">07 Browser, context, and page <span class="done-flag"></span></a></li>
+<li><a href="08-navigating.html" data-lesson="playwright/08-navigating">08 Navigating <span class="done-flag"></span></a></li>
+<li><a href="09-locators.html" data-lesson="playwright/09-locators">09 Locators <span class="done-flag"></span></a></li>
+<li><a href="10-actions.html" data-lesson="playwright/10-actions">10 Actions <span class="done-flag"></span></a></li>
+<li><a href="11-auto-waiting.html" data-lesson="playwright/11-auto-waiting">11 Auto-waiting <span class="done-flag"></span></a></li>
+<li><a href="12-assertions.html" data-lesson="playwright/12-assertions">12 Assertions <span class="done-flag"></span></a></li>
+<li><a href="13-forms.html" data-lesson="playwright/13-forms">13 Forms <span class="done-flag"></span></a></li>
+<li><a href="14-screenshots-and-traces.html" data-lesson="playwright/14-screenshots-and-traces">14 Screenshots, video, and traces <span class="done-flag"></span></a></li>
+<li><a href="15-popups.html" data-lesson="playwright/15-popups">15 Pages and popups <span class="done-flag"></span></a></li>
+<li><a href="16-frames.html" data-lesson="playwright/16-frames">16 Frames <span class="done-flag"></span></a></li>
+<li><a href="17-network.html" data-lesson="playwright/17-network">17 Network routing <span class="done-flag"></span></a></li>
+<li><a href="18-storage-state.html" data-lesson="playwright/18-storage-state" aria-current="page">18 Saving a login with storage state <span class="done-flag"></span></a></li>
+<li><a href="19-configuration.html" data-lesson="playwright/19-configuration">19 Configuration, projects, and hooks <span class="done-flag"></span></a></li>
+<li><a href="20-debugging-a-flow.html" data-lesson="playwright/20-debugging-a-flow">20 Debugging a failing test <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 03 · Lesson 18 of 20</p>
+      <h1>Saving a login with storage state</h1>
+      <h2>The idea</h2>
+      <p>Logging in through the form on every test is slow, and it pounds the login service. Playwright can save a context’s cookies and local storage to a JSON file: <code>await context.storageState({ path: &quot;auth.json&quot; })</code>. Later, a context created with <code>storageState: &quot;auth.json&quot;</code> starts already logged in.</p>
+<p>In the runner, put that setting in <code>use</code> for a project, or on a single <code>test.use</code>. Produce the file in a setup step you control. Treat <code>auth.json</code> as a secret. Do not commit it.</p>
+      <h2>Why it matters</h2>
+      <p>A suite of twenty tests should not mean twenty logins. One login, saved, gives each fresh context the same keys. The tests stay isolated from each other’s clicks, and they share authentication on purpose.</p>
+      <h2>A picture to hold</h2>
+      <p>A coat-check ticket, the same picture as environment variables, now for a browser profile. You check the coat once (the login). Each new guest room is handed a copy of the ticket at the door (<code>storageState</code>). When the ticket expires, you check the coat again. You do not photocopy the ticket into a public photo album.</p>
+      
+      <h2>A small example</h2>
+      <p>This library script shows the save and the reuse with <code>example.com</code>, which does not actually log in. The mechanics are the same when the cookies come from a real login on a site you are allowed to test. Replace the <code>goto</code> with your login steps when you have them.</p>
+      <figure class="code">
+    <figcaption>save-state.mjs · node save-state.mjs</figcaption>
+    <pre><code class="language-js">import { chromium } from &quot;playwright&quot;;
+
+const browser = await chromium.launch();
+const context = await browser.newContext();
+const page = await context.newPage();
+await page.goto(&quot;https://example.com&quot;);
+await context.storageState({ path: &quot;auth.json&quot; });
+await browser.close();
+
+const again = await chromium.launch();
+const returning = await again.newContext({ storageState: &quot;auth.json&quot; });
+const page2 = await returning.newPage();
+await page2.goto(&quot;https://example.com&quot;);
+console.log(&quot;reopened&quot;, await page2.title());
+await again.close();</code></pre>
+  </figure>
+      <div class="output"><strong>What you should see</strong><pre>reopened Example Domain</pre></div>
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>await context.storageState({ path: &quot;auth.json&quot; });</code><span>Write cookies and local storage for this context. The file is JSON.</span></li>
+<li><code>await again.newContext({ storageState: &quot;auth.json&quot; });</code><span>A new context starts from that file. It does not share a live connection with the old context. It shares the saved snapshot.</span></li>
+<li><code>console.log(&quot;reopened&quot;, await page2.title());</code><span>Proof the second browser could open a page. On a real app you would assert a heading that only a signed-in person sees.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Open <code>auth.json</code> and see the shape: an <code>origins</code> array and a <code>cookies</code> array. Add <code>auth.json</code> to <code>.gitignore</code> if the folder is a git repo. In a test file, add <code>test.use({ storageState: &quot;auth.json&quot; })</code> at the top and <code>goto</code> a page. Remove the line afterward if this lab should stay anonymous.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Committing <code>auth.json</code>. It is a key to an account.</li>
+<li>Saving storage in the middle of a test and expecting other workers to see it instantly. Generate it in setup, before the tests that need it.</li>
+<li>Reusing one context for every test so you can “stay logged in.” You lose isolation. Reuse the snapshot, not the live context.</li></ul>
+      <h2>Recap</h2>
+      <p><code>storageState</code> writes a context’s cookies and storage to JSON. New contexts can start from that file. Keep the file out of git.</p>
+      <label class="done"><input type="checkbox" data-done="playwright/18-storage-state"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="17-network.html"><small>Previous</small>Network routing</a><a class="next" href="19-configuration.html"><small>Next</small>Configuration, projects, and hooks</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

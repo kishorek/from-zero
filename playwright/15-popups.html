@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pages and popups · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html" aria-current="page">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Playwright">
+    <h2>Playwright</h2>
+    <ol><li><a href="01-what-automation-is.html" data-lesson="playwright/01-what-automation-is">01 What browser automation is <span class="done-flag"></span></a></li>
+<li><a href="02-what-playwright-is.html" data-lesson="playwright/02-what-playwright-is">02 What Playwright is <span class="done-flag"></span></a></li>
+<li><a href="03-where-javascript-runs.html" data-lesson="playwright/03-where-javascript-runs">03 Browser JavaScript, Node.js, and Playwright <span class="done-flag"></span></a></li>
+<li><a href="04-installing.html" data-lesson="playwright/04-installing">04 Installing Playwright <span class="done-flag"></span></a></li>
+<li><a href="05-library-and-runner.html" data-lesson="playwright/05-library-and-runner">05 The library and the test runner <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-test.html" data-lesson="playwright/06-your-first-test">06 Your first test <span class="done-flag"></span></a></li>
+<li><a href="07-browser-context-page.html" data-lesson="playwright/07-browser-context-page">07 Browser, context, and page <span class="done-flag"></span></a></li>
+<li><a href="08-navigating.html" data-lesson="playwright/08-navigating">08 Navigating <span class="done-flag"></span></a></li>
+<li><a href="09-locators.html" data-lesson="playwright/09-locators">09 Locators <span class="done-flag"></span></a></li>
+<li><a href="10-actions.html" data-lesson="playwright/10-actions">10 Actions <span class="done-flag"></span></a></li>
+<li><a href="11-auto-waiting.html" data-lesson="playwright/11-auto-waiting">11 Auto-waiting <span class="done-flag"></span></a></li>
+<li><a href="12-assertions.html" data-lesson="playwright/12-assertions">12 Assertions <span class="done-flag"></span></a></li>
+<li><a href="13-forms.html" data-lesson="playwright/13-forms">13 Forms <span class="done-flag"></span></a></li>
+<li><a href="14-screenshots-and-traces.html" data-lesson="playwright/14-screenshots-and-traces">14 Screenshots, video, and traces <span class="done-flag"></span></a></li>
+<li><a href="15-popups.html" data-lesson="playwright/15-popups" aria-current="page">15 Pages and popups <span class="done-flag"></span></a></li>
+<li><a href="16-frames.html" data-lesson="playwright/16-frames">16 Frames <span class="done-flag"></span></a></li>
+<li><a href="17-network.html" data-lesson="playwright/17-network">17 Network routing <span class="done-flag"></span></a></li>
+<li><a href="18-storage-state.html" data-lesson="playwright/18-storage-state">18 Saving a login with storage state <span class="done-flag"></span></a></li>
+<li><a href="19-configuration.html" data-lesson="playwright/19-configuration">19 Configuration, projects, and hooks <span class="done-flag"></span></a></li>
+<li><a href="20-debugging-a-flow.html" data-lesson="playwright/20-debugging-a-flow">20 Debugging a failing test <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 03 · Lesson 15 of 20</p>
+      <h1>Pages and popups</h1>
+      <h2>The idea</h2>
+      <p>A link with <code>target=&quot;_blank&quot;</code>, or a script that calls <code>window.open</code>, creates another page. In Playwright that other page arrives as a <code>popup</code> event on the current page. You must start waiting before the click. If you click first, the popup can happen before you began listening, and the wait misses it.</p>
+<p>The pattern is: create the promise with <code>page.waitForEvent(&quot;popup&quot;)</code>, then click, then <code>await</code> the promise. The result is a <code>Page</code>. You assert on that page the same way you assert on any page.</p>
+      <h2>Why it matters</h2>
+      <p>Help windows, OAuth windows, and “open in a new tab” links all use this shape. The ordering bug is so regular that it deserves its own lesson.</p>
+      <h2>A picture to hold</h2>
+      <p>Holding your hands out before someone tosses you a key. If you put your hands out after the toss, the key is already on the floor and your wait is for a second toss that will not come.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>tests/popup.spec.js · npx playwright test</figcaption>
+    <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
+
+test(&quot;a new tab opens&quot;, async ({ page }) =&gt; {
+  await page.setContent(
+    '&lt;a href=&quot;https://example.com&quot; target=&quot;_blank&quot;&gt;Open help&lt;/a&gt;'
+  );
+  const popupPromise = page.waitForEvent(&quot;popup&quot;);
+  await page.getByRole(&quot;link&quot;, { name: &quot;Open help&quot; }).click();
+  const popup = await popupPromise;
+  await expect(popup).toHaveTitle(&quot;Example Domain&quot;);
+});</code></pre>
+  </figure>
+      
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>target=&quot;_blank&quot;</code><span>Ask the browser to open the link in a new tab. That new tab is the popup Playwright will hand you.</span></li>
+<li><code>const popupPromise = page.waitForEvent(&quot;popup&quot;);</code><span>Start listening. Do not <code>await</code> yet. You want the listener armed before the click.</span></li>
+<li><code>await page.getByRole(&quot;link&quot;, { name: &quot;Open help&quot; }).click();</code><span>Now cause the popup.</span></li>
+<li><code>const popup = await popupPromise;</code><span>Receive the new <code>Page</code>. It has its own URL, locators, and assertions.</span></li>
+<li><code>await expect(popup).toHaveTitle(&quot;Example Domain&quot;);</code><span>Assert against the new page, not the original one. The original page still shows the link.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Log <code>page.url()</code> and <code>popup.url()</code> after the wait. They differ. Then reverse the order on purpose: click, then start <code>waitForEvent</code>. See the timeout. Restore the original order. The failure is the lesson.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Awaiting <code>waitForEvent</code> before the click. That line never returns, because the click has not happened, so the event never arrives.</li>
+<li>Asserting the title on <code>page</code> when the title changed on <code>popup</code>.</li>
+<li>Closing the context and expecting the popup to survive. The popup lives in the same context.</li></ul>
+      <h2>Recap</h2>
+      <p>Start <code>waitForEvent(&quot;popup&quot;)</code> before the click that opens a tab. Await it after the click. The value is another page.</p>
+      <label class="done"><input type="checkbox" data-done="playwright/15-popups"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="14-screenshots-and-traces.html"><small>Previous</small>Screenshots, video, and traces</a><a class="next" href="16-frames.html"><small>Next</small>Frames</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

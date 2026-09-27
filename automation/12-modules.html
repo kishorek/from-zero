@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modules · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html" aria-current="page">JavaScript for practical automation</a>
+<a href="../playwright/index.html">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in JavaScript for practical automation">
+    <h2>JavaScript for practical automation</h2>
+    <ol><li><a href="01-the-terminal.html" data-lesson="automation/01-the-terminal">01 The terminal <span class="done-flag"></span></a></li>
+<li><a href="02-running-files.html" data-lesson="automation/02-running-files">02 Running JavaScript files with Node.js <span class="done-flag"></span></a></li>
+<li><a href="03-npm.html" data-lesson="automation/03-npm">03 npm and package.json <span class="done-flag"></span></a></li>
+<li><a href="04-arguments.html" data-lesson="automation/04-arguments">04 Command-line arguments <span class="done-flag"></span></a></li>
+<li><a href="05-environment-variables.html" data-lesson="automation/05-environment-variables">05 Environment variables <span class="done-flag"></span></a></li>
+<li><a href="06-files.html" data-lesson="automation/06-files">06 Reading and writing files <span class="done-flag"></span></a></li>
+<li><a href="07-paths.html" data-lesson="automation/07-paths">07 Paths and folders <span class="done-flag"></span></a></li>
+<li><a href="08-json.html" data-lesson="automation/08-json">08 JSON <span class="done-flag"></span></a></li>
+<li><a href="09-text.html" data-lesson="automation/09-text">09 Cleaning up text <span class="done-flag"></span></a></li>
+<li><a href="10-lists.html" data-lesson="automation/10-lists">10 Transforming lists <span class="done-flag"></span></a></li>
+<li><a href="11-dates.html" data-lesson="automation/11-dates">11 Dates and times <span class="done-flag"></span></a></li>
+<li><a href="12-modules.html" data-lesson="automation/12-modules" aria-current="page">12 Modules <span class="done-flag"></span></a></li>
+<li><a href="13-promises.html" data-lesson="automation/13-promises">13 Promises <span class="done-flag"></span></a></li>
+<li><a href="14-async-await.html" data-lesson="automation/14-async-await">14 async and await <span class="done-flag"></span></a></li>
+<li><a href="15-http.html" data-lesson="automation/15-http">15 HTTP requests with fetch <span class="done-flag"></span></a></li>
+<li><a href="16-logs-and-exit-codes.html" data-lesson="automation/16-logs-and-exit-codes">16 Logs and exit codes <span class="done-flag"></span></a></li>
+<li><a href="17-a-small-automation.html" data-lesson="automation/17-a-small-automation">17 A script that turns a list into a report <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 02 · Lesson 12 of 17</p>
+      <h1>Modules</h1>
+      <h2>The idea</h2>
+      <p>A module is a file that shares some of its names and keeps the rest private. <code>export</code> marks a name as public. <code>import</code> brings that name into another file.</p>
+<p>The other file is named with a relative path starting with <code>./</code>. You include the <code>.mjs</code> ending. Node.js does not guess file endings for your own modules.</p>
+      <h2>Why it matters</h2>
+      <p>One file that does everything becomes hard to read and risky to change. Playwright projects split the same way: config in one file, tests in others, shared helpers in others. The mechanism is <code>export</code> and <code>import</code>.</p>
+      <h2>A picture to hold</h2>
+      <p>A shop counter. The workshop behind the counter can be messy. The counter (<code>export</code>) is the short list of what customers may ask for. Another file is a customer. It does not reach over the counter and grab a private tool.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>money.mjs</figcaption>
+    <pre><code class="language-js">export function priceWithTax(price) {
+  return Math.round(price * 1.1 * 100) / 100;
+}</code></pre>
+  </figure>
+<figure class="code">
+    <figcaption>shop.mjs · node shop.mjs</figcaption>
+    <pre><code class="language-js">import { priceWithTax } from &quot;./money.mjs&quot;;
+
+console.log(priceWithTax(4));</code></pre>
+  </figure>
+      <div class="output"><strong>What you should see</strong><pre>4.4</pre></div>
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>export function priceWithTax(price) {</code><span>Define a function and make it public. Other files may import this name.</span></li>
+<li><code>return Math.round(price * 1.1 * 100) / 100;</code><span>Ten percent tax, rounded to cents. <code>Math.round</code> rounds to the nearest integer, so the <code>* 100</code> and <code>/ 100</code> shift the decimal.</span></li>
+<li><code>import { priceWithTax } from &quot;./money.mjs&quot;;</code><span>Ask for that public name from the neighboring file. The path is relative to <code>shop.mjs</code>, not to the shell’s current folder.</span></li>
+<li><code>console.log(priceWithTax(4));</code><span>Call it as if it lived here. The function still runs in the module that defined it.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Add <code>export function half(n)</code> in <code>money.mjs</code>. Import it in <code>shop.mjs</code> and print <code>half(9)</code>. Then try to import a function you did not export. Node.js will say the export does not exist. That privacy is the feature.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Forgetting the file ending in the import path. <code>./money</code> is not enough for your own files.</li>
+<li>Using a path from the project root out of habit. <code>./</code> means “beside this file.” <code>../</code> means “the parent of this file’s folder.”</li>
+<li>Exporting everything “just in case.” Export the functions a caller actually needs.</li></ul>
+      <h2>Recap</h2>
+      <p><code>export</code> makes a name public. <code>import</code> takes that name from a relative path that includes the file ending. Everything else in the file stays private.</p>
+      <label class="done"><input type="checkbox" data-done="automation/12-modules"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="11-dates.html"><small>Previous</small>Dates and times</a><a class="next" href="13-promises.html"><small>Next</small>Promises</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

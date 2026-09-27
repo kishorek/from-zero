@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loops · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html" aria-current="page">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Programming fundamentals">
+    <h2>Programming fundamentals</h2>
+    <ol><li><a href="01-what-is-a-program.html" data-lesson="fundamentals/01-what-is-a-program">01 What is a computer program? <span class="done-flag"></span></a></li>
+<li><a href="02-what-is-code.html" data-lesson="fundamentals/02-what-is-code">02 What is code? <span class="done-flag"></span></a></li>
+<li><a href="03-how-a-computer-understands.html" data-lesson="fundamentals/03-how-a-computer-understands">03 How does a computer understand instructions? <span class="done-flag"></span></a></li>
+<li><a href="04-what-is-a-language.html" data-lesson="fundamentals/04-what-is-a-language">04 What is a programming language? <span class="done-flag"></span></a></li>
+<li><a href="05-javascript-and-node.html" data-lesson="fundamentals/05-javascript-and-node">05 What are JavaScript and Node.js? <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-program.html" data-lesson="fundamentals/06-your-first-program">06 Your first program <span class="done-flag"></span></a></li>
+<li><a href="07-variables.html" data-lesson="fundamentals/07-variables">07 Variables <span class="done-flag"></span></a></li>
+<li><a href="08-numbers-and-text.html" data-lesson="fundamentals/08-numbers-and-text">08 Numbers and text <span class="done-flag"></span></a></li>
+<li><a href="09-arrays.html" data-lesson="fundamentals/09-arrays">09 Arrays <span class="done-flag"></span></a></li>
+<li><a href="10-objects.html" data-lesson="fundamentals/10-objects">10 Objects <span class="done-flag"></span></a></li>
+<li><a href="11-conditions.html" data-lesson="fundamentals/11-conditions">11 Conditions <span class="done-flag"></span></a></li>
+<li><a href="12-loops.html" data-lesson="fundamentals/12-loops" aria-current="page">12 Loops <span class="done-flag"></span></a></li>
+<li><a href="13-functions.html" data-lesson="fundamentals/13-functions">13 Functions <span class="done-flag"></span></a></li>
+<li><a href="14-errors.html" data-lesson="fundamentals/14-errors">14 Errors <span class="done-flag"></span></a></li>
+<li><a href="15-debugging.html" data-lesson="fundamentals/15-debugging">15 Debugging <span class="done-flag"></span></a></li>
+<li><a href="16-putting-it-together.html" data-lesson="fundamentals/16-putting-it-together">16 Putting everything together <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 01 · Lesson 12 of 16</p>
+      <h1>Loops</h1>
+      <h2>The idea</h2>
+      <p>A loop repeats a block. <code>for...of</code> walks an array from first item to last and gives you each item under a name. A counted <code>for</code> is useful when you also need the index.</p>
+<p>The block must make progress. A <code>while</code> that never becomes false runs until you stop the program. In the terminal, Ctrl+C stops it.</p>
+      <h2>Why it matters</h2>
+      <p>Doing the same work for every file, every row, or every link is the heart of automation. You write the step once. The loop supplies the next item.</p>
+      <h2>A picture to hold</h2>
+      <p>A rubber stamp and a stack of envelopes. The stamp is the block. The stack is the array. <code>for...of</code> picks up the next envelope until the stack is empty. You do not rewrite the stamp for each envelope.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>walk.js · node walk.js</figcaption>
+    <pre><code class="language-js">const steps = [&quot;boil&quot;, &quot;steep&quot;, &quot;pour&quot;];
+for (const step of steps) {
+  console.log(&quot;Now: &quot; + step);
+}</code></pre>
+  </figure>
+      <div class="output"><strong>What you should see</strong><pre>Now: boil
+Now: steep
+Now: pour</pre></div>
+      <p>When you need the index too, use a counted loop: <code>for (let i = 0; i &lt; steps.length; i = i + 1)</code>. <code>i</code> starts at 0. The middle test keeps going while <code>i</code> is still a valid index. The last part moves <code>i</code> forward by one.</p>
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>const steps = [&quot;boil&quot;, &quot;steep&quot;, &quot;pour&quot;];</code><span>The list to walk.</span></li>
+<li><code>for (const step of steps) {</code><span><code>of</code> means “each item in this array.” The first time through, <code>step</code> is <code>boil</code>. Then <code>steep</code>. Then <code>pour</code>.</span></li>
+<li><code>console.log(&quot;Now: &quot; + step);</code><span>This line runs once per item. Plus joins the label and the current item.</span></li>
+<li><code>}</code><span>The closing brace ends the repeated block. After the last item, the program continues under the loop. In this file, that is the end.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Loop over an array of three names and print each one with its number, starting at 1. Use the counted form so you have <code>i</code>. Print <code>i + 1</code> and the name. The first line should start with <code>1</code>.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Writing <code>for (const step of steps.length)</code>. <code>of</code> wants the array, not the number of items.</li>
+<li>Forgetting to move <code>i</code> forward in a counted loop, which makes an infinite loop. The <code>i = i + 1</code> part is the step.</li>
+<li>Changing the array with <code>push</code> inside a <code>for...of</code> that walks that same array. You can grow the walk forever. Build a new array, or loop a copy.</li></ul>
+      <h2>Recap</h2>
+      <p><code>for...of</code> repeats a block once per item. A counted <code>for</code> also gives you the index. Each pass must move toward the end.</p>
+      <label class="done"><input type="checkbox" data-done="fundamentals/12-loops"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="11-conditions.html"><small>Previous</small>Conditions</a><a class="next" href="13-functions.html"><small>Next</small>Functions</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

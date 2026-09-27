@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Configuration, projects, and hooks · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html" aria-current="page">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Playwright">
+    <h2>Playwright</h2>
+    <ol><li><a href="01-what-automation-is.html" data-lesson="playwright/01-what-automation-is">01 What browser automation is <span class="done-flag"></span></a></li>
+<li><a href="02-what-playwright-is.html" data-lesson="playwright/02-what-playwright-is">02 What Playwright is <span class="done-flag"></span></a></li>
+<li><a href="03-where-javascript-runs.html" data-lesson="playwright/03-where-javascript-runs">03 Browser JavaScript, Node.js, and Playwright <span class="done-flag"></span></a></li>
+<li><a href="04-installing.html" data-lesson="playwright/04-installing">04 Installing Playwright <span class="done-flag"></span></a></li>
+<li><a href="05-library-and-runner.html" data-lesson="playwright/05-library-and-runner">05 The library and the test runner <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-test.html" data-lesson="playwright/06-your-first-test">06 Your first test <span class="done-flag"></span></a></li>
+<li><a href="07-browser-context-page.html" data-lesson="playwright/07-browser-context-page">07 Browser, context, and page <span class="done-flag"></span></a></li>
+<li><a href="08-navigating.html" data-lesson="playwright/08-navigating">08 Navigating <span class="done-flag"></span></a></li>
+<li><a href="09-locators.html" data-lesson="playwright/09-locators">09 Locators <span class="done-flag"></span></a></li>
+<li><a href="10-actions.html" data-lesson="playwright/10-actions">10 Actions <span class="done-flag"></span></a></li>
+<li><a href="11-auto-waiting.html" data-lesson="playwright/11-auto-waiting">11 Auto-waiting <span class="done-flag"></span></a></li>
+<li><a href="12-assertions.html" data-lesson="playwright/12-assertions">12 Assertions <span class="done-flag"></span></a></li>
+<li><a href="13-forms.html" data-lesson="playwright/13-forms">13 Forms <span class="done-flag"></span></a></li>
+<li><a href="14-screenshots-and-traces.html" data-lesson="playwright/14-screenshots-and-traces">14 Screenshots, video, and traces <span class="done-flag"></span></a></li>
+<li><a href="15-popups.html" data-lesson="playwright/15-popups">15 Pages and popups <span class="done-flag"></span></a></li>
+<li><a href="16-frames.html" data-lesson="playwright/16-frames">16 Frames <span class="done-flag"></span></a></li>
+<li><a href="17-network.html" data-lesson="playwright/17-network">17 Network routing <span class="done-flag"></span></a></li>
+<li><a href="18-storage-state.html" data-lesson="playwright/18-storage-state">18 Saving a login with storage state <span class="done-flag"></span></a></li>
+<li><a href="19-configuration.html" data-lesson="playwright/19-configuration" aria-current="page">19 Configuration, projects, and hooks <span class="done-flag"></span></a></li>
+<li><a href="20-debugging-a-flow.html" data-lesson="playwright/20-debugging-a-flow">20 Debugging a failing test <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 03 · Lesson 19 of 20</p>
+      <h1>Configuration, projects, and hooks</h1>
+      <h2>The idea</h2>
+      <p><code>playwright.config.js</code> exports <code>defineConfig({ ... })</code>. <code>testDir</code> says where tests live. <code>use</code> holds defaults: <code>baseURL</code>, traces, screenshots. With <code>baseURL</code> set, <code>page.goto(&quot;/&quot;)</code> opens <code>baseURL + &quot;/&quot;</code>.</p>
+<p>A project is a named bundle of settings, usually a browser. The starter’s <code>projects</code> array runs your tests in each browser you leave in the list. While you learn, one project, Chromium, is enough. Add Firefox and WebKit when you want that coverage.</p>
+<p><code>test.beforeEach</code> runs before every test in the file. Put shared navigation there. <code>test.afterEach</code> runs after, even when the test failed. Keep hooks short. A hook that hides a complicated login is harder to debug than a helper with a name.</p>
+      <h2>Why it matters</h2>
+      <p>Without a config, every test repeats the browser, the URL, and the trace policy. The config is the one place those decisions live. Hooks are for repetition inside a file. The config is for repetition across files.</p>
+      <h2>A picture to hold</h2>
+      <p>House rules posted at the door, versus a habit you repeat in one room. The config is the house rules: shoes off, the trace camera policy, which doors (browsers) exist. <code>beforeEach</code> is the habit of opening the same curtain before each task in one room.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>playwright.config.js</figcaption>
+    <pre><code class="language-js">import { defineConfig, devices } from &quot;@playwright/test&quot;;
+
+export default defineConfig({
+  testDir: &quot;./tests&quot;,
+  fullyParallel: true,
+  retries: process.env.CI ? 2 : 0,
+  reporter: &quot;html&quot;,
+  use: {
+    baseURL: &quot;https://example.com&quot;,
+    trace: &quot;on-first-retry&quot;,
+    screenshot: &quot;only-on-failure&quot;,
+  },
+  projects: [
+    { name: &quot;chromium&quot;, use: { ...devices[&quot;Desktop Chrome&quot;] } },
+  ],
+});</code></pre>
+  </figure>
+<figure class="code">
+    <figcaption>tests/home.spec.js · npx playwright test</figcaption>
+    <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
+
+test.beforeEach(async ({ page }) =&gt; {
+  await page.goto(&quot;/&quot;);
+});
+
+test(&quot;has the example heading&quot;, async ({ page }) =&gt; {
+  await expect(
+    page.getByRole(&quot;heading&quot;, { name: &quot;Example Domain&quot; })
+  ).toBeVisible();
+});</code></pre>
+  </figure>
+      
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>export default defineConfig({</code><span>The runner loads this file and reads the object. <code>defineConfig</code> gives you completion in editors that understand it.</span></li>
+<li><code>fullyParallel: true,</code><span>Tests in a file may run at the same time, in separate contexts. Write tests that do not depend on each other’s order.</span></li>
+<li><code>retries: process.env.CI ? 2 : 0,</code><span>Locally, fail once so you notice. In CI, where <code>CI</code> is set in the environment, retry twice to separate a blip from a real failure.</span></li>
+<li><code>baseURL: &quot;https://example.com&quot;,</code><span>A prefix for relative <code>goto</code> calls. The test uses <code>&quot;/&quot;</code> and lands on the site.</span></li>
+<li><code>{ name: &quot;chromium&quot;, use: { ...devices[&quot;Desktop Chrome&quot;] } },</code><span>One project, with a desktop Chrome viewport and user agent from Playwright’s device list. The three dots copy those settings into <code>use</code>.</span></li>
+<li><code>test.beforeEach(async ({ page }) =&gt; {</code><span>Run this before each test in the file. The test body can assume the page is already on <code>/</code>.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Put the config in your lab and shorten a previous test to <code>goto(&quot;/&quot;)</code>. Run <code>npx playwright test --project=chromium</code>. Add a second test to <code>home.spec.js</code> and confirm the hook runs for both: the heading assertion should pass without its own <code>goto</code>.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Depending on test order. Parallel projects and workers will break that dependency on a different day.</li>
+<li>Setting <code>baseURL</code> and also pasting the full URL, then “fixing” the wrong one later. Pick the config as the source of the origin.</li>
+<li>Hiding a failure in <code>afterEach</code> by catching every error. Let the test fail. Use the hook for cleanup, not for silence.</li></ul>
+      <h2>Recap</h2>
+      <p><code>defineConfig</code> holds the directory, retries, reporter, traces, base URL, and projects. <code>beforeEach</code> shares small setup inside a file. Tests should still pass in any order.</p>
+      <label class="done"><input type="checkbox" data-done="playwright/19-configuration"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="18-storage-state.html"><small>Previous</small>Saving a login with storage state</a><a class="next" href="20-debugging-a-flow.html"><small>Next</small>Debugging a failing test</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

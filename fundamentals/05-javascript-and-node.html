@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What are JavaScript and Node.js? · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html" aria-current="page">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Programming fundamentals">
+    <h2>Programming fundamentals</h2>
+    <ol><li><a href="01-what-is-a-program.html" data-lesson="fundamentals/01-what-is-a-program">01 What is a computer program? <span class="done-flag"></span></a></li>
+<li><a href="02-what-is-code.html" data-lesson="fundamentals/02-what-is-code">02 What is code? <span class="done-flag"></span></a></li>
+<li><a href="03-how-a-computer-understands.html" data-lesson="fundamentals/03-how-a-computer-understands">03 How does a computer understand instructions? <span class="done-flag"></span></a></li>
+<li><a href="04-what-is-a-language.html" data-lesson="fundamentals/04-what-is-a-language">04 What is a programming language? <span class="done-flag"></span></a></li>
+<li><a href="05-javascript-and-node.html" data-lesson="fundamentals/05-javascript-and-node" aria-current="page">05 What are JavaScript and Node.js? <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-program.html" data-lesson="fundamentals/06-your-first-program">06 Your first program <span class="done-flag"></span></a></li>
+<li><a href="07-variables.html" data-lesson="fundamentals/07-variables">07 Variables <span class="done-flag"></span></a></li>
+<li><a href="08-numbers-and-text.html" data-lesson="fundamentals/08-numbers-and-text">08 Numbers and text <span class="done-flag"></span></a></li>
+<li><a href="09-arrays.html" data-lesson="fundamentals/09-arrays">09 Arrays <span class="done-flag"></span></a></li>
+<li><a href="10-objects.html" data-lesson="fundamentals/10-objects">10 Objects <span class="done-flag"></span></a></li>
+<li><a href="11-conditions.html" data-lesson="fundamentals/11-conditions">11 Conditions <span class="done-flag"></span></a></li>
+<li><a href="12-loops.html" data-lesson="fundamentals/12-loops">12 Loops <span class="done-flag"></span></a></li>
+<li><a href="13-functions.html" data-lesson="fundamentals/13-functions">13 Functions <span class="done-flag"></span></a></li>
+<li><a href="14-errors.html" data-lesson="fundamentals/14-errors">14 Errors <span class="done-flag"></span></a></li>
+<li><a href="15-debugging.html" data-lesson="fundamentals/15-debugging">15 Debugging <span class="done-flag"></span></a></li>
+<li><a href="16-putting-it-together.html" data-lesson="fundamentals/16-putting-it-together">16 Putting everything together <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 01 · Lesson 5 of 16</p>
+      <h1>What are JavaScript and Node.js?</h1>
+      <h2>The idea</h2>
+      <p>JavaScript is a programming language. It was first built for web pages. A browser still runs JavaScript inside a page. That kind of JavaScript can change what you see, and it is kept away from your files for safety.</p>
+<p>Node.js is a program you install. It runs JavaScript on your computer, outside any page. Node.js can read files, talk on the network, and start other programs. It cannot see a web page by itself. Playwright, much later, is the tool that lets a Node.js program drive a browser.</p>
+<p>Install the Long Term Support release from <code>https://nodejs.org</code>. Then open a terminal and run <code>node -v</code>. You want version 20 or newer. Playwright requires that. <code>npm -v</code> should also print a number. npm is the installer for JavaScript packages, and it arrives with Node.js.</p>
+      <h2>Why it matters</h2>
+      <p>Mixing these up causes a specific kind of confusion: copying browser code into Node, or Node code into a page, and watching it fail. The example shows a clean test. In Node, <code>document</code> is not there, because <code>document</code> means “the page.”</p>
+      <h2>A picture to hold</h2>
+      <p>JavaScript is a written language. The browser is a reading room with one window onto a page. Node.js is a workshop with doors onto your files and the network, and no window onto a page. Same language, different rooms.</p>
+      <table><thead><tr><th></th><th>Browser JavaScript</th><th>Node.js</th></tr></thead><tbody><tr><td>Where it runs</td><td>Inside a web page</td><td>On your computer, in the terminal</td></tr><tr><td>Typical powers</td><td>Read and change that page</td><td>Read files, use the network, run scripts</td></tr><tr><td>A name you will see</td><td><code>document</code>, <code>window</code></td><td><code>process</code>, <code>node:fs</code></td></tr><tr><td>Can it click a website for you?</td><td>Only as the page’s own script</td><td>Not alone. Playwright does that later</td></tr></tbody></table>
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>where.js · node where.js</figcaption>
+    <pre><code class="language-js">console.log(&quot;Running with Node &quot; + process.version);
+console.log(typeof document);</code></pre>
+  </figure>
+      <div class="output"><strong>What you should see</strong><pre>Running with Node v22.x.x
+undefined</pre></div>
+      <p>Your version number will differ. <code>undefined</code> here means “there is no <code>document</code> in this room.” In a browser console, <code>typeof document</code> is <code>&quot;object&quot;</code>.</p>
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>console.log(&quot;Running with Node &quot; + process.version);</code><span><code>process</code> is a Node.js object that describes the running program. <code>process.version</code> is the Node.js version text.</span></li>
+<li><code>console.log(typeof document);</code><span><code>typeof</code> asks what kind of thing a name points at. <code>document</code> was never created in Node.js, so the answer is <code>undefined</code>.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Install Node.js if you have not. Run <code>node -v</code> and <code>npm -v</code>. Then run <code>where.js</code>. In the last line of the file, replace <code>document</code> with <code>process</code> and run it again. <code>typeof process</code> prints <code>object</code>, because Node.js did create that name.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Opening a <code>.js</code> file by double-clicking it and expecting Node.js to run. Use the terminal: <code>node where.js</code>.</li>
+<li>Pasting <code>document.querySelector</code> into a Node.js file. That name belongs to the browser.</li>
+<li>Installing an old Node.js. This course, and current Playwright, want Node.js 20 or newer.</li></ul>
+      <h2>Recap</h2>
+      <p>JavaScript is the language. Browsers run it inside a page. Node.js runs it in a workshop on your computer. <code>document</code> belongs to the page. <code>process</code> belongs to Node.js.</p>
+      <label class="done"><input type="checkbox" data-done="fundamentals/05-javascript-and-node"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="04-what-is-a-language.html"><small>Previous</small>What is a programming language?</a><a class="next" href="06-your-first-program.html"><small>Next</small>Your first program</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

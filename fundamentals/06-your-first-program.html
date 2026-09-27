@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your first program · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html" aria-current="page">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Programming fundamentals">
+    <h2>Programming fundamentals</h2>
+    <ol><li><a href="01-what-is-a-program.html" data-lesson="fundamentals/01-what-is-a-program">01 What is a computer program? <span class="done-flag"></span></a></li>
+<li><a href="02-what-is-code.html" data-lesson="fundamentals/02-what-is-code">02 What is code? <span class="done-flag"></span></a></li>
+<li><a href="03-how-a-computer-understands.html" data-lesson="fundamentals/03-how-a-computer-understands">03 How does a computer understand instructions? <span class="done-flag"></span></a></li>
+<li><a href="04-what-is-a-language.html" data-lesson="fundamentals/04-what-is-a-language">04 What is a programming language? <span class="done-flag"></span></a></li>
+<li><a href="05-javascript-and-node.html" data-lesson="fundamentals/05-javascript-and-node">05 What are JavaScript and Node.js? <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-program.html" data-lesson="fundamentals/06-your-first-program" aria-current="page">06 Your first program <span class="done-flag"></span></a></li>
+<li><a href="07-variables.html" data-lesson="fundamentals/07-variables">07 Variables <span class="done-flag"></span></a></li>
+<li><a href="08-numbers-and-text.html" data-lesson="fundamentals/08-numbers-and-text">08 Numbers and text <span class="done-flag"></span></a></li>
+<li><a href="09-arrays.html" data-lesson="fundamentals/09-arrays">09 Arrays <span class="done-flag"></span></a></li>
+<li><a href="10-objects.html" data-lesson="fundamentals/10-objects">10 Objects <span class="done-flag"></span></a></li>
+<li><a href="11-conditions.html" data-lesson="fundamentals/11-conditions">11 Conditions <span class="done-flag"></span></a></li>
+<li><a href="12-loops.html" data-lesson="fundamentals/12-loops">12 Loops <span class="done-flag"></span></a></li>
+<li><a href="13-functions.html" data-lesson="fundamentals/13-functions">13 Functions <span class="done-flag"></span></a></li>
+<li><a href="14-errors.html" data-lesson="fundamentals/14-errors">14 Errors <span class="done-flag"></span></a></li>
+<li><a href="15-debugging.html" data-lesson="fundamentals/15-debugging">15 Debugging <span class="done-flag"></span></a></li>
+<li><a href="16-putting-it-together.html" data-lesson="fundamentals/16-putting-it-together">16 Putting everything together <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 01 · Lesson 6 of 16</p>
+      <h1>Your first program</h1>
+      <h2>The idea</h2>
+      <p>A JavaScript file is a plain text file whose name ends in <code>.js</code>. Node.js runs that file when you type <code>node</code>, a space, and the file name.</p>
+<p>The terminal is the window where you type those commands. On macOS it is Terminal. The folder you are “in” matters, because Node.js looks for the file there.</p>
+      <h2>Why it matters</h2>
+      <p>From here on, every example is something you run. Reading code and running code are different skills. Running shows you what the engine actually did.</p>
+      <h2>A picture to hold</h2>
+      <p>The file is a recipe card. <code>node hello.js</code> is you handing that card to the cook. The terminal is the pass where the cook sends plates back, one printed line at a time.</p>
+      
+      <h2>A small example</h2>
+      <p>In the terminal, create a folder, enter it, and create the file in your editor. Then run it from that folder.</p>
+      <figure class="code">
+    <figcaption>Terminal</figcaption>
+    <pre><code class="language-sh">mkdir from-zero-lab
+cd from-zero-lab
+node hello.js</code></pre>
+  </figure>
+<figure class="code">
+    <figcaption>hello.js</figcaption>
+    <pre><code class="language-js">console.log(&quot;Hello, I am your first program.&quot;);</code></pre>
+  </figure>
+      <div class="output"><strong>What you should see</strong><pre>Hello, I am your first program.</pre></div>
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>mkdir from-zero-lab</code><span><code>mkdir</code> means make directory. A directory is a folder. This creates a new folder in the place you currently are.</span></li>
+<li><code>cd from-zero-lab</code><span><code>cd</code> means change directory. After this, commands look inside that folder.</span></li>
+<li><code>console.log(&quot;Hello, I am your first program.&quot;);</code><span>The whole program. One instruction. Node.js prints the text and then finishes.</span></li>
+<li><code>node hello.js</code><span>Starts Node.js and tells it which file to read. You type this in the terminal, not inside the JavaScript file.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Make <code>hello.js</code> print two lines: your name, then the city you are in. Run <code>node hello.js</code> from the folder that contains the file. If Node.js says it cannot find the file, you are in the wrong folder. Type <code>pwd</code> to see where you are.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Typing <code>console.log</code> into the terminal by itself. The terminal runs commands such as <code>node</code>. The JavaScript goes in the file.</li>
+<li>Saving the file as <code>hello.js.txt</code>. Turn on file extensions in your editor and confirm the name ends in <code>.js</code>.</li>
+<li>Running <code>node hello.js</code> from a different folder than the file. <code>cd</code> into the folder first.</li></ul>
+      <h2>Recap</h2>
+      <p>Write JavaScript in a <code>.js</code> file. From that file’s folder, run <code>node</code> and the file name. The terminal shows what the program prints.</p>
+      <label class="done"><input type="checkbox" data-done="fundamentals/06-your-first-program"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="05-javascript-and-node.html"><small>Previous</small>What are JavaScript and Node.js?</a><a class="next" href="07-variables.html"><small>Next</small>Variables</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

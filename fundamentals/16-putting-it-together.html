@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Putting everything together · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html" aria-current="page">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Programming fundamentals">
+    <h2>Programming fundamentals</h2>
+    <ol><li><a href="01-what-is-a-program.html" data-lesson="fundamentals/01-what-is-a-program">01 What is a computer program? <span class="done-flag"></span></a></li>
+<li><a href="02-what-is-code.html" data-lesson="fundamentals/02-what-is-code">02 What is code? <span class="done-flag"></span></a></li>
+<li><a href="03-how-a-computer-understands.html" data-lesson="fundamentals/03-how-a-computer-understands">03 How does a computer understand instructions? <span class="done-flag"></span></a></li>
+<li><a href="04-what-is-a-language.html" data-lesson="fundamentals/04-what-is-a-language">04 What is a programming language? <span class="done-flag"></span></a></li>
+<li><a href="05-javascript-and-node.html" data-lesson="fundamentals/05-javascript-and-node">05 What are JavaScript and Node.js? <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-program.html" data-lesson="fundamentals/06-your-first-program">06 Your first program <span class="done-flag"></span></a></li>
+<li><a href="07-variables.html" data-lesson="fundamentals/07-variables">07 Variables <span class="done-flag"></span></a></li>
+<li><a href="08-numbers-and-text.html" data-lesson="fundamentals/08-numbers-and-text">08 Numbers and text <span class="done-flag"></span></a></li>
+<li><a href="09-arrays.html" data-lesson="fundamentals/09-arrays">09 Arrays <span class="done-flag"></span></a></li>
+<li><a href="10-objects.html" data-lesson="fundamentals/10-objects">10 Objects <span class="done-flag"></span></a></li>
+<li><a href="11-conditions.html" data-lesson="fundamentals/11-conditions">11 Conditions <span class="done-flag"></span></a></li>
+<li><a href="12-loops.html" data-lesson="fundamentals/12-loops">12 Loops <span class="done-flag"></span></a></li>
+<li><a href="13-functions.html" data-lesson="fundamentals/13-functions">13 Functions <span class="done-flag"></span></a></li>
+<li><a href="14-errors.html" data-lesson="fundamentals/14-errors">14 Errors <span class="done-flag"></span></a></li>
+<li><a href="15-debugging.html" data-lesson="fundamentals/15-debugging">15 Debugging <span class="done-flag"></span></a></li>
+<li><a href="16-putting-it-together.html" data-lesson="fundamentals/16-putting-it-together" aria-current="page">16 Putting everything together <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 01 · Lesson 16 of 16</p>
+      <h1>Putting everything together</h1>
+      <h2>The idea</h2>
+      <p>The pieces from this layer combine. A real program is rarely one idea at a time. It stores values, keeps them in a list or a record, decides, repeats, and calls functions.</p>
+<p>The program below turns a list of tasks into numbered lines. If the list is empty, it says so instead of printing nothing and leaving you unsure.</p>
+      <h2>Why it matters</h2>
+      <p>Layer 2 starts from this shape and aims it at files, JSON, and the network. If you can read this program aloud and say what each part is for, you are ready.</p>
+      <h2>A picture to hold</h2>
+      <p>A kitchen during one meal. The list is the order ticket. The function is the plating rule. The branch is “if there are no orders, tell the front.” The loop is the cook working down the ticket.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>tasks.js · node tasks.js</figcaption>
+    <pre><code class="language-js">const tasks = [&quot;Buy milk&quot;, &quot;Reply to Ada&quot;, &quot;Water the plant&quot;];
+
+function formatTask(task, index) {
+  return `${index + 1}. ${task}`;
+}
+
+if (tasks.length === 0) {
+  console.log(&quot;Nothing to do.&quot;);
+} else {
+  for (let i = 0; i &lt; tasks.length; i = i + 1) {
+    console.log(formatTask(tasks[i], i));
+  }
+}</code></pre>
+  </figure>
+      <div class="output"><strong>What you should see</strong><pre>1. Buy milk
+2. Reply to Ada
+3. Water the plant</pre></div>
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>const tasks = [&quot;Buy milk&quot;, &quot;Reply to Ada&quot;, &quot;Water the plant&quot;];</code><span>An array of strings. This is the data. The rest of the file is the rules.</span></li>
+<li><code>function formatTask(task, index) {</code><span>A function that knows how one line should look. It does not print. It returns text.</span></li>
+<li><code>return `${index + 1}. ${task}`;</code><span>Indexes start at 0, and people start at 1. Adding 1 is the translation between those two habits.</span></li>
+<li><code>if (tasks.length === 0) {</code><span>A condition. <code>===</code> compares the length to the number 0.</span></li>
+<li><code>for (let i = 0; i &lt; tasks.length; i = i + 1) {</code><span>A counted loop. <code>i</code> is 0, then 1, then 2. The test <code>i &lt; tasks.length</code> stops it at the end.</span></li>
+<li><code>console.log(formatTask(tasks[i], i));</code><span>Take the item at index <code>i</code>, hand it to the function with that index, and print the returned line.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Add a fourth task and run the program. Then set <code>tasks</code> to an empty array <code>[]</code> and run it again. You should see <code>Nothing to do.</code>. Finally, change <code>formatTask</code> so the line looks like <code>Buy milk (1)</code> and confirm every line follows.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Doing the formatting inside the loop and also inside the function, so the number appears twice. Give each job one home.</li>
+<li>Printing <code>i</code> to humans without adding 1, so the list appears to start at 0.</li>
+<li>Skipping the empty check. An empty loop prints nothing, and nothing looks like a broken program.</li></ul>
+      <h2>Recap</h2>
+      <p>You can store a list, format one item with a function, choose a branch when the list is empty, and loop through the rest. That combination is enough to build the automations in the next layer.</p>
+      <label class="done"><input type="checkbox" data-done="fundamentals/16-putting-it-together"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="15-debugging.html"><small>Previous</small>Debugging</a><a class="next" href="../automation/01-the-terminal.html"><small>Next</small>The terminal</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

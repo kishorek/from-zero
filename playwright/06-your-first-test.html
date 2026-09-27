@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your first test · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html" aria-current="page">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Playwright">
+    <h2>Playwright</h2>
+    <ol><li><a href="01-what-automation-is.html" data-lesson="playwright/01-what-automation-is">01 What browser automation is <span class="done-flag"></span></a></li>
+<li><a href="02-what-playwright-is.html" data-lesson="playwright/02-what-playwright-is">02 What Playwright is <span class="done-flag"></span></a></li>
+<li><a href="03-where-javascript-runs.html" data-lesson="playwright/03-where-javascript-runs">03 Browser JavaScript, Node.js, and Playwright <span class="done-flag"></span></a></li>
+<li><a href="04-installing.html" data-lesson="playwright/04-installing">04 Installing Playwright <span class="done-flag"></span></a></li>
+<li><a href="05-library-and-runner.html" data-lesson="playwright/05-library-and-runner">05 The library and the test runner <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-test.html" data-lesson="playwright/06-your-first-test" aria-current="page">06 Your first test <span class="done-flag"></span></a></li>
+<li><a href="07-browser-context-page.html" data-lesson="playwright/07-browser-context-page">07 Browser, context, and page <span class="done-flag"></span></a></li>
+<li><a href="08-navigating.html" data-lesson="playwright/08-navigating">08 Navigating <span class="done-flag"></span></a></li>
+<li><a href="09-locators.html" data-lesson="playwright/09-locators">09 Locators <span class="done-flag"></span></a></li>
+<li><a href="10-actions.html" data-lesson="playwright/10-actions">10 Actions <span class="done-flag"></span></a></li>
+<li><a href="11-auto-waiting.html" data-lesson="playwright/11-auto-waiting">11 Auto-waiting <span class="done-flag"></span></a></li>
+<li><a href="12-assertions.html" data-lesson="playwright/12-assertions">12 Assertions <span class="done-flag"></span></a></li>
+<li><a href="13-forms.html" data-lesson="playwright/13-forms">13 Forms <span class="done-flag"></span></a></li>
+<li><a href="14-screenshots-and-traces.html" data-lesson="playwright/14-screenshots-and-traces">14 Screenshots, video, and traces <span class="done-flag"></span></a></li>
+<li><a href="15-popups.html" data-lesson="playwright/15-popups">15 Pages and popups <span class="done-flag"></span></a></li>
+<li><a href="16-frames.html" data-lesson="playwright/16-frames">16 Frames <span class="done-flag"></span></a></li>
+<li><a href="17-network.html" data-lesson="playwright/17-network">17 Network routing <span class="done-flag"></span></a></li>
+<li><a href="18-storage-state.html" data-lesson="playwright/18-storage-state">18 Saving a login with storage state <span class="done-flag"></span></a></li>
+<li><a href="19-configuration.html" data-lesson="playwright/19-configuration">19 Configuration, projects, and hooks <span class="done-flag"></span></a></li>
+<li><a href="20-debugging-a-flow.html" data-lesson="playwright/20-debugging-a-flow">20 Debugging a failing test <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 03 · Lesson 6 of 20</p>
+      <h1>Your first test</h1>
+      <h2>The idea</h2>
+      <p>A test is a function with a name and an opinion. The name says what should be true. The body makes that true-or-false observable. <code>npx playwright test</code> finds files named like <code>tests/*.spec.js</code>, runs each <code>test</code>, and prints a summary.</p>
+<p>Run one file with <code>npx playwright test tests/example.spec.js</code>. Run one test by its name with <code>npx playwright test -g &quot;title&quot;</code>. The <code>-g</code> flag filters by title.</p>
+      <h2>Why it matters</h2>
+      <p>This is the unit you will repeat. Everything else (locators, forms, traces) plugs into this shape. Once the command feels ordinary, the rest is vocabulary.</p>
+      <h2>A picture to hold</h2>
+      <p>A checklist item with a pencil. The string inside <code>test</code> is the item. <code>expect</code> is the pencil mark. The runner reads the whole checklist and tells you which marks are missing.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>tests/example.spec.js · npx playwright test</figcaption>
+    <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
+
+test(&quot;example.com names itself in the title&quot;, async ({ page }) =&gt; {
+  await page.goto(&quot;https://example.com&quot;);
+  await expect(page).toHaveTitle(&quot;Example Domain&quot;);
+});</code></pre>
+  </figure>
+      
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>import { test, expect } from &quot;@playwright/test&quot;;</code><span>Bring in the two functions the runner wants you to use. <code>test</code> declares. <code>expect</code> checks.</span></li>
+<li><code>test(&quot;example.com names itself in the title&quot;, async ({ page }) =&gt; {</code><span>The title should read like a statement of fact. Future failures quote this sentence.</span></li>
+<li><code>await page.goto(&quot;https://example.com&quot;);</code><span>Open the address and wait for the load event. The load event means the document and its immediate resources have finished.</span></li>
+<li><code>await expect(page).toHaveTitle(&quot;Example Domain&quot;);</code><span>Retry until the page title matches, or until the timeout. The default timeout is enough for this site.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Add a second test in the same file that expects the title to contain <code>Example</code>. Use <code>await expect(page).toHaveTitle(/Example/)</code>. A slash pair is a regular expression, a pattern. Run both tests. Then run only the new one with <code>-g</code>.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Giving tests names like <code>test 1</code>. The report is unreadable. Name the fact you care about.</li>
+<li>Forgetting <code>async</code>. <code>await</code> inside a non-async test is a syntax error.</li>
+<li>Sharing one <code>page</code> across tests by hand. The runner gives each test a fresh page. Let it.</li></ul>
+      <h2>Recap</h2>
+      <p>A test opens a page and expects a fact. <code>npx playwright test</code> runs the files in <code>tests</code>. Name tests after the fact they check.</p>
+      <label class="done"><input type="checkbox" data-done="playwright/06-your-first-test"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="05-library-and-runner.html"><small>Previous</small>The library and the test runner</a><a class="next" href="07-browser-context-page.html"><small>Next</small>Browser, context, and page</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

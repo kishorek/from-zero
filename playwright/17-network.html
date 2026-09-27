@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Network routing · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html" aria-current="page">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Playwright">
+    <h2>Playwright</h2>
+    <ol><li><a href="01-what-automation-is.html" data-lesson="playwright/01-what-automation-is">01 What browser automation is <span class="done-flag"></span></a></li>
+<li><a href="02-what-playwright-is.html" data-lesson="playwright/02-what-playwright-is">02 What Playwright is <span class="done-flag"></span></a></li>
+<li><a href="03-where-javascript-runs.html" data-lesson="playwright/03-where-javascript-runs">03 Browser JavaScript, Node.js, and Playwright <span class="done-flag"></span></a></li>
+<li><a href="04-installing.html" data-lesson="playwright/04-installing">04 Installing Playwright <span class="done-flag"></span></a></li>
+<li><a href="05-library-and-runner.html" data-lesson="playwright/05-library-and-runner">05 The library and the test runner <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-test.html" data-lesson="playwright/06-your-first-test">06 Your first test <span class="done-flag"></span></a></li>
+<li><a href="07-browser-context-page.html" data-lesson="playwright/07-browser-context-page">07 Browser, context, and page <span class="done-flag"></span></a></li>
+<li><a href="08-navigating.html" data-lesson="playwright/08-navigating">08 Navigating <span class="done-flag"></span></a></li>
+<li><a href="09-locators.html" data-lesson="playwright/09-locators">09 Locators <span class="done-flag"></span></a></li>
+<li><a href="10-actions.html" data-lesson="playwright/10-actions">10 Actions <span class="done-flag"></span></a></li>
+<li><a href="11-auto-waiting.html" data-lesson="playwright/11-auto-waiting">11 Auto-waiting <span class="done-flag"></span></a></li>
+<li><a href="12-assertions.html" data-lesson="playwright/12-assertions">12 Assertions <span class="done-flag"></span></a></li>
+<li><a href="13-forms.html" data-lesson="playwright/13-forms">13 Forms <span class="done-flag"></span></a></li>
+<li><a href="14-screenshots-and-traces.html" data-lesson="playwright/14-screenshots-and-traces">14 Screenshots, video, and traces <span class="done-flag"></span></a></li>
+<li><a href="15-popups.html" data-lesson="playwright/15-popups">15 Pages and popups <span class="done-flag"></span></a></li>
+<li><a href="16-frames.html" data-lesson="playwright/16-frames">16 Frames <span class="done-flag"></span></a></li>
+<li><a href="17-network.html" data-lesson="playwright/17-network" aria-current="page">17 Network routing <span class="done-flag"></span></a></li>
+<li><a href="18-storage-state.html" data-lesson="playwright/18-storage-state">18 Saving a login with storage state <span class="done-flag"></span></a></li>
+<li><a href="19-configuration.html" data-lesson="playwright/19-configuration">19 Configuration, projects, and hooks <span class="done-flag"></span></a></li>
+<li><a href="20-debugging-a-flow.html" data-lesson="playwright/20-debugging-a-flow">20 Debugging a failing test <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 03 · Lesson 17 of 20</p>
+      <h1>Network routing</h1>
+      <h2>The idea</h2>
+      <p>A page asks its server for data. <code>page.route(pattern, handler)</code> intercepts requests whose URL matches the pattern. <code>route.fulfill</code> answers without the network, with a status, headers, and a body you supply. <code>route.continue</code> sends the request onward. <code>route.abort</code> fails it.</p>
+<p>Call <code>page.route</code> before the navigation or the click that triggers the request. As with popups, the listener has to be ready early. Fulfill with JSON when the page expects JSON, and set <code>contentType</code> to <code>application/json</code>.</p>
+      <h2>Why it matters</h2>
+      <p>You can test “what does the page do when the server returns an empty list” without standing up that server. You can also force an error and see the message. This is a test double for the network: a stand-in that answers the way you choose.</p>
+      <h2>A picture to hold</h2>
+      <p>A receptionist who intercepts one kind of letter. Most letters go to the post office (<code>continue</code>). Letters addressed to <code>/api/tasks</code> get an answer you wrote (<code>fulfill</code>). The people upstairs still think the post office replied.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>tests/route.spec.js · npx playwright test</figcaption>
+    <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
+
+test(&quot;the page shows the task we fulfill&quot;, async ({ page }) =&gt; {
+  await page.route(&quot;**/api/tasks&quot;, async (route) =&gt; {
+    await route.fulfill({
+      status: 200,
+      contentType: &quot;application/json&quot;,
+      body: JSON.stringify([{ title: &quot;Buy milk&quot; }]),
+    });
+  });
+  await page.setContent(`
+    &lt;ul id=&quot;tasks&quot;&gt;&lt;/ul&gt;
+    &lt;script&gt;
+      fetch(&quot;/api/tasks&quot;)
+        .then((response) =&gt; response.json())
+        .then((tasks) =&gt; {
+          document.querySelector(&quot;#tasks&quot;).textContent = tasks[0].title;
+        });
+    &lt;/script&gt;
+  `);
+  await expect(page.getByText(&quot;Buy milk&quot;)).toBeVisible();
+});</code></pre>
+  </figure>
+      
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>await page.route(&quot;**/api/tasks&quot;, async (route) =&gt; {</code><span><code>**</code> matches any host. The rest must end in <code>/api/tasks</code>. The handler receives the <code>route</code>.</span></li>
+<li><code>await route.fulfill({</code><span>Answer here. The real server is not contacted for this match.</span></li>
+<li><code>body: JSON.stringify([{ title: &quot;Buy milk&quot; }]),</code><span>The body is a string. <code>JSON.stringify</code> makes the string. The page will parse it.</span></li>
+<li><code>fetch(&quot;/api/tasks&quot;)</code><span>This fetch runs inside the page. Playwright sees it and fulfills it because the route was armed first.</span></li>
+<li><code>await expect(page.getByText(&quot;Buy milk&quot;)).toBeVisible();</code><span>Assert what the person sees after the page used the data. Do not assert only that <code>fulfill</code> was called.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Add a second test that fulfills with status <code>500</code> and a short text body. Change the page script to show <code>Could not load tasks</code> when <code>response.ok</code> is false. Expect that sentence. You have tested the failure path without a broken server.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Routing after <code>goto</code>, when the request already happened during <code>goto</code>. Arm the route first.</li>
+<li>Fulfilling with a JavaScript object as <code>body</code>. The body is text. Stringify JSON.</li>
+<li>Swallowing every request. A pattern that is too wide fulfills images and documents the page needed. Match the API path.</li></ul>
+      <h2>Recap</h2>
+      <p><code>page.route</code> intercepts matching requests. <code>fulfill</code> answers, <code>continue</code> forwards, <code>abort</code> fails. Register the route before the page makes the request.</p>
+      <label class="done"><input type="checkbox" data-done="playwright/17-network"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="16-frames.html"><small>Previous</small>Frames</a><a class="next" href="18-storage-state.html"><small>Next</small>Saving a login with storage state</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

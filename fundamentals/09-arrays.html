@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arrays · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html" aria-current="page">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Programming fundamentals">
+    <h2>Programming fundamentals</h2>
+    <ol><li><a href="01-what-is-a-program.html" data-lesson="fundamentals/01-what-is-a-program">01 What is a computer program? <span class="done-flag"></span></a></li>
+<li><a href="02-what-is-code.html" data-lesson="fundamentals/02-what-is-code">02 What is code? <span class="done-flag"></span></a></li>
+<li><a href="03-how-a-computer-understands.html" data-lesson="fundamentals/03-how-a-computer-understands">03 How does a computer understand instructions? <span class="done-flag"></span></a></li>
+<li><a href="04-what-is-a-language.html" data-lesson="fundamentals/04-what-is-a-language">04 What is a programming language? <span class="done-flag"></span></a></li>
+<li><a href="05-javascript-and-node.html" data-lesson="fundamentals/05-javascript-and-node">05 What are JavaScript and Node.js? <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-program.html" data-lesson="fundamentals/06-your-first-program">06 Your first program <span class="done-flag"></span></a></li>
+<li><a href="07-variables.html" data-lesson="fundamentals/07-variables">07 Variables <span class="done-flag"></span></a></li>
+<li><a href="08-numbers-and-text.html" data-lesson="fundamentals/08-numbers-and-text">08 Numbers and text <span class="done-flag"></span></a></li>
+<li><a href="09-arrays.html" data-lesson="fundamentals/09-arrays" aria-current="page">09 Arrays <span class="done-flag"></span></a></li>
+<li><a href="10-objects.html" data-lesson="fundamentals/10-objects">10 Objects <span class="done-flag"></span></a></li>
+<li><a href="11-conditions.html" data-lesson="fundamentals/11-conditions">11 Conditions <span class="done-flag"></span></a></li>
+<li><a href="12-loops.html" data-lesson="fundamentals/12-loops">12 Loops <span class="done-flag"></span></a></li>
+<li><a href="13-functions.html" data-lesson="fundamentals/13-functions">13 Functions <span class="done-flag"></span></a></li>
+<li><a href="14-errors.html" data-lesson="fundamentals/14-errors">14 Errors <span class="done-flag"></span></a></li>
+<li><a href="15-debugging.html" data-lesson="fundamentals/15-debugging">15 Debugging <span class="done-flag"></span></a></li>
+<li><a href="16-putting-it-together.html" data-lesson="fundamentals/16-putting-it-together">16 Putting everything together <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 01 · Lesson 9 of 16</p>
+      <h1>Arrays</h1>
+      <h2>The idea</h2>
+      <p>An array holds values in order. You write it with square brackets: <code>[&quot;boil&quot;, &quot;steep&quot;, &quot;pour&quot;]</code>. Each item has an index, a number address. The first index is <code>0</code>, not <code>1</code>. The second is <code>1</code>.</p>
+<p><code>length</code> tells you how many items are in the array. <code>push</code> adds an item at the end.</p>
+      <h2>Why it matters</h2>
+      <p>Real jobs come in lists: files in a folder, rows in a report, links on a page. An array is how JavaScript holds a list so you can walk it later with a loop.</p>
+      <h2>A picture to hold</h2>
+      <p>A row of mailboxes numbered from 0. Mailbox 0 is the first box, the one closest to the door. Asking for mailbox 3 in a row of three boxes (0, 1, and 2) does not find a fourth box. It finds nothing.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>steps.js · node steps.js</figcaption>
+    <pre><code class="language-js">const steps = [&quot;boil&quot;, &quot;steep&quot;, &quot;pour&quot;];
+console.log(steps[0]);
+console.log(steps.length);
+steps.push(&quot;sip&quot;);
+console.log(steps);</code></pre>
+  </figure>
+      <div class="output"><strong>What you should see</strong><pre>boil
+3
+[ 'boil', 'steep', 'pour', 'sip' ]</pre></div>
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>const steps = [&quot;boil&quot;, &quot;steep&quot;, &quot;pour&quot;];</code><span>Create an array of three strings. Commas separate items.</span></li>
+<li><code>console.log(steps[0]);</code><span>Square brackets after the name read one item. Index <code>0</code> is the first item, <code>boil</code>.</span></li>
+<li><code>console.log(steps.length);</code><span><code>length</code> is 3. There are three items, even though the last index is 2.</span></li>
+<li><code>steps.push(&quot;sip&quot;);</code><span><code>push</code> adds <code>sip</code> at the end. <code>const</code> blocks replacing <code>steps</code> itself. It does not block changing the contents of the array.</span></li>
+<li><code>console.log(steps);</code><span>Print the whole array. Node.js shows it in brackets.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Make an array of three breakfast items. Print the first item, the last item, and the length. The last item’s index is <code>length - 1</code>. Then <code>push</code> one more item and print the length again. It should be 4.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Starting at index 1 and skipping the first item.</li>
+<li>Using <code>length</code> as if it were the last index. The last index is <code>length - 1</code>.</li>
+<li>Writing a list without commas between the items. The engine will stop at the syntax error.</li></ul>
+      <h2>Recap</h2>
+      <p>An array is an ordered list in square brackets. Indexes begin at 0. <code>length</code> counts items. <code>push</code> adds to the end.</p>
+      <label class="done"><input type="checkbox" data-done="fundamentals/09-arrays"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="08-numbers-and-text.html"><small>Previous</small>Numbers and text</a><a class="next" href="10-objects.html"><small>Next</small>Objects</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

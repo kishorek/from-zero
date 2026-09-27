@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Frames · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html" aria-current="page">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Playwright">
+    <h2>Playwright</h2>
+    <ol><li><a href="01-what-automation-is.html" data-lesson="playwright/01-what-automation-is">01 What browser automation is <span class="done-flag"></span></a></li>
+<li><a href="02-what-playwright-is.html" data-lesson="playwright/02-what-playwright-is">02 What Playwright is <span class="done-flag"></span></a></li>
+<li><a href="03-where-javascript-runs.html" data-lesson="playwright/03-where-javascript-runs">03 Browser JavaScript, Node.js, and Playwright <span class="done-flag"></span></a></li>
+<li><a href="04-installing.html" data-lesson="playwright/04-installing">04 Installing Playwright <span class="done-flag"></span></a></li>
+<li><a href="05-library-and-runner.html" data-lesson="playwright/05-library-and-runner">05 The library and the test runner <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-test.html" data-lesson="playwright/06-your-first-test">06 Your first test <span class="done-flag"></span></a></li>
+<li><a href="07-browser-context-page.html" data-lesson="playwright/07-browser-context-page">07 Browser, context, and page <span class="done-flag"></span></a></li>
+<li><a href="08-navigating.html" data-lesson="playwright/08-navigating">08 Navigating <span class="done-flag"></span></a></li>
+<li><a href="09-locators.html" data-lesson="playwright/09-locators">09 Locators <span class="done-flag"></span></a></li>
+<li><a href="10-actions.html" data-lesson="playwright/10-actions">10 Actions <span class="done-flag"></span></a></li>
+<li><a href="11-auto-waiting.html" data-lesson="playwright/11-auto-waiting">11 Auto-waiting <span class="done-flag"></span></a></li>
+<li><a href="12-assertions.html" data-lesson="playwright/12-assertions">12 Assertions <span class="done-flag"></span></a></li>
+<li><a href="13-forms.html" data-lesson="playwright/13-forms">13 Forms <span class="done-flag"></span></a></li>
+<li><a href="14-screenshots-and-traces.html" data-lesson="playwright/14-screenshots-and-traces">14 Screenshots, video, and traces <span class="done-flag"></span></a></li>
+<li><a href="15-popups.html" data-lesson="playwright/15-popups">15 Pages and popups <span class="done-flag"></span></a></li>
+<li><a href="16-frames.html" data-lesson="playwright/16-frames" aria-current="page">16 Frames <span class="done-flag"></span></a></li>
+<li><a href="17-network.html" data-lesson="playwright/17-network">17 Network routing <span class="done-flag"></span></a></li>
+<li><a href="18-storage-state.html" data-lesson="playwright/18-storage-state">18 Saving a login with storage state <span class="done-flag"></span></a></li>
+<li><a href="19-configuration.html" data-lesson="playwright/19-configuration">19 Configuration, projects, and hooks <span class="done-flag"></span></a></li>
+<li><a href="20-debugging-a-flow.html" data-lesson="playwright/20-debugging-a-flow">20 Debugging a failing test <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 03 · Lesson 16 of 20</p>
+      <h1>Frames</h1>
+      <h2>The idea</h2>
+      <p>An iframe embeds another document inside the page. Locators on <code>page</code> do not see inside that document. <code>page.frameLocator(&quot;iframe[title=\&quot;Payment\&quot;]&quot;)</code> points at the frame. Locators you call on the frame locator look inside it.</p>
+<p>Give the iframe a title in pages you control, and use that title in the frame locator. A CSS description of the frame is reasonable here because you are naming the frame, not the button inside it. The button inside should still use <code>getByRole</code> or <code>getByLabel</code>.</p>
+      <h2>Why it matters</h2>
+      <p>Payment widgets, embedded editors, and some consent dialogs are frames. A test that says the button does not exist, while you can see the button, is often looking in the outer page.</p>
+      <h2>A picture to hold</h2>
+      <p>A shop with a service window cut into the wall. The counter you first walk up to cannot pass a form through the glass. You address the window (<code>frameLocator</code>), then you talk to the person behind it (<code>getByLabel</code>). Two addresses, in that order.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>tests/frame.spec.js · npx playwright test</figcaption>
+    <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
+
+test(&quot;fill a field inside a frame&quot;, async ({ page }) =&gt; {
+  await page.setContent(`
+    &lt;iframe title=&quot;Payment&quot; srcdoc=&quot;
+      &lt;label&gt;Card number &lt;input /&gt;&lt;/label&gt;
+    &quot;&gt;&lt;/iframe&gt;
+  `);
+  const frame = page.frameLocator(&quot;iframe[title=\&quot;Payment\&quot;]&quot;);
+  await frame.getByLabel(&quot;Card number&quot;).fill(&quot;4242&quot;);
+  await expect(frame.getByLabel(&quot;Card number&quot;)).toHaveValue(&quot;4242&quot;);
+});</code></pre>
+  </figure>
+      
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>&lt;iframe title=&quot;Payment&quot;</code><span>The outer page owns the frame. <code>title</code> is the accessible name of the frame and a stable handle for tests.</span></li>
+<li><code>srcdoc=&quot;</code><span><code>srcdoc</code> supplies the inner document without a second website. The inner document has its own label and input.</span></li>
+<li><code>const frame = page.frameLocator(&quot;iframe[title=\&quot;Payment\&quot;]&quot;);</code><span>Describe the frame. This value is a frame locator, not a page. You call <code>getByLabel</code> on it.</span></li>
+<li><code>await frame.getByLabel(&quot;Card number&quot;).fill(&quot;4242&quot;);</code><span>The label lookup happens inside the frame. The same lookup on <code>page</code> would not see this input.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Try <code>page.getByLabel(&quot;Card number&quot;).fill(&quot;4242&quot;)</code> without the frame locator and read the timeout. Then put the frame locator back. Add a heading inside the frame and expect it with <code>frame.getByRole(&quot;heading&quot;, ...)</code>.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Searching the outer page for an element that lives in the frame.</li>
+<li>Using a long CSS path inside the frame when the inner control has a label.</li>
+<li>Nesting confusion: a frame inside a frame needs a frame locator from the first frame locator. Walk one level at a time.</li></ul>
+      <h2>Recap</h2>
+      <p>Iframe contents are a separate document. <code>frameLocator</code> selects the frame. Locators on that object look inside it.</p>
+      <label class="done"><input type="checkbox" data-done="playwright/16-frames"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="15-popups.html"><small>Previous</small>Pages and popups</a><a class="next" href="17-network.html"><small>Next</small>Network routing</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

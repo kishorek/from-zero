@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Browser JavaScript, Node.js, and Playwright · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html" aria-current="page">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Playwright">
+    <h2>Playwright</h2>
+    <ol><li><a href="01-what-automation-is.html" data-lesson="playwright/01-what-automation-is">01 What browser automation is <span class="done-flag"></span></a></li>
+<li><a href="02-what-playwright-is.html" data-lesson="playwright/02-what-playwright-is">02 What Playwright is <span class="done-flag"></span></a></li>
+<li><a href="03-where-javascript-runs.html" data-lesson="playwright/03-where-javascript-runs" aria-current="page">03 Browser JavaScript, Node.js, and Playwright <span class="done-flag"></span></a></li>
+<li><a href="04-installing.html" data-lesson="playwright/04-installing">04 Installing Playwright <span class="done-flag"></span></a></li>
+<li><a href="05-library-and-runner.html" data-lesson="playwright/05-library-and-runner">05 The library and the test runner <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-test.html" data-lesson="playwright/06-your-first-test">06 Your first test <span class="done-flag"></span></a></li>
+<li><a href="07-browser-context-page.html" data-lesson="playwright/07-browser-context-page">07 Browser, context, and page <span class="done-flag"></span></a></li>
+<li><a href="08-navigating.html" data-lesson="playwright/08-navigating">08 Navigating <span class="done-flag"></span></a></li>
+<li><a href="09-locators.html" data-lesson="playwright/09-locators">09 Locators <span class="done-flag"></span></a></li>
+<li><a href="10-actions.html" data-lesson="playwright/10-actions">10 Actions <span class="done-flag"></span></a></li>
+<li><a href="11-auto-waiting.html" data-lesson="playwright/11-auto-waiting">11 Auto-waiting <span class="done-flag"></span></a></li>
+<li><a href="12-assertions.html" data-lesson="playwright/12-assertions">12 Assertions <span class="done-flag"></span></a></li>
+<li><a href="13-forms.html" data-lesson="playwright/13-forms">13 Forms <span class="done-flag"></span></a></li>
+<li><a href="14-screenshots-and-traces.html" data-lesson="playwright/14-screenshots-and-traces">14 Screenshots, video, and traces <span class="done-flag"></span></a></li>
+<li><a href="15-popups.html" data-lesson="playwright/15-popups">15 Pages and popups <span class="done-flag"></span></a></li>
+<li><a href="16-frames.html" data-lesson="playwright/16-frames">16 Frames <span class="done-flag"></span></a></li>
+<li><a href="17-network.html" data-lesson="playwright/17-network">17 Network routing <span class="done-flag"></span></a></li>
+<li><a href="18-storage-state.html" data-lesson="playwright/18-storage-state">18 Saving a login with storage state <span class="done-flag"></span></a></li>
+<li><a href="19-configuration.html" data-lesson="playwright/19-configuration">19 Configuration, projects, and hooks <span class="done-flag"></span></a></li>
+<li><a href="20-debugging-a-flow.html" data-lesson="playwright/20-debugging-a-flow">20 Debugging a failing test <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 03 · Lesson 3 of 20</p>
+      <h1>Browser JavaScript, Node.js, and Playwright</h1>
+      <h2>The idea</h2>
+      <p>Keep three rooms separate. In the page, JavaScript can read and change that page, and the browser stops it from freely reading your disk. In Node.js, your script can read files and the network, and it cannot see a page. In a Playwright run, a Node.js script drives a separate browser. The page may also be running its own JavaScript. Those are two programs at once.</p>
+<p>Playwright can ask the page to run a snippet, with <code>page.evaluate</code>. Use that rarely, when you truly need a value from inside the page. Prefer locators and assertions, which look at the page the way a person does.</p>
+      <h2>Why it matters</h2>
+      <p>The most common early bug is pasting <code>document.querySelector</code> into a test, or pasting <code>page.getByRole</code> into a web page. Each call belongs in one room.</p>
+      <h2>A picture to hold</h2>
+      <p>A stage play. The actors on stage have the script inside the play (page JavaScript). You sit in the booth with a prompt book (your Node.js test). Playwright is the stage manager who can cue the lights and listen to a line. You are not on stage, even though you can hear it.</p>
+      <table><thead><tr><th>Room</th><th>Who runs</th><th>Sees the page</th><th>Sees your files</th></tr></thead><tbody><tr><td>Page</td><td>The website’s JavaScript</td><td>Yes, that page</td><td>No</td></tr><tr><td>Node.js alone</td><td>Your script</td><td>No</td><td>Yes</td></tr><tr><td>Playwright</td><td>Your script, driving a browser</td><td>Yes, from outside</td><td>Yes</td></tr></tbody></table>
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>room.js · node room.js</figcaption>
+    <pre><code class="language-js">const room = typeof window === &quot;undefined&quot; ? &quot;Node.js&quot; : &quot;a browser page&quot;;
+console.log(&quot;This file is running in &quot; + room + &quot;.&quot;);</code></pre>
+  </figure>
+      <div class="output"><strong>What you should see</strong><pre>This file is running in Node.js.</pre></div>
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>typeof window === &quot;undefined&quot;</code><span><code>window</code> exists in a browser page and does not exist in Node.js. <code>typeof</code> on a missing name is <code>&quot;undefined&quot;</code>, which avoids a crash.</span></li>
+<li><code>? &quot;Node.js&quot; : &quot;a browser page&quot;</code><span>A conditional expression. When the test is true, the result is <code>&quot;Node.js&quot;</code>. Otherwise it is the other string.</span></li>
+<li><code>console.log(&quot;This file is running in &quot; + room + &quot;.&quot;);</code><span>Run in Node.js, the sentence names Node.js. The same line in a browser console would name the page.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Add a second log: <code>console.log(typeof process)</code>. In Node.js it prints <code>object</code>. If you paste only that line into a browser console, it prints <code>undefined</code>. Write down both results. That pair is the whole distinction.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Using <code>document</code> in the test file. In the test file, you use <code>page</code>.</li>
+<li>Using <code>page</code> inside <code>page.evaluate</code>. The snippet inside <code>evaluate</code> runs in the page, where <code>page</code> does not exist. It may use <code>document</code>.</li>
+<li>Assuming the page and the test share variables. They do not. Values cross only when you pass them.</li></ul>
+      <h2>Recap</h2>
+      <p>Page JavaScript sees the page. Node.js sees files. Playwright is Node.js driving a browser from outside. <code>window</code> tells you which room a file is in.</p>
+      <label class="done"><input type="checkbox" data-done="playwright/03-where-javascript-runs"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="02-what-playwright-is.html"><small>Previous</small>What Playwright is</a><a class="next" href="04-installing.html"><small>Next</small>Installing Playwright</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

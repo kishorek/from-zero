@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Screenshots, video, and traces · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html" aria-current="page">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Playwright">
+    <h2>Playwright</h2>
+    <ol><li><a href="01-what-automation-is.html" data-lesson="playwright/01-what-automation-is">01 What browser automation is <span class="done-flag"></span></a></li>
+<li><a href="02-what-playwright-is.html" data-lesson="playwright/02-what-playwright-is">02 What Playwright is <span class="done-flag"></span></a></li>
+<li><a href="03-where-javascript-runs.html" data-lesson="playwright/03-where-javascript-runs">03 Browser JavaScript, Node.js, and Playwright <span class="done-flag"></span></a></li>
+<li><a href="04-installing.html" data-lesson="playwright/04-installing">04 Installing Playwright <span class="done-flag"></span></a></li>
+<li><a href="05-library-and-runner.html" data-lesson="playwright/05-library-and-runner">05 The library and the test runner <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-test.html" data-lesson="playwright/06-your-first-test">06 Your first test <span class="done-flag"></span></a></li>
+<li><a href="07-browser-context-page.html" data-lesson="playwright/07-browser-context-page">07 Browser, context, and page <span class="done-flag"></span></a></li>
+<li><a href="08-navigating.html" data-lesson="playwright/08-navigating">08 Navigating <span class="done-flag"></span></a></li>
+<li><a href="09-locators.html" data-lesson="playwright/09-locators">09 Locators <span class="done-flag"></span></a></li>
+<li><a href="10-actions.html" data-lesson="playwright/10-actions">10 Actions <span class="done-flag"></span></a></li>
+<li><a href="11-auto-waiting.html" data-lesson="playwright/11-auto-waiting">11 Auto-waiting <span class="done-flag"></span></a></li>
+<li><a href="12-assertions.html" data-lesson="playwright/12-assertions">12 Assertions <span class="done-flag"></span></a></li>
+<li><a href="13-forms.html" data-lesson="playwright/13-forms">13 Forms <span class="done-flag"></span></a></li>
+<li><a href="14-screenshots-and-traces.html" data-lesson="playwright/14-screenshots-and-traces" aria-current="page">14 Screenshots, video, and traces <span class="done-flag"></span></a></li>
+<li><a href="15-popups.html" data-lesson="playwright/15-popups">15 Pages and popups <span class="done-flag"></span></a></li>
+<li><a href="16-frames.html" data-lesson="playwright/16-frames">16 Frames <span class="done-flag"></span></a></li>
+<li><a href="17-network.html" data-lesson="playwright/17-network">17 Network routing <span class="done-flag"></span></a></li>
+<li><a href="18-storage-state.html" data-lesson="playwright/18-storage-state">18 Saving a login with storage state <span class="done-flag"></span></a></li>
+<li><a href="19-configuration.html" data-lesson="playwright/19-configuration">19 Configuration, projects, and hooks <span class="done-flag"></span></a></li>
+<li><a href="20-debugging-a-flow.html" data-lesson="playwright/20-debugging-a-flow">20 Debugging a failing test <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 03 · Lesson 14 of 20</p>
+      <h1>Screenshots, video, and traces</h1>
+      <h2>The idea</h2>
+      <p><code>page.screenshot({ path: &quot;page.png&quot;, fullPage: true })</code> writes a picture. In the runner you rarely call that yourself. Set <code>screenshot: &quot;only-on-failure&quot;</code> and <code>trace: &quot;on-first-retry&quot;</code> in the config. A trace is a zip of actions, DOM snapshots, console lines, and network calls.</p>
+<p>Open a trace with <code>npx playwright show-trace trace.zip</code>, or open the HTML report with <code>npx playwright show-report</code> after a run. The report links the trace, the screenshot, and the error.</p>
+      <h2>Why it matters</h2>
+      <p>A failed expectation tells you the text was wrong. A trace tells you what the page looked like and which step got you there. That is the difference between guessing and looking.</p>
+      <h2>A picture to hold</h2>
+      <p>A shop camera. You do not watch the tape after a quiet day. You watch it when something went missing. <code>only-on-failure</code> and <code>on-first-retry</code> are the policy “record when there is a reason.” Recording every success fills the disk and teaches you little.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>A focused screenshot inside a library script</figcaption>
+    <pre><code class="language-js">await page.screenshot({ path: &quot;page.png&quot;, fullPage: true });
+console.log(&quot;Wrote page.png&quot;);</code></pre>
+  </figure>
+<figure class="code">
+    <figcaption>Useful runner settings, inside defineConfig</figcaption>
+    <pre><code class="language-js">use: {
+  screenshot: &quot;only-on-failure&quot;,
+  trace: &quot;on-first-retry&quot;,
+  video: &quot;retain-on-failure&quot;,
+},</code></pre>
+  </figure>
+      
+      <p>Retries belong in configuration: <code>retries: 1</code> while you learn, and often <code>retries: 2</code> only in CI. The trace setting <code>on-first-retry</code> records the second attempt, which is the interesting one. The configuration lesson places these lines in a whole file.</p>
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>await page.screenshot({ path: &quot;page.png&quot;, fullPage: true });</code><span><code>fullPage</code> captures below the fold. Without it you get the viewport, the part a window would show.</span></li>
+<li><code>screenshot: &quot;only-on-failure&quot;</code><span>The runner takes the picture when a test fails. Passing tests stay quiet.</span></li>
+<li><code>trace: &quot;on-first-retry&quot;</code><span>Record a trace if the test is running again after a failure. Open it from the HTML report.</span></li>
+<li><code>video: &quot;retain-on-failure&quot;</code><span>Keep a video only when the test failed. Videos are larger than traces. Turn them on when motion is the bug.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>In a test, call <code>page.screenshot({ path: &quot;example.png&quot; })</code> after opening <code>https://example.com</code>. Find the PNG next to the project (or under <code>test-results</code>, depending on the path you chose) and open it. Then delete the manual call and rely on <code>only-on-failure</code> once your config has it.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Turning video on for every test forever. The archive gets huge, and nobody watches the passes.</li>
+<li>Storing screenshots of pages that contain real customer data and then committing them. They are evidence, and they can also be private.</li>
+<li>Debugging from memory when a trace is sitting in the report. Open the trace before you change the test.</li></ul>
+      <h2>Recap</h2>
+      <p>Screenshots, traces, and video explain failures. Prefer <code>only-on-failure</code> and <code>on-first-retry</code>. Open the HTML report and the trace before you rewrite the test.</p>
+      <label class="done"><input type="checkbox" data-done="playwright/14-screenshots-and-traces"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="13-forms.html"><small>Previous</small>Forms</a><a class="next" href="15-popups.html"><small>Next</small>Pages and popups</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

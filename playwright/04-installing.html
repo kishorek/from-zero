@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Installing Playwright · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html" aria-current="page">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Playwright">
+    <h2>Playwright</h2>
+    <ol><li><a href="01-what-automation-is.html" data-lesson="playwright/01-what-automation-is">01 What browser automation is <span class="done-flag"></span></a></li>
+<li><a href="02-what-playwright-is.html" data-lesson="playwright/02-what-playwright-is">02 What Playwright is <span class="done-flag"></span></a></li>
+<li><a href="03-where-javascript-runs.html" data-lesson="playwright/03-where-javascript-runs">03 Browser JavaScript, Node.js, and Playwright <span class="done-flag"></span></a></li>
+<li><a href="04-installing.html" data-lesson="playwright/04-installing" aria-current="page">04 Installing Playwright <span class="done-flag"></span></a></li>
+<li><a href="05-library-and-runner.html" data-lesson="playwright/05-library-and-runner">05 The library and the test runner <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-test.html" data-lesson="playwright/06-your-first-test">06 Your first test <span class="done-flag"></span></a></li>
+<li><a href="07-browser-context-page.html" data-lesson="playwright/07-browser-context-page">07 Browser, context, and page <span class="done-flag"></span></a></li>
+<li><a href="08-navigating.html" data-lesson="playwright/08-navigating">08 Navigating <span class="done-flag"></span></a></li>
+<li><a href="09-locators.html" data-lesson="playwright/09-locators">09 Locators <span class="done-flag"></span></a></li>
+<li><a href="10-actions.html" data-lesson="playwright/10-actions">10 Actions <span class="done-flag"></span></a></li>
+<li><a href="11-auto-waiting.html" data-lesson="playwright/11-auto-waiting">11 Auto-waiting <span class="done-flag"></span></a></li>
+<li><a href="12-assertions.html" data-lesson="playwright/12-assertions">12 Assertions <span class="done-flag"></span></a></li>
+<li><a href="13-forms.html" data-lesson="playwright/13-forms">13 Forms <span class="done-flag"></span></a></li>
+<li><a href="14-screenshots-and-traces.html" data-lesson="playwright/14-screenshots-and-traces">14 Screenshots, video, and traces <span class="done-flag"></span></a></li>
+<li><a href="15-popups.html" data-lesson="playwright/15-popups">15 Pages and popups <span class="done-flag"></span></a></li>
+<li><a href="16-frames.html" data-lesson="playwright/16-frames">16 Frames <span class="done-flag"></span></a></li>
+<li><a href="17-network.html" data-lesson="playwright/17-network">17 Network routing <span class="done-flag"></span></a></li>
+<li><a href="18-storage-state.html" data-lesson="playwright/18-storage-state">18 Saving a login with storage state <span class="done-flag"></span></a></li>
+<li><a href="19-configuration.html" data-lesson="playwright/19-configuration">19 Configuration, projects, and hooks <span class="done-flag"></span></a></li>
+<li><a href="20-debugging-a-flow.html" data-lesson="playwright/20-debugging-a-flow">20 Debugging a failing test <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 03 · Lesson 4 of 20</p>
+      <h1>Installing Playwright</h1>
+      <h2>The idea</h2>
+      <p>You need Node.js 20 or newer. In an empty folder, the official starter is <code>npm init playwright@latest</code>. It asks four things. Choose JavaScript, not TypeScript. Put tests in <code>tests</code>. Skip the GitHub Actions workflow for this course. Say yes to installing browsers.</p>
+<p>That command writes <code>package.json</code>, a config file, an example test, and it downloads browser binaries. Those binaries are the actual browsers Playwright will launch. The npm package alone is not enough.</p>
+<p>If you prefer to see each step, the manual version is <code>npm init -y</code>, then <code>npm i -D @playwright/test</code>, then <code>npx playwright install</code>. <code>@playwright/test</code> is the test runner. It depends on the <code>playwright</code> library. <code>npx</code> runs a command from the packages you installed.</p>
+      <h2>Why it matters</h2>
+      <p>A missing browser binary looks like a broken test. It is an incomplete install. Separating “install the library” from “install the browsers” makes that message readable.</p>
+      <h2>A picture to hold</h2>
+      <p>Buying a driving textbook and also renting the cars. <code>npm i -D @playwright/test</code> is the textbook. <code>npx playwright install</code> collects the cars. You need both before the first lesson on the road.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>Terminal</figcaption>
+    <pre><code class="language-sh">mkdir playwright-lab
+cd playwright-lab
+npm init playwright@latest
+node -v</code></pre>
+  </figure>
+<figure class="code">
+    <figcaption>check.mjs · node check.mjs</figcaption>
+    <pre><code class="language-js">import { chromium } from &quot;playwright&quot;;
+
+console.log(&quot;Playwright loaded.&quot;);
+console.log(chromium.executablePath());</code></pre>
+  </figure>
+      
+      <p><code>executablePath()</code> prints where Chromium was downloaded. If this import fails, you are not in the project folder, or the install did not finish. Add <code>&quot;type&quot;: &quot;module&quot;</code> to <code>package.json</code> so this course’s <code>import</code> lines work in ordinary scripts.</p>
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>npm init playwright@latest</code><span>Run the starter. Answer JavaScript, <code>tests</code>, no workflow, yes to browsers.</span></li>
+<li><code>import { chromium } from &quot;playwright&quot;;</code><span>Load the browser type from the library. This file is a script, not a test. Tests import from <code>@playwright/test</code> instead.</span></li>
+<li><code>console.log(chromium.executablePath());</code><span>Ask which Chromium binary will launch. A real filesystem path means the browsers were installed.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Complete the install. Run <code>npx playwright --version</code> and <code>node check.mjs</code>. Both should print without an error. Then run <code>npx playwright test</code> once, even before you study the example test. A passing or a clearly reported run means the runner works.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Installing Node.js 18 or older. Current <code>@playwright/test</code> requires Node.js 20 or newer.</li>
+<li>Forgetting <code>npx playwright install</code> after a manual <code>npm i</code>. The library is present and the browsers are not.</li>
+<li>Choosing TypeScript in the starter and then pasting these JavaScript files unchanged. This course stays in JavaScript. Pick JavaScript.</li></ul>
+      <h2>Recap</h2>
+      <p>Install <code>@playwright/test</code>, then install the browsers. <code>npm init playwright@latest</code> does both and writes a project. Node.js 20 or newer is required.</p>
+      <label class="done"><input type="checkbox" data-done="playwright/04-installing"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="03-where-javascript-runs.html"><small>Previous</small>Browser JavaScript, Node.js, and Playwright</a><a class="next" href="05-library-and-runner.html"><small>Next</small>The library and the test runner</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

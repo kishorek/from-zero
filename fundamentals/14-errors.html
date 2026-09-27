@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Errors · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html" aria-current="page">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Programming fundamentals">
+    <h2>Programming fundamentals</h2>
+    <ol><li><a href="01-what-is-a-program.html" data-lesson="fundamentals/01-what-is-a-program">01 What is a computer program? <span class="done-flag"></span></a></li>
+<li><a href="02-what-is-code.html" data-lesson="fundamentals/02-what-is-code">02 What is code? <span class="done-flag"></span></a></li>
+<li><a href="03-how-a-computer-understands.html" data-lesson="fundamentals/03-how-a-computer-understands">03 How does a computer understand instructions? <span class="done-flag"></span></a></li>
+<li><a href="04-what-is-a-language.html" data-lesson="fundamentals/04-what-is-a-language">04 What is a programming language? <span class="done-flag"></span></a></li>
+<li><a href="05-javascript-and-node.html" data-lesson="fundamentals/05-javascript-and-node">05 What are JavaScript and Node.js? <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-program.html" data-lesson="fundamentals/06-your-first-program">06 Your first program <span class="done-flag"></span></a></li>
+<li><a href="07-variables.html" data-lesson="fundamentals/07-variables">07 Variables <span class="done-flag"></span></a></li>
+<li><a href="08-numbers-and-text.html" data-lesson="fundamentals/08-numbers-and-text">08 Numbers and text <span class="done-flag"></span></a></li>
+<li><a href="09-arrays.html" data-lesson="fundamentals/09-arrays">09 Arrays <span class="done-flag"></span></a></li>
+<li><a href="10-objects.html" data-lesson="fundamentals/10-objects">10 Objects <span class="done-flag"></span></a></li>
+<li><a href="11-conditions.html" data-lesson="fundamentals/11-conditions">11 Conditions <span class="done-flag"></span></a></li>
+<li><a href="12-loops.html" data-lesson="fundamentals/12-loops">12 Loops <span class="done-flag"></span></a></li>
+<li><a href="13-functions.html" data-lesson="fundamentals/13-functions">13 Functions <span class="done-flag"></span></a></li>
+<li><a href="14-errors.html" data-lesson="fundamentals/14-errors" aria-current="page">14 Errors <span class="done-flag"></span></a></li>
+<li><a href="15-debugging.html" data-lesson="fundamentals/15-debugging">15 Debugging <span class="done-flag"></span></a></li>
+<li><a href="16-putting-it-together.html" data-lesson="fundamentals/16-putting-it-together">16 Putting everything together <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 01 · Lesson 14 of 16</p>
+      <h1>Errors</h1>
+      <h2>The idea</h2>
+      <p>An error means the engine could not do a step. A <code>SyntaxError</code> is bad spelling, found before the program really starts. A <code>ReferenceError</code> means you used a name that does not exist. A <code>TypeError</code> means the value you have cannot do what you asked, such as reading a property of <code>undefined</code>.</p>
+<p>The message includes a file and a line. That line is where to look first. <code>try</code> and <code>catch</code> let you handle an error instead of crashing. <code>catch</code> receives the error object. <code>error.message</code> is the sentence.</p>
+      <h2>Why it matters</h2>
+      <p>You will write errors on purpose for the rest of your life. A useful message is part of the program. “Could not read tasks.txt” is a gift. A crash with no context is a puzzle.</p>
+      <h2>A picture to hold</h2>
+      <p>A smoke alarm. The alarm does not repair the toast. It stops the quiet and tells you which room. <code>try</code> is the room you are watching. <code>catch</code> is what you do when the alarm sounds.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>pour.js · node pour.js</figcaption>
+    <pre><code class="language-js">function pour(cup) {
+  return cup.volumeMl;
+}
+try {
+  console.log(pour(undefined));
+} catch (error) {
+  console.log(&quot;Could not pour: &quot; + error.message);
+}</code></pre>
+  </figure>
+      <div class="output"><strong>What you should see</strong><pre>Could not pour: Cannot read properties of undefined (reading 'volumeMl')</pre></div>
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>return cup.volumeMl;</code><span>This asks for the <code>volumeMl</code> property of whatever <code>cup</code> is. If <code>cup</code> is <code>undefined</code>, there is no object to read, and JavaScript throws a <code>TypeError</code>.</span></li>
+<li><code>try {</code><span>Start a watched block. If something inside throws, the engine jumps to <code>catch</code> instead of ending the whole program.</span></li>
+<li><code>console.log(pour(undefined));</code><span>Call <code>pour</code> with no object. This is the line that throws.</span></li>
+<li><code>} catch (error) {</code><span><code>error</code> is the object that was thrown. It has a <code>message</code> property.</span></li>
+<li><code>console.log(&quot;Could not pour: &quot; + error.message);</code><span>Print your own context plus the engine’s sentence. The program then ends normally, because the error was caught.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Remove the <code>try</code> and <code>catch</code> and call <code>pour(undefined)</code> directly. Read the stack: it names <code>pour.js</code> and a line. Put the <code>try</code> back. Then call <code>pour({ volumeMl: 300 })</code> inside the <code>try</code> and confirm it prints <code>300</code> and does not enter <code>catch</code>.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Empty <code>catch</code> blocks that hide the failure. If you catch, print the message or rethrow.</li>
+<li>Guessing the cause before you read the line number.</li>
+<li>Wrapping an entire file in <code>try</code> and continuing as if nothing happened. Catch the step that can fail, close to that step.</li></ul>
+      <h2>Recap</h2>
+      <p>Errors name a file, a line, and a reason. <code>try</code> / <code>catch</code> handles a failure you anticipated. <code>error.message</code> is the sentence to show.</p>
+      <label class="done"><input type="checkbox" data-done="fundamentals/14-errors"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="13-functions.html"><small>Previous</small>Functions</a><a class="next" href="15-debugging.html"><small>Next</small>Debugging</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Debugging · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html" aria-current="page">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Programming fundamentals">
+    <h2>Programming fundamentals</h2>
+    <ol><li><a href="01-what-is-a-program.html" data-lesson="fundamentals/01-what-is-a-program">01 What is a computer program? <span class="done-flag"></span></a></li>
+<li><a href="02-what-is-code.html" data-lesson="fundamentals/02-what-is-code">02 What is code? <span class="done-flag"></span></a></li>
+<li><a href="03-how-a-computer-understands.html" data-lesson="fundamentals/03-how-a-computer-understands">03 How does a computer understand instructions? <span class="done-flag"></span></a></li>
+<li><a href="04-what-is-a-language.html" data-lesson="fundamentals/04-what-is-a-language">04 What is a programming language? <span class="done-flag"></span></a></li>
+<li><a href="05-javascript-and-node.html" data-lesson="fundamentals/05-javascript-and-node">05 What are JavaScript and Node.js? <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-program.html" data-lesson="fundamentals/06-your-first-program">06 Your first program <span class="done-flag"></span></a></li>
+<li><a href="07-variables.html" data-lesson="fundamentals/07-variables">07 Variables <span class="done-flag"></span></a></li>
+<li><a href="08-numbers-and-text.html" data-lesson="fundamentals/08-numbers-and-text">08 Numbers and text <span class="done-flag"></span></a></li>
+<li><a href="09-arrays.html" data-lesson="fundamentals/09-arrays">09 Arrays <span class="done-flag"></span></a></li>
+<li><a href="10-objects.html" data-lesson="fundamentals/10-objects">10 Objects <span class="done-flag"></span></a></li>
+<li><a href="11-conditions.html" data-lesson="fundamentals/11-conditions">11 Conditions <span class="done-flag"></span></a></li>
+<li><a href="12-loops.html" data-lesson="fundamentals/12-loops">12 Loops <span class="done-flag"></span></a></li>
+<li><a href="13-functions.html" data-lesson="fundamentals/13-functions">13 Functions <span class="done-flag"></span></a></li>
+<li><a href="14-errors.html" data-lesson="fundamentals/14-errors">14 Errors <span class="done-flag"></span></a></li>
+<li><a href="15-debugging.html" data-lesson="fundamentals/15-debugging" aria-current="page">15 Debugging <span class="done-flag"></span></a></li>
+<li><a href="16-putting-it-together.html" data-lesson="fundamentals/16-putting-it-together">16 Putting everything together <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 01 · Lesson 15 of 16</p>
+      <h1>Debugging</h1>
+      <h2>The idea</h2>
+      <p>A bug is a difference between what you meant and what the engine did. Debugging is how you find the first line where those two diverge.</p>
+<p>The practical method is small. Read the error. Print the values just before the bad line. Check the assumption you are least sure of. Change one thing. Run again.</p>
+<p>The Node.js debugger (<code>node inspect file.js</code>) can pause on a line. You do not need it yet. <code>console.log</code> is enough for this course, and professionals still use it.</p>
+      <h2>Why it matters</h2>
+      <p>Playwright failures look noisy: a locator, a timeout, a call log. The skill underneath is the same one you practice here. Find the first surprise. Do not change five things at once.</p>
+      <h2>A picture to hold</h2>
+      <p>Looking for a lost key by walking your route backwards. You do not redecorate the house. You stand where you last know you had the key, then take one step.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>peek.js · node peek.js</figcaption>
+    <pre><code class="language-js">const steps = [&quot;boil&quot;, &quot;steep&quot;];
+console.log(&quot;count&quot;, steps.length);
+console.log(&quot;first&quot;, steps[0]);
+console.log(&quot;third&quot;, steps[2]);</code></pre>
+  </figure>
+      <div class="output"><strong>What you should see</strong><pre>count 2
+first boil
+third undefined</pre></div>
+      <p><code>steps[2]</code> does not throw. It is simply <code>undefined</code>, because that mailbox is empty. A later line that treated <code>steps[2]</code> as an object would throw. The print shows you the gap before that happens.</p>
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>const steps = [&quot;boil&quot;, &quot;steep&quot;];</code><span>Two items. Valid indexes are 0 and 1.</span></li>
+<li><code>console.log(&quot;count&quot;, steps.length);</code><span>Print a label and a value. Labels keep you from mixing up several numbers on the screen.</span></li>
+<li><code>console.log(&quot;first&quot;, steps[0]);</code><span>Confirm the first item is what you think. Here it is <code>boil</code>.</span></li>
+<li><code>console.log(&quot;third&quot;, steps[2]);</code><span>Ask for an index that does not exist. The evidence is <code>undefined</code>. Your theory of “there is a third step” is the bug.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Write a function <code>lastItem(list)</code> that returns <code>list[list.length - 1]</code>. Call it with an empty array and with <code>['a', 'b']</code>. Print both results before you decide whether the function is right. The empty call returns <code>undefined</code>. The other returns <code>b</code>.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Changing several lines before the next run. You will not know which change mattered.</li>
+<li>Printing so much that you stop reading it. Print the one value tied to your current guess.</li>
+<li>Trusting a memory of the file instead of the file. The engine ran the file, not your memory of it.</li></ul>
+      <h2>Recap</h2>
+      <p>Debugging compares what you meant with what happened. Read the line. Print the nearby values. Change one thing and run again.</p>
+      <label class="done"><input type="checkbox" data-done="fundamentals/15-debugging"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="14-errors.html"><small>Previous</small>Errors</a><a class="next" href="16-putting-it-together.html"><small>Next</small>Putting everything together</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

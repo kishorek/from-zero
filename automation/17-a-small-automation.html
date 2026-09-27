@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A script that turns a list into a report · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html" aria-current="page">JavaScript for practical automation</a>
+<a href="../playwright/index.html">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in JavaScript for practical automation">
+    <h2>JavaScript for practical automation</h2>
+    <ol><li><a href="01-the-terminal.html" data-lesson="automation/01-the-terminal">01 The terminal <span class="done-flag"></span></a></li>
+<li><a href="02-running-files.html" data-lesson="automation/02-running-files">02 Running JavaScript files with Node.js <span class="done-flag"></span></a></li>
+<li><a href="03-npm.html" data-lesson="automation/03-npm">03 npm and package.json <span class="done-flag"></span></a></li>
+<li><a href="04-arguments.html" data-lesson="automation/04-arguments">04 Command-line arguments <span class="done-flag"></span></a></li>
+<li><a href="05-environment-variables.html" data-lesson="automation/05-environment-variables">05 Environment variables <span class="done-flag"></span></a></li>
+<li><a href="06-files.html" data-lesson="automation/06-files">06 Reading and writing files <span class="done-flag"></span></a></li>
+<li><a href="07-paths.html" data-lesson="automation/07-paths">07 Paths and folders <span class="done-flag"></span></a></li>
+<li><a href="08-json.html" data-lesson="automation/08-json">08 JSON <span class="done-flag"></span></a></li>
+<li><a href="09-text.html" data-lesson="automation/09-text">09 Cleaning up text <span class="done-flag"></span></a></li>
+<li><a href="10-lists.html" data-lesson="automation/10-lists">10 Transforming lists <span class="done-flag"></span></a></li>
+<li><a href="11-dates.html" data-lesson="automation/11-dates">11 Dates and times <span class="done-flag"></span></a></li>
+<li><a href="12-modules.html" data-lesson="automation/12-modules">12 Modules <span class="done-flag"></span></a></li>
+<li><a href="13-promises.html" data-lesson="automation/13-promises">13 Promises <span class="done-flag"></span></a></li>
+<li><a href="14-async-await.html" data-lesson="automation/14-async-await">14 async and await <span class="done-flag"></span></a></li>
+<li><a href="15-http.html" data-lesson="automation/15-http">15 HTTP requests with fetch <span class="done-flag"></span></a></li>
+<li><a href="16-logs-and-exit-codes.html" data-lesson="automation/16-logs-and-exit-codes">16 Logs and exit codes <span class="done-flag"></span></a></li>
+<li><a href="17-a-small-automation.html" data-lesson="automation/17-a-small-automation" aria-current="page">17 A script that turns a list into a report <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 02 · Lesson 17 of 17</p>
+      <h1>A script that turns a list into a report</h1>
+      <h2>The idea</h2>
+      <p>This script is the layer in one file. It reads <code>tasks.txt</code> from the script’s folder, drops blank lines and comments, numbers what remains, and writes <code>report.txt</code> with today’s date. If the source file is missing, it prints an error and exits <code>1</code>.</p>
+<p>The rules live in functions. The reading and writing sit in <code>main</code>. That split is what you will keep doing: pure decisions in one place, effects (files, network, browsers) at the edge.</p>
+      <h2>Why it matters</h2>
+      <p>You can now automate a boring tidy-up without a browser. Layer 3 adds the browser. The shape does not change. Read input, decide, write output, report failure with a code.</p>
+      <h2>A picture to hold</h2>
+      <p>A night clerk. The inbox is <code>tasks.txt</code>. The clerk discards blank slips and slips that start with <code>#</code>, numbers the rest, dates the packet, and files it as <code>report.txt</code>. If the inbox was never delivered, the clerk turns on the red lamp and writes nothing.</p>
+      
+      <h2>A small example</h2>
+      <p>Create <code>tasks.txt</code> beside the script first. Lines starting with <code>#</code> are comments. Then run <code>node report.mjs</code>.</p>
+      <figure class="code">
+    <figcaption>tasks.txt</figcaption>
+    <pre><code class="language-sh"># today
+Buy milk
+
+Reply to Ada</code></pre>
+  </figure>
+<figure class="code">
+    <figcaption>report.mjs · node report.mjs</figcaption>
+    <pre><code class="language-js">import { readFileSync, writeFileSync } from &quot;node:fs&quot;;
+import path from &quot;node:path&quot;;
+import { fileURLToPath } from &quot;node:url&quot;;
+
+const here = path.dirname(fileURLToPath(import.meta.url));
+
+function visibleTasks(raw) {
+  return raw
+    .split(&quot;\n&quot;)
+    .map((line) =&gt; line.trim())
+    .filter((line) =&gt; line.length &gt; 0 &amp;&amp; !line.startsWith(&quot;#&quot;));
+}
+
+function reportText(tasks) {
+  const dated = new Intl.DateTimeFormat(&quot;en&quot;, { dateStyle: &quot;full&quot; }).format(new Date());
+  const lines = [`Report for ${dated}`, &quot;&quot;];
+  if (tasks.length === 0) {
+    lines.push(&quot;No tasks today.&quot;);
+  } else {
+    tasks.forEach((task, index) =&gt; lines.push(`${index + 1}. ${task}`));
+  }
+  return lines.join(&quot;\n&quot;) + &quot;\n&quot;;
+}
+
+function main() {
+  const source = path.join(here, &quot;tasks.txt&quot;);
+  const target = path.join(here, &quot;report.txt&quot;);
+  let raw;
+  try {
+    raw = readFileSync(source, &quot;utf8&quot;);
+  } catch (error) {
+    console.error(&quot;Could not read tasks.txt:&quot;, error.message);
+    process.exitCode = 1;
+    return;
+  }
+  const tasks = visibleTasks(raw);
+  writeFileSync(target, reportText(tasks));
+  console.log(`Wrote ${tasks.length} tasks.`);
+}
+
+main();</code></pre>
+  </figure>
+      <div class="output"><strong>What you should see</strong><pre>Wrote 2 tasks.</pre></div>
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>function visibleTasks(raw) {</code><span>Turn file text into the lines worth keeping. No files are touched in here. That makes the rule easy to trust.</span></li>
+<li><code>.filter((line) =&gt; line.length &gt; 0 &amp;&amp; !line.startsWith(&quot;#&quot;));</code><span>Keep a line when it has characters and does not start with <code>#</code>. <code>&amp;&amp;</code> means both tests must pass. <code>startsWith</code> is a string question.</span></li>
+<li><code>function reportText(tasks) {</code><span>Build the report as a string. Writing the file is someone else’s job.</span></li>
+<li><code>tasks.forEach((task, index) =&gt; lines.push(`${index + 1}. ${task}`));</code><span><code>forEach</code> runs a function for each item and does not build a new array. Pushing onto <code>lines</code> is the effect we want.</span></li>
+<li><code>raw = readFileSync(source, &quot;utf8&quot;);</code><span>Read the inbox. A missing file throws. The <code>catch</code> turns that into a sentence and exit code <code>1</code>.</span></li>
+<li><code>writeFileSync(target, reportText(tasks));</code><span>Replace <code>report.txt</code> with the new report. Open that file and check the date and the numbering.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Add a third real task and a second comment line. Run the script. <code>report.txt</code> should number three tasks and ignore both comments. Delete <code>tasks.txt</code> and run again. You should see the error, exit code <code>1</code>, and the old report left untouched because the write never ran.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Catching the read error and still writing an empty report. You just destroyed yesterday’s report because today’s inbox was missing.</li>
+<li>Numbering comment lines. Filter first, then number.</li>
+<li>Putting the date format, the filter, and the file write in one long block. When it breaks, you cannot tell which job failed.</li></ul>
+      <h2>Recap</h2>
+      <p>A practical script reads input, cleans it with ordinary JavaScript, writes an output, and sets an exit code when the input is missing. The next layer points this same discipline at a browser.</p>
+      <label class="done"><input type="checkbox" data-done="automation/17-a-small-automation"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="16-logs-and-exit-codes.html"><small>Previous</small>Logs and exit codes</a><a class="next" href="../playwright/01-what-automation-is.html"><small>Next</small>What browser automation is</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

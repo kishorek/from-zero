@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The library and the test runner · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html" aria-current="page">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Playwright">
+    <h2>Playwright</h2>
+    <ol><li><a href="01-what-automation-is.html" data-lesson="playwright/01-what-automation-is">01 What browser automation is <span class="done-flag"></span></a></li>
+<li><a href="02-what-playwright-is.html" data-lesson="playwright/02-what-playwright-is">02 What Playwright is <span class="done-flag"></span></a></li>
+<li><a href="03-where-javascript-runs.html" data-lesson="playwright/03-where-javascript-runs">03 Browser JavaScript, Node.js, and Playwright <span class="done-flag"></span></a></li>
+<li><a href="04-installing.html" data-lesson="playwright/04-installing">04 Installing Playwright <span class="done-flag"></span></a></li>
+<li><a href="05-library-and-runner.html" data-lesson="playwright/05-library-and-runner" aria-current="page">05 The library and the test runner <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-test.html" data-lesson="playwright/06-your-first-test">06 Your first test <span class="done-flag"></span></a></li>
+<li><a href="07-browser-context-page.html" data-lesson="playwright/07-browser-context-page">07 Browser, context, and page <span class="done-flag"></span></a></li>
+<li><a href="08-navigating.html" data-lesson="playwright/08-navigating">08 Navigating <span class="done-flag"></span></a></li>
+<li><a href="09-locators.html" data-lesson="playwright/09-locators">09 Locators <span class="done-flag"></span></a></li>
+<li><a href="10-actions.html" data-lesson="playwright/10-actions">10 Actions <span class="done-flag"></span></a></li>
+<li><a href="11-auto-waiting.html" data-lesson="playwright/11-auto-waiting">11 Auto-waiting <span class="done-flag"></span></a></li>
+<li><a href="12-assertions.html" data-lesson="playwright/12-assertions">12 Assertions <span class="done-flag"></span></a></li>
+<li><a href="13-forms.html" data-lesson="playwright/13-forms">13 Forms <span class="done-flag"></span></a></li>
+<li><a href="14-screenshots-and-traces.html" data-lesson="playwright/14-screenshots-and-traces">14 Screenshots, video, and traces <span class="done-flag"></span></a></li>
+<li><a href="15-popups.html" data-lesson="playwright/15-popups">15 Pages and popups <span class="done-flag"></span></a></li>
+<li><a href="16-frames.html" data-lesson="playwright/16-frames">16 Frames <span class="done-flag"></span></a></li>
+<li><a href="17-network.html" data-lesson="playwright/17-network">17 Network routing <span class="done-flag"></span></a></li>
+<li><a href="18-storage-state.html" data-lesson="playwright/18-storage-state">18 Saving a login with storage state <span class="done-flag"></span></a></li>
+<li><a href="19-configuration.html" data-lesson="playwright/19-configuration">19 Configuration, projects, and hooks <span class="done-flag"></span></a></li>
+<li><a href="20-debugging-a-flow.html" data-lesson="playwright/20-debugging-a-flow">20 Debugging a failing test <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 03 · Lesson 5 of 20</p>
+      <h1>The library and the test runner</h1>
+      <h2>The idea</h2>
+      <p>There are two ways to use the same browser powers. The library (<code>playwright</code>) is for a script: you launch, you close, you decide what to print. The runner (<code>@playwright/test</code>) is for checks: you write <code>test(...)</code>, you receive a <code>page</code>, you <code>expect</code> something, and the runner collects pass, fail, retries, and a report.</p>
+<p>Use the runner for anything you want to repeat and trust. Use the library for a one-off tool, such as saving a login or scraping a page you are allowed to read. This course teaches the runner as the default and shows the library where the launch itself is the lesson.</p>
+      <h2>Why it matters</h2>
+      <p>Copying a library script into a test file, or a test into a plain script, fails in a confusing way. The imports differ. The runner already launched the browser for you. A library script has to launch it.</p>
+      <h2>A picture to hold</h2>
+      <p>A car you drive yourself, versus a driving exam. The car is the same. In the exam, someone else starts the session, watches each task, and writes pass or fail. The runner is the examiner. The library is the car keys.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>script.mjs · node script.mjs</figcaption>
+    <pre><code class="language-js">import { chromium } from &quot;playwright&quot;;
+
+const browser = await chromium.launch();
+const page = await browser.newPage();
+await page.goto(&quot;https://example.com&quot;);
+console.log(await page.title());
+await browser.close();</code></pre>
+  </figure>
+<figure class="code">
+    <figcaption>tests/example.spec.js · npx playwright test</figcaption>
+    <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
+
+test(&quot;title is Example Domain&quot;, async ({ page }) =&gt; {
+  await page.goto(&quot;https://example.com&quot;);
+  await expect(page).toHaveTitle(&quot;Example Domain&quot;);
+});</code></pre>
+  </figure>
+      <div class="output"><strong>What you should see</strong><pre>Example Domain</pre></div>
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>const browser = await chromium.launch();</code><span>Library style. You start Chromium. Headless is the default, so no window appears.</span></li>
+<li><code>await browser.close();</code><span>You also stop it. Forgetting <code>close</code> leaves a browser process running.</span></li>
+<li><code>import { test, expect } from &quot;@playwright/test&quot;;</code><span>Runner style. You do not import <code>chromium</code> here. The runner creates the page and closes it.</span></li>
+<li><code>test(&quot;title is Example Domain&quot;, async ({ page }) =&gt; {</code><span>Declare one test. The name is what the report prints. <code>{ page }</code> pulls the page fixture out of the argument. A fixture is a tool the runner sets up for you.</span></li>
+<li><code>await expect(page).toHaveTitle(&quot;Example Domain&quot;);</code><span>An assertion. If the title never becomes that string, the test fails. If it does, the test passes.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Run the library script and the test. Then remove <code>await browser.close()</code> from the script, run it, and notice a Chromium process still around. Put <code>close</code> back. In the test, change the expected title to <code>&quot;Wrong&quot;</code>, run <code>npx playwright test</code>, read the failure, and put the title back.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Calling <code>chromium.launch</code> inside a <code>test</code>. The runner already did the launch. You would be opening a second browser the runner does not track.</li>
+<li>Forgetting <code>await</code> on <code>goto</code> or <code>close</code>. The process moves on while the browser is still working.</li>
+<li>Naming every file <code>.spec.js</code> and also trying to run it with plain <code>node</code>. Spec files are for the runner.</li></ul>
+      <h2>Recap</h2>
+      <p>The library means you launch and close. The runner means you write <code>test</code> and <code>expect</code>, and it owns the browser. Prefer the runner for repeatable checks.</p>
+      <label class="done"><input type="checkbox" data-done="playwright/05-library-and-runner"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="04-installing.html"><small>Previous</small>Installing Playwright</a><a class="next" href="06-your-first-test.html"><small>Next</small>Your first test</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

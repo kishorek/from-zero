@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What browser automation is · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html" aria-current="page">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Playwright">
+    <h2>Playwright</h2>
+    <ol><li><a href="01-what-automation-is.html" data-lesson="playwright/01-what-automation-is" aria-current="page">01 What browser automation is <span class="done-flag"></span></a></li>
+<li><a href="02-what-playwright-is.html" data-lesson="playwright/02-what-playwright-is">02 What Playwright is <span class="done-flag"></span></a></li>
+<li><a href="03-where-javascript-runs.html" data-lesson="playwright/03-where-javascript-runs">03 Browser JavaScript, Node.js, and Playwright <span class="done-flag"></span></a></li>
+<li><a href="04-installing.html" data-lesson="playwright/04-installing">04 Installing Playwright <span class="done-flag"></span></a></li>
+<li><a href="05-library-and-runner.html" data-lesson="playwright/05-library-and-runner">05 The library and the test runner <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-test.html" data-lesson="playwright/06-your-first-test">06 Your first test <span class="done-flag"></span></a></li>
+<li><a href="07-browser-context-page.html" data-lesson="playwright/07-browser-context-page">07 Browser, context, and page <span class="done-flag"></span></a></li>
+<li><a href="08-navigating.html" data-lesson="playwright/08-navigating">08 Navigating <span class="done-flag"></span></a></li>
+<li><a href="09-locators.html" data-lesson="playwright/09-locators">09 Locators <span class="done-flag"></span></a></li>
+<li><a href="10-actions.html" data-lesson="playwright/10-actions">10 Actions <span class="done-flag"></span></a></li>
+<li><a href="11-auto-waiting.html" data-lesson="playwright/11-auto-waiting">11 Auto-waiting <span class="done-flag"></span></a></li>
+<li><a href="12-assertions.html" data-lesson="playwright/12-assertions">12 Assertions <span class="done-flag"></span></a></li>
+<li><a href="13-forms.html" data-lesson="playwright/13-forms">13 Forms <span class="done-flag"></span></a></li>
+<li><a href="14-screenshots-and-traces.html" data-lesson="playwright/14-screenshots-and-traces">14 Screenshots, video, and traces <span class="done-flag"></span></a></li>
+<li><a href="15-popups.html" data-lesson="playwright/15-popups">15 Pages and popups <span class="done-flag"></span></a></li>
+<li><a href="16-frames.html" data-lesson="playwright/16-frames">16 Frames <span class="done-flag"></span></a></li>
+<li><a href="17-network.html" data-lesson="playwright/17-network">17 Network routing <span class="done-flag"></span></a></li>
+<li><a href="18-storage-state.html" data-lesson="playwright/18-storage-state">18 Saving a login with storage state <span class="done-flag"></span></a></li>
+<li><a href="19-configuration.html" data-lesson="playwright/19-configuration">19 Configuration, projects, and hooks <span class="done-flag"></span></a></li>
+<li><a href="20-debugging-a-flow.html" data-lesson="playwright/20-debugging-a-flow">20 Debugging a failing test <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 03 · Lesson 1 of 20</p>
+      <h1>What browser automation is</h1>
+      <h2>The idea</h2>
+      <p>Browser automation means a program uses a web browser the way a person would. It opens an address, waits for the page, clicks a link, types into a box, and reads the result.</p>
+<p>The program does not become the page. It stands outside the page and drives the browser. That is different from JavaScript that lives inside the page, and different from <code>fetch</code>, which only receives the document the server sent.</p>
+      <h2>Why it matters</h2>
+      <p>Some things worth checking only exist after the page’s own JavaScript runs: a button that appears, a menu that opens, a message that arrives late. <code>fetch</code> never sees those. A browser, driven by a script, does.</p>
+      <h2>A picture to hold</h2>
+      <p>A very fast assistant who only follows the card you wrote. The assistant can use the mouse and read the screen. The assistant does not guess that you meant a different button with a similar name. The card is the whole job.</p>
+      
+      <h2>A small example</h2>
+      <p>This file does not open a browser yet. It writes the shape of a job as data, so you can see a script as a list of actions before Playwright carries them out.</p>
+      <figure class="code">
+    <figcaption>plan.js · node plan.js</figcaption>
+    <pre><code class="language-js">const steps = [
+  { do: &quot;open&quot;, url: &quot;https://example.com&quot; },
+  { do: &quot;read&quot;, what: &quot;heading&quot; },
+  { do: &quot;close&quot; },
+];
+
+for (const step of steps) {
+  console.log(step.do, step.url ?? step.what ?? &quot;&quot;);
+}</code></pre>
+  </figure>
+      <div class="output"><strong>What you should see</strong><pre>open https://example.com
+read heading
+close</pre></div>
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>const steps = [</code><span>An array of objects. Each object is one action with a verb and, sometimes, a detail.</span></li>
+<li><code>{ do: &quot;open&quot;, url: &quot;https://example.com&quot; },</code><span>The first action names a URL. A URL is the address of a page.</span></li>
+<li><code>console.log(step.do, step.url ?? step.what ?? &quot;&quot;);</code><span><code>??</code> means “if the left side is missing, use the right side.” The line prints the verb and whichever detail exists.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Add a fourth step, <code>{ do: &quot;click&quot;, what: &quot;Learn more&quot; }</code>, in the position where a person would click, after reading the heading and before closing. Run the file and read the plan aloud. In later lessons Playwright will perform a plan like this for real.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Describing the goal (“make sure the site works”) and calling that a script. Automation needs the actions.</li>
+<li>Assuming <code>fetch</code> and a browser see the same thing. <code>fetch</code> sees the response. A browser also runs the page.</li>
+<li>Pointing an assistant at a site whose owner did not agree to automation. Permission is part of the task.</li></ul>
+      <h2>Recap</h2>
+      <p>Browser automation is a program using a browser: open, act, read, close. The script is a precise list. It stands outside the page.</p>
+      <label class="done"><input type="checkbox" data-done="playwright/01-what-automation-is"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="../automation/17-a-small-automation.html"><small>Previous</small>A script that turns a list into a report</a><a class="next" href="02-what-playwright-is.html"><small>Next</small>What Playwright is</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

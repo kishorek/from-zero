@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Debugging a failing test · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html">JavaScript for practical automation</a>
+<a href="../playwright/index.html" aria-current="page">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in Playwright">
+    <h2>Playwright</h2>
+    <ol><li><a href="01-what-automation-is.html" data-lesson="playwright/01-what-automation-is">01 What browser automation is <span class="done-flag"></span></a></li>
+<li><a href="02-what-playwright-is.html" data-lesson="playwright/02-what-playwright-is">02 What Playwright is <span class="done-flag"></span></a></li>
+<li><a href="03-where-javascript-runs.html" data-lesson="playwright/03-where-javascript-runs">03 Browser JavaScript, Node.js, and Playwright <span class="done-flag"></span></a></li>
+<li><a href="04-installing.html" data-lesson="playwright/04-installing">04 Installing Playwright <span class="done-flag"></span></a></li>
+<li><a href="05-library-and-runner.html" data-lesson="playwright/05-library-and-runner">05 The library and the test runner <span class="done-flag"></span></a></li>
+<li><a href="06-your-first-test.html" data-lesson="playwright/06-your-first-test">06 Your first test <span class="done-flag"></span></a></li>
+<li><a href="07-browser-context-page.html" data-lesson="playwright/07-browser-context-page">07 Browser, context, and page <span class="done-flag"></span></a></li>
+<li><a href="08-navigating.html" data-lesson="playwright/08-navigating">08 Navigating <span class="done-flag"></span></a></li>
+<li><a href="09-locators.html" data-lesson="playwright/09-locators">09 Locators <span class="done-flag"></span></a></li>
+<li><a href="10-actions.html" data-lesson="playwright/10-actions">10 Actions <span class="done-flag"></span></a></li>
+<li><a href="11-auto-waiting.html" data-lesson="playwright/11-auto-waiting">11 Auto-waiting <span class="done-flag"></span></a></li>
+<li><a href="12-assertions.html" data-lesson="playwright/12-assertions">12 Assertions <span class="done-flag"></span></a></li>
+<li><a href="13-forms.html" data-lesson="playwright/13-forms">13 Forms <span class="done-flag"></span></a></li>
+<li><a href="14-screenshots-and-traces.html" data-lesson="playwright/14-screenshots-and-traces">14 Screenshots, video, and traces <span class="done-flag"></span></a></li>
+<li><a href="15-popups.html" data-lesson="playwright/15-popups">15 Pages and popups <span class="done-flag"></span></a></li>
+<li><a href="16-frames.html" data-lesson="playwright/16-frames">16 Frames <span class="done-flag"></span></a></li>
+<li><a href="17-network.html" data-lesson="playwright/17-network">17 Network routing <span class="done-flag"></span></a></li>
+<li><a href="18-storage-state.html" data-lesson="playwright/18-storage-state">18 Saving a login with storage state <span class="done-flag"></span></a></li>
+<li><a href="19-configuration.html" data-lesson="playwright/19-configuration">19 Configuration, projects, and hooks <span class="done-flag"></span></a></li>
+<li><a href="20-debugging-a-flow.html" data-lesson="playwright/20-debugging-a-flow" aria-current="page">20 Debugging a failing test <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 03 · Lesson 20 of 20</p>
+      <h1>Debugging a failing test</h1>
+      <h2>The idea</h2>
+      <p>When a test fails, the runner prints the assertion, the expected value, the received value, and a call log of the actions it took. Read that before you change code. Then open the HTML report.</p>
+<p>For a live look, <code>npx playwright test --debug</code> pauses with the inspector. <code>npx playwright test --ui</code> opens UI mode, where you can watch a test and time-travel through actions. Use these to gather one fact. Then stop the debugger and change one thing.</p>
+<p>The flow below is a complete check of <code>example.com</code>: open, assert the heading, follow “Learn more,” assert the new host. It is the shape of a real script. When a step fails, the failure names the step.</p>
+      <h2>Why it matters</h2>
+      <p>You now have every piece this course set out to give you: a program, JavaScript, and a browser under test. Debugging is how that skill stays honest. The page is allowed to be wrong. The test is also allowed to be wrong. The evidence decides which.</p>
+      <h2>A picture to hold</h2>
+      <p>The same backwards walk from the debugging lesson, now with a camera. The call log is the walk. The trace is the camera. UI mode is you standing in the hallway. You still change one thing at a time.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>tests/flow.spec.js · npx playwright test tests/flow.spec.js</figcaption>
+    <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
+
+test(&quot;read the example and follow Learn more&quot;, async ({ page }) =&gt; {
+  await page.goto(&quot;https://example.com&quot;);
+  const heading = page.getByRole(&quot;heading&quot;, { level: 1 });
+  await expect(heading).toHaveText(&quot;Example Domain&quot;);
+  await page.getByRole(&quot;link&quot;, { name: &quot;Learn more&quot; }).click();
+  await expect(page).toHaveURL(/iana\.org/);
+});</code></pre>
+  </figure>
+      
+      <p>Commands worth remembering: <code>npx playwright test --debug</code> pauses on this test. <code>npx playwright test --ui</code> opens the watcher. <code>npx playwright show-report</code> opens the last HTML report. A failure’s call log lists each action and why it waited.</p>
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>await page.goto(&quot;https://example.com&quot;);</code><span>Step 1. If this times out, the problem is the network or the address, not the heading.</span></li>
+<li><code>const heading = page.getByRole(&quot;heading&quot;, { level: 1 });</code><span>A locator variable. Nothing is fetched yet. The search happens when you assert or act.</span></li>
+<li><code>await expect(heading).toHaveText(&quot;Example Domain&quot;);</code><span>Step 2. On failure you get the text Playwright actually saw, including a note when the locator matched nothing.</span></li>
+<li><code>await page.getByRole(&quot;link&quot;, { name: &quot;Learn more&quot; }).click();</code><span>Step 3. Auto-waiting applies. If two links share the name, the error says the locator matched two elements.</span></li>
+<li><code>await expect(page).toHaveURL(/iana\.org/);</code><span>Step 4. The address must contain <code>iana.org</code>. A wrong click fails here with the URL you did reach.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Break the heading text on purpose, run the test, and read the expected-versus-received block out loud. Open the report if it was generated. Put the text back. Then run <code>--debug</code>, step over <code>goto</code>, and look at the page before the assertion. Close the inspector. One deliberate failure, one reading, one repair.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Rewriting locators before reading which step failed. The log already narrowed it down.</li>
+<li>Leaving <code>.only</code> on a test. <code>test.only</code> runs that test and skips the rest. Fine for an afternoon. Surprising tomorrow. The config can set <code>forbidOnly</code> so CI rejects it.</li>
+<li>Fixing a product bug and a test bug in the same edit. You will not know which one matched the evidence.</li></ul>
+      <h2>Recap</h2>
+      <p>Read the expectation and the call log. Open the trace or UI mode when you need to see the page. Change one thing. A full flow is still just ordered steps with assertions between them.</p>
+      <label class="done"><input type="checkbox" data-done="playwright/20-debugging-a-flow"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="19-configuration.html"><small>Previous</small>Configuration, projects, and hooks</a><a class="next" href="../index.html"><small>Next</small>Back to the start</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

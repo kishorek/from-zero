@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Environment variables · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html" aria-current="page">JavaScript for practical automation</a>
+<a href="../playwright/index.html">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in JavaScript for practical automation">
+    <h2>JavaScript for practical automation</h2>
+    <ol><li><a href="01-the-terminal.html" data-lesson="automation/01-the-terminal">01 The terminal <span class="done-flag"></span></a></li>
+<li><a href="02-running-files.html" data-lesson="automation/02-running-files">02 Running JavaScript files with Node.js <span class="done-flag"></span></a></li>
+<li><a href="03-npm.html" data-lesson="automation/03-npm">03 npm and package.json <span class="done-flag"></span></a></li>
+<li><a href="04-arguments.html" data-lesson="automation/04-arguments">04 Command-line arguments <span class="done-flag"></span></a></li>
+<li><a href="05-environment-variables.html" data-lesson="automation/05-environment-variables" aria-current="page">05 Environment variables <span class="done-flag"></span></a></li>
+<li><a href="06-files.html" data-lesson="automation/06-files">06 Reading and writing files <span class="done-flag"></span></a></li>
+<li><a href="07-paths.html" data-lesson="automation/07-paths">07 Paths and folders <span class="done-flag"></span></a></li>
+<li><a href="08-json.html" data-lesson="automation/08-json">08 JSON <span class="done-flag"></span></a></li>
+<li><a href="09-text.html" data-lesson="automation/09-text">09 Cleaning up text <span class="done-flag"></span></a></li>
+<li><a href="10-lists.html" data-lesson="automation/10-lists">10 Transforming lists <span class="done-flag"></span></a></li>
+<li><a href="11-dates.html" data-lesson="automation/11-dates">11 Dates and times <span class="done-flag"></span></a></li>
+<li><a href="12-modules.html" data-lesson="automation/12-modules">12 Modules <span class="done-flag"></span></a></li>
+<li><a href="13-promises.html" data-lesson="automation/13-promises">13 Promises <span class="done-flag"></span></a></li>
+<li><a href="14-async-await.html" data-lesson="automation/14-async-await">14 async and await <span class="done-flag"></span></a></li>
+<li><a href="15-http.html" data-lesson="automation/15-http">15 HTTP requests with fetch <span class="done-flag"></span></a></li>
+<li><a href="16-logs-and-exit-codes.html" data-lesson="automation/16-logs-and-exit-codes">16 Logs and exit codes <span class="done-flag"></span></a></li>
+<li><a href="17-a-small-automation.html" data-lesson="automation/17-a-small-automation">17 A script that turns a list into a report <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 02 · Lesson 5 of 17</p>
+      <h1>Environment variables</h1>
+      <h2>The idea</h2>
+      <p>An environment variable is a named setting that lives outside your file, in the environment of the process. <code>process.env</code> is an object of those settings. <code>process.env.API_KEY</code> reads the one named <code>API_KEY</code>.</p>
+<p>Secrets (passwords, tokens) do not belong in source code. Anyone who receives the file would receive the secret. Put them in the environment. Node.js 20 and newer can load a file of settings when you start the program: <code>node --env-file=.env app.mjs</code>. The file is named <code>.env</code> by convention. Do not commit that file.</p>
+      <h2>Why it matters</h2>
+      <p>Playwright projects use the environment for CI secrets, base URLs, and passwords. The habit starts here: code asks for a name, the environment supplies the value, logs never print the value.</p>
+      <h2>A picture to hold</h2>
+      <p>A coat check. The script knows the ticket name (<code>API_KEY</code>). The cloakroom (the environment) holds the coat. You can hand the same script to someone else with an empty cloakroom, and it will say the coat is missing instead of smuggling your coat in the script.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>.env  (do not commit this file)</figcaption>
+    <pre><code class="language-sh">API_KEY=replace-me</code></pre>
+  </figure>
+<figure class="code">
+    <figcaption>app.mjs · node --env-file=.env app.mjs</figcaption>
+    <pre><code class="language-js">const key = process.env.API_KEY;
+if (!key) {
+  console.log(&quot;Missing API_KEY. Set it in the environment.&quot;);
+  process.exitCode = 1;
+} else {
+  console.log(&quot;API_KEY is set. Length:&quot;, key.length);
+}</code></pre>
+  </figure>
+      <div class="output"><strong>What you should see</strong><pre>API_KEY is set. Length: 10</pre></div>
+      
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>API_KEY=replace-me</code><span>One setting per line, name then equals then value. This is not JavaScript. The <code>--env-file</code> flag reads it before your script starts.</span></li>
+<li><code>const key = process.env.API_KEY;</code><span>Look up that name. If it was not set, <code>key</code> is <code>undefined</code>.</span></li>
+<li><code>console.log(&quot;Missing API_KEY. Set it in the environment.&quot;);</code><span>Tell the reader what to fix. Do not invent a fallback password inside the file.</span></li>
+<li><code>console.log(&quot;API_KEY is set. Length:&quot;, key.length);</code><span>Prove the value arrived without printing it. Length is enough evidence while you learn.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Create <code>.env</code> with <code>CITY=Lisbon</code>. Read <code>process.env.CITY</code> in a script started with <code>--env-file=.env</code>. Print the city. Then rename the variable in <code>.env</code> only, run again, and watch the script report it missing. That is the point: the script and the secret can change separately.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Printing the secret “just to check.” Logs get copied into bug reports.</li>
+<li>Committing <code>.env</code>. Commit a <code>.env.example</code> that lists the names with blank values.</li>
+<li>Expecting Node.js to load <code>.env</code> by itself. You opt in with <code>--env-file</code>, or with a tool you installed on purpose.</li></ul>
+      <h2>Recap</h2>
+      <p><code>process.env</code> holds named settings from outside the file. Keep secrets there. Print that a secret exists, not what it is.</p>
+      <label class="done"><input type="checkbox" data-done="automation/05-environment-variables"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="04-arguments.html"><small>Previous</small>Command-line arguments</a><a class="next" href="06-files.html"><small>Next</small>Reading and writing files</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>

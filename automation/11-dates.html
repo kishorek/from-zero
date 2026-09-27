@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dates and times · From Zero</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="mark" href="../index.html">From <span>Zero</span></a>
+    <nav class="layers" aria-label="Layers"><a href="../fundamentals/index.html">Programming fundamentals</a>
+<a href="../automation/index.html" aria-current="page">JavaScript for practical automation</a>
+<a href="../playwright/index.html">Playwright</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="lesson-nav">Lessons</button>
+  </header>
+  <div class="shell">
+    <nav class="side" id="lesson-nav" aria-label="Lessons in JavaScript for practical automation">
+    <h2>JavaScript for practical automation</h2>
+    <ol><li><a href="01-the-terminal.html" data-lesson="automation/01-the-terminal">01 The terminal <span class="done-flag"></span></a></li>
+<li><a href="02-running-files.html" data-lesson="automation/02-running-files">02 Running JavaScript files with Node.js <span class="done-flag"></span></a></li>
+<li><a href="03-npm.html" data-lesson="automation/03-npm">03 npm and package.json <span class="done-flag"></span></a></li>
+<li><a href="04-arguments.html" data-lesson="automation/04-arguments">04 Command-line arguments <span class="done-flag"></span></a></li>
+<li><a href="05-environment-variables.html" data-lesson="automation/05-environment-variables">05 Environment variables <span class="done-flag"></span></a></li>
+<li><a href="06-files.html" data-lesson="automation/06-files">06 Reading and writing files <span class="done-flag"></span></a></li>
+<li><a href="07-paths.html" data-lesson="automation/07-paths">07 Paths and folders <span class="done-flag"></span></a></li>
+<li><a href="08-json.html" data-lesson="automation/08-json">08 JSON <span class="done-flag"></span></a></li>
+<li><a href="09-text.html" data-lesson="automation/09-text">09 Cleaning up text <span class="done-flag"></span></a></li>
+<li><a href="10-lists.html" data-lesson="automation/10-lists">10 Transforming lists <span class="done-flag"></span></a></li>
+<li><a href="11-dates.html" data-lesson="automation/11-dates" aria-current="page">11 Dates and times <span class="done-flag"></span></a></li>
+<li><a href="12-modules.html" data-lesson="automation/12-modules">12 Modules <span class="done-flag"></span></a></li>
+<li><a href="13-promises.html" data-lesson="automation/13-promises">13 Promises <span class="done-flag"></span></a></li>
+<li><a href="14-async-await.html" data-lesson="automation/14-async-await">14 async and await <span class="done-flag"></span></a></li>
+<li><a href="15-http.html" data-lesson="automation/15-http">15 HTTP requests with fetch <span class="done-flag"></span></a></li>
+<li><a href="16-logs-and-exit-codes.html" data-lesson="automation/16-logs-and-exit-codes">16 Logs and exit codes <span class="done-flag"></span></a></li>
+<li><a href="17-a-small-automation.html" data-lesson="automation/17-a-small-automation">17 A script that turns a list into a report <span class="done-flag"></span></a></li></ol>
+  </nav>
+    <main id="content" class="lesson">
+      <p class="kicker">Layer 02 · Lesson 11 of 17</p>
+      <h1>Dates and times</h1>
+      <h2>The idea</h2>
+      <p>A <code>Date</code> is a single moment in time. <code>new Date()</code> is “now,” according to the computer’s clock. <code>toISOString()</code> prints that moment in UTC, the shared clock used by files and APIs, in a form like <code>2026-09-27T18:04:00.000Z</code>.</p>
+<p><code>Intl.DateTimeFormat</code> prints the same moment for humans, in a language and a style you choose. Building a date from parts is the sharp edge: in the <code>Date</code> constructor, months are numbered <code>0</code> through <code>11</code>. January is <code>0</code>.</p>
+      <h2>Why it matters</h2>
+      <p>Reports need a date. Tests that mean “yesterday” break at midnight if you build the string by hand. Store an instant. Format it at the edge, when a human will read it.</p>
+      <h2>A picture to hold</h2>
+      <p>A timestamp is a pin on a world clock. UTC is the world clock. Your laptop’s time zone is a local poster of that same pin. <code>Intl</code> paints the poster. The pin does not move when you change the poster’s language.</p>
+      
+      <h2>A small example</h2>
+      
+      <figure class="code">
+    <figcaption>today.mjs · node today.mjs</figcaption>
+    <pre><code class="language-js">const now = new Date();
+console.log(now.toISOString());
+const formatted = new Intl.DateTimeFormat(&quot;en&quot;, {
+  dateStyle: &quot;medium&quot;,
+  timeStyle: &quot;short&quot;,
+}).format(now);
+console.log(formatted);</code></pre>
+  </figure>
+      
+      <p>The ISO line is for machines. The formatted line follows your computer’s time zone and will look like <code>Sep 27, 2026, 2:04 PM</code>. January is month <code>0</code> if you write <code>new Date(2026, 0, 27)</code>.</p>
+      <h2>Line by line</h2>
+      <ol class="walk"><li><code>const now = new Date();</code><span>Capture the current instant. Calling it twice a second later gives a different instant.</span></li>
+<li><code>console.log(now.toISOString());</code><span>Print UTC in ISO form. The <code>Z</code> means the offset is zero, which is UTC.</span></li>
+<li><code>new Intl.DateTimeFormat(&quot;en&quot;, {</code><span>Make a formatter. <code>&quot;en&quot;</code> is English. The options choose a medium date and a short time.</span></li>
+<li><code>}).format(now);</code><span>Apply the formatter to the instant. This returns a string. It does not change <code>now</code>.</span></li></ol>
+      <h2>Try it yourself</h2>
+      <p>Print today’s ISO string. Then create <code>new Date(2026, 0, 27)</code> and format it. Confirm you landed in January, not February. Write the month number you meant in a comment next to the <code>0</code>, so future you remembers.</p>
+      <h2>Common mistakes</h2>
+      <ul><li>Treating month <code>1</code> as January. In this constructor, <code>1</code> is February.</li>
+<li>Comparing dates by their formatted strings. Two locales format the same instant differently. Compare ISO strings, or compare <code>getTime()</code>, which is milliseconds.</li>
+<li>Building “today” by slicing a local string and then parsing it back. Take <code>new Date()</code> and format once, at the end.</li></ul>
+      <h2>Recap</h2>
+      <p><code>new Date()</code> captures an instant. <code>toISOString</code> is the machine spelling, in UTC. <code>Intl.DateTimeFormat</code> is the human spelling. Constructor months start at 0.</p>
+      <label class="done"><input type="checkbox" data-done="automation/11-dates"> I can explain this lesson in my own words.</label>
+      <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="10-lists.html"><small>Previous</small>Transforming lists</a><a class="next" href="12-modules.html"><small>Next</small>Modules</a></nav>
+    </main>
+  </div>
+  <script src="../js/site.js"></script>
+</body>
+</html>
