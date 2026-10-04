@@ -1,0 +1,132 @@
+automation/01-the-terminal.html
+  h_b7e40170a559db 42-67,77,83-90,92,99-102
+automation/02-running-files.html
+  h_b7e40170a559db 42-65,67,72-76,78,86-89
+automation/03-npm.html
+  h_b7e40170a559db 42-69,76,82-88,90,100-103
+automation/04-arguments.html
+  h_b7e40170a559db 42-66,78-84,86,100-103
+automation/05-environment-variables.html
+  h_b7e40170a559db 43-70,86-97,112-118
+automation/06-files.html
+  h_b7e40170a559db 43-70,81-90,99-105
+automation/07-paths.html
+  h_b7e40170a559db 43-72,83-93,95,104-112
+automation/08-json.html
+  h_b7e40170a559db 42-74,85-94,96,104-112
+automation/09-text.html
+  h_b7e40170a559db 42-77,92-100,117-120
+automation/10-lists.html
+  h_b7e40170a559db 42-79,95-104,106,119-122
+automation/11-dates.html
+  h_b7e40170a559db 42-63,74-83,85,93-96
+automation/12-modules.html
+  h_b7e40170a559db 42-71,85-91,93,108-111
+automation/13-promises.html
+  h_b7e40170a559db 42-67,90-97,99,122-127
+automation/14-async-await.html
+  h_b7e40170a559db 42-66,86-96,114-119
+automation/15-http.html
+  h_b7e40170a559db 42-66,86-98,116-119
+automation/16-logs-and-exit-codes.html
+  h_b7e40170a559db 43-67,79-88,104-107
+automation/17-a-small-automation.html
+  h_b7e40170a559db 42-75,129-138,161-166
+automation/index.html
+  h_b7e40170a559db 21-22,25-28,30-31,33-40
+css/site.css
+  h_b7e40170a559db 671-709
+fundamentals/01-what-is-a-program.html
+  h_b7e40170a559db 42-65,67,75-80,82,90-93
+fundamentals/02-what-is-code.html
+  h_b7e40170a559db 42-64,66,71-75,77,84-87
+fundamentals/03-how-a-computer-understands.html
+  h_b7e40170a559db 42-64,66,72-76,78,84-87
+fundamentals/04-what-is-a-language.html
+  h_b7e40170a559db 42-64,66-67,69-77,82-85
+fundamentals/05-javascript-and-node.html
+  h_b7e40170a559db 42-74,76-78,80-86,88,96-99
+fundamentals/06-your-first-program.html
+  h_b7e40170a559db 42-67,69,74-75,79-85,87,94-97
+fundamentals/07-variables.html
+  h_b7e40170a559db 42-66,68,77-84,86,95-98
+fundamentals/08-numbers-and-text.html
+  h_b7e40170a559db 42-68,70,81-88,90,98-101
+fundamentals/09-operators.html
+  h_b7e40170a559db 42-68,70,73-74,78-79,81-84,86-98,100,110,112-114,116-117
+fundamentals/10-arrays.html
+  h_b7e40170a559db 42-66,68,78-85,87,98-101
+fundamentals/11-objects.html
+  h_b7e40170a559db 42-66,68,80-87,89,99-102
+fundamentals/12-conditions.html
+  h_b7e40170a559db 42-67,69,80,82-87,89,107-110
+fundamentals/13-loops.html
+  h_b7e40170a559db 42-66,68,77-78,80-84,86,95-98
+fundamentals/14-functions.html
+  h_b7e40170a559db 42-67,69,78-84,86,95-98
+fundamentals/15-errors.html
+  h_b7e40170a559db 43-69,71,82-89,91,105-108
+fundamentals/16-debugging.html
+  h_b7e40170a559db 42-65,67,76-83,85,96-99
+fundamentals/17-putting-it-together.html
+  h_b7e40170a559db 42-66,68,86-94,96,113-116
+fundamentals/index.html
+  h_b7e40170a559db 21,26,29,32-40
+index.html
+  h_b7e40170a559db 23,38-39,42,45,48-56,61-62,64-67,69-70,72-79,84-85,87-105,111-115,120,125
+js/demo.js
+  h_b7e40170a559db 425
+playwright/01-what-automation-is.html
+  h_b7e40170a559db 45-70,72,86-91,93,110-113
+playwright/02-what-playwright-is.html
+  h_b7e40170a559db 45-69,82-85,88,96-99
+playwright/03-where-javascript-runs.html
+  h_b7e40170a559db 45-77,86-91,93,99-102
+playwright/04-installing.html
+  h_b7e40170a559db 45-73,90-95,97,103-106
+playwright/05-library-and-runner.html
+  h_b7e40170a559db 45-77,100-106,109,114-117
+playwright/06-your-first-test.html
+  h_b7e40170a559db 45-70,83-89,91,97-100
+playwright/07-browser-context-page.html
+  h_b7e40170a559db 45-70,86-91,94,99-102
+playwright/08-navigating.html
+  h_b7e40170a559db 45-70,86-89,91,94,100-103
+playwright/09-locators.html
+  h_b7e40170a559db 45-72,74,85-94,96,104-107
+playwright/10-actions.html
+  h_b7e40170a559db 45-69,83,85-88,90,95-98
+playwright/11-auto-waiting.html
+  h_b7e40170a559db 45-69,87-96,98,104-111
+playwright/12-assertions.html
+  h_b7e40170a559db 45-67,84-92,94,100-107
+playwright/13-forms.html
+  h_b7e40170a559db 45-68,94-105,107,112-119
+playwright/14-screenshots-and-traces.html
+  h_b7e40170a559db 45-68,82-93,95,102-109
+playwright/15-popups.html
+  h_b7e40170a559db 46-67,82-91,93,98-105
+playwright/16-frames.html
+  h_b7e40170a559db 45-66,82-91,93,99-106
+playwright/17-network.html
+  h_b7e40170a559db 45-67,93-103,105,111-118
+playwright/18-storage-state.html
+  h_b7e40170a559db 46-68,88-97,99,105-112
+playwright/19-configuration.html
+  h_b7e40170a559db 45-72,106-121,123,129-136
+playwright/20-debugging-a-flow.html
+  h_b7e40170a559db 45-67,80-97,99,105-112
+playwright/index.html
+  h_b7e40170a559db 21-22,25-43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "314bf066eff51434d3b0a6815c4c98534e14318f",
+  "prompts": {},
+  "humans": {
+    "h_b7e40170a559db": {
+      "author": "Kishore Kumar Uthirapathy <libcomet@gmail.com>"
+    }
+  }
+}
