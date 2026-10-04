@@ -40,18 +40,35 @@
       <p class="kicker">Layer 01 · Lesson 15 of 17</p>
       <h1>Errors</h1>
       <p class="one-idea"><strong>One idea.</strong> An error points at a line. try and catch let you answer it.</p>
-      <h2>The idea</h2>
-      <p>An error means the engine could not do a step. A <code>SyntaxError</code> is bad spelling, found before the program really starts. A <code>ReferenceError</code> means you used a name that does not exist. A <code>TypeError</code> means the value you have cannot do what you asked, such as reading a property of <code>undefined</code>.</p>
-<p>The message includes a file and a line. That line is where to look first. <code>try</code> and <code>catch</code> let you handle an error instead of crashing. <code>catch</code> receives the error object. <code>error.message</code> is the sentence.</p>
-      <h2>Why it matters</h2>
-      <p>You will write errors on purpose for the rest of your life. A useful message is part of the program. “Could not read tasks.txt” is a gift. A crash with no context is a puzzle.</p>
-      <h2>A picture to hold</h2>
-      <p>A smoke alarm. The alarm does not repair the toast. It stops the quiet and tells you which room. <code>try</code> is the room you are watching. <code>catch</code> is what you do when the alarm sounds.</p>
-      
-      <h2>A small example</h2>
-      
+      <h2>Start with a normal day</h2>
+      <p>A smoke alarm does not fix the toast. It stops the quiet and tells you which room.</p>
+      <p>You ask to pour a cup, and you hand over nothing. There is no cup to read. The helper raises an alarm and names the problem.</p>
+      <p>You can watch that step. When the alarm sounds, you show your own sentence plus the helper’s sentence. The rest of the program can finish.</p>
+      <h2>New words</h2>
+      <p>Three kinds of alarm show up often. This program meets one of them on purpose.</p>
+      <dl class="words">
+        <div><dt>error</dt><dd>The helper could not do a step. The message names a file, a line, and a reason.</dd></div>
+        <div><dt>SyntaxError</dt><dd>The spelling is wrong. The helper notices before the steps really start. A missing quote is this kind.</dd></div>
+        <div><dt>ReferenceError</dt><dd>You used a name that was never created.</dd></div>
+        <div><dt>TypeError</dt><dd>The value you have cannot do what you asked. Reading a blank on <code>undefined</code> is this kind. This page’s program raises one.</dd></div>
+        <div><dt>throw</dt><dd>Raise the alarm and jump out of the current step.</dd></div>
+        <div><dt>try</dt><dd>The steps you are watching.</dd></div>
+        <div><dt>catch</dt><dd>What to do when an alarm sounds inside the try. It receives the error.</dd></div>
+        <div><dt>error.message</dt><dd>The sentence on the alarm.</dd></div>
+        <div><dt>undefined</dt><dd>A missing value. It is not a form, so it has no blanks to read.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Write a recipe that reads a cup’s volume.</li>
+        <li>Watch one attempt to pour.</li>
+        <li>Hand the recipe nothing, instead of a cup.</li>
+        <li>When the alarm sounds, show “Could not pour:” and the helper’s sentence.</li>
+      </ol>
+      <p>The practice box starts with a real cup, so you can see the calm path first.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. <code>try</code> is the room you are watching. <code>catch</code> is what you do when the alarm sounds. The recipe asks for a blank that nothing does not have.</p>
       <figure class="code">
-    <figcaption>pour.js · node pour.js</figcaption>
+    <figcaption>pour.js</figcaption>
     <pre><code class="language-js">function pour(cup) {
   return cup.volumeMl;
 }
@@ -62,17 +79,16 @@ try {
 }</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>Could not pour: Cannot read properties of undefined (reading 'volumeMl')</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>return cup.volumeMl;</code><span>This asks for the <code>volumeMl</code> property of whatever <code>cup</code> is. If <code>cup</code> is <code>undefined</code>, there is no object to read, and JavaScript throws a <code>TypeError</code>.</span></li>
-<li><code>try {</code><span>Start a watched block. If something inside throws, the engine jumps to <code>catch</code> instead of ending the whole program.</span></li>
-<li><code>console.log(pour(undefined));</code><span>Call <code>pour</code> with no object. This is the line that throws.</span></li>
-<li><code>} catch (error) {</code><span><code>error</code> is the object that was thrown. It has a <code>message</code> property.</span></li>
-<li><code>console.log(&quot;Could not pour: &quot; + error.message);</code><span>Print your own context plus the engine’s sentence. The program then ends normally, because the error was caught.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>The starter pours a real cup and prints 300. Change the call to pour(undefined) and run again to see the caught message.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>return cup.volumeMl;</code><span>Read the volume blank of whatever cup is. If cup is undefined, there is no form to read, and the helper raises a TypeError.</span></li>
+<li><code>try {</code><span>Start the watched steps. If something inside raises an alarm, the helper jumps to catch.</span></li>
+<li><code>console.log(pour(undefined));</code><span>Run pour with no cup. This is the line that raises the alarm.</span></li>
+<li><code>} catch (error) {</code><span>error is the alarm itself. It has a message blank.</span></li>
+<li><code>console.log(&quot;Could not pour: &quot; + error.message);</code><span>Show your own words plus the helper’s sentence. The program then ends calmly, because the alarm was answered.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Press Run first. A real cup is passed in, so you should see 300. Then change the call to <code>pour(undefined)</code> and run again. You should see the “Could not pour” line.</p>
       <div class="demo" data-kind="js" data-match="one-of" data-hint="Either pour a cup with volumeMl 300, or pour undefined inside the try.">
-      <p class="demo-lead"><strong>Practice.</strong> Start with the working cup. Then try undefined on purpose.</p>
+      <p class="demo-lead"><strong>Practice.</strong> First pour a real cup. Then pass undefined and read the message.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">function pour(cup) {
   return cup.volumeMl;
 }
@@ -86,12 +102,10 @@ try {
       <template class="demo-expect">300
 Could not pour:</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Empty <code>catch</code> blocks that hide the failure. If you catch, print the message or rethrow.</li>
-<li>Guessing the cause before you read the line number.</li>
-<li>Wrapping an entire file in <code>try</code> and continuing as if nothing happened. Catch the step that can fail, close to that step.</li></ul>
-      <h2>Recap</h2>
-      <p>Errors name a file, a line, and a reason. <code>try</code> / <code>catch</code> handles a failure you anticipated. <code>error.message</code> is the sentence to show.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>An empty <code>catch</code> hides the alarm. If you catch, show the message.</li><li>Read the line number in the message before you change anything.</li><li>Watch the step that can fail. Wrapping the whole file makes it hard to see which step alarmed.</li></ul>
+      <h2>Remember</h2>
+      <p>An error names a line and a reason. <code>try</code> watches a step. <code>catch</code> answers the alarm. <code>error.message</code> is the sentence to show.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/15-errors"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="14-functions.html"><small>Previous</small>Functions</a><a class="next" href="16-debugging.html"><small>Next</small>Debugging</a></nav>
     </main>

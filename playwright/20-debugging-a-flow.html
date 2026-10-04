@@ -42,18 +42,29 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 20 of 20</p>
       <h1>Debugging a failing test</h1>
-      <p class="one-idea"><strong>One idea.</strong> Read the expected line and the received line. Change one thing.</p>
-      <h2>The idea</h2>
-      <p>When a test fails, the runner prints the assertion, the expected value, the received value, and a call log of the actions it took. Read that before you change code. Then open the HTML report.</p>
-<p>For a live look, <code>npx playwright test --debug</code> pauses with the inspector. <code>npx playwright test --ui</code> opens UI mode, where you can watch a test and time-travel through actions. Use these to gather one fact. Then stop the debugger and change one thing.</p>
-<p>The flow below is a complete check of <code>example.com</code>: open, assert the heading, follow “Learn more,” assert the new host. It is the shape of a real script. When a step fails, the failure names the step.</p>
-      <h2>Why it matters</h2>
-      <p>You now have every piece this course set out to give you: a program, JavaScript, and a browser under test. Debugging is how that skill stays honest. The page is allowed to be wrong. The test is also allowed to be wrong. The evidence decides which.</p>
-      <h2>A picture to hold</h2>
-      <p>The same backwards walk from the debugging lesson, now with a camera. The call log is the walk. The trace is the camera. UI mode is you standing in the hallway. You still change one thing at a time.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> Read the expected line and the received line, then change one thing.</p>
+      <h2>Start with a normal day</h2>
+      <p>Ben runs a check on a website, and the check fails. The result says the heading should be Example Domain, while the page showed other words.</p>
+      <p>He changes one thing and runs the check again.</p>
+      <h2>New words</h2>
+      <p><code>import</code>, <code>test</code>, <code>expect</code>, <code>await</code>, <code>page</code>, and <code>getByRole</code> mean the same as before.</p>
+      <dl class="words">
+        <div><dt>goto</dt><dd>Open an address. The first step opens <code>https://example.com</code>.</dd></div>
+        <div><dt>level</dt><dd>The heading rank. Level 1 is the main heading. <code>toHaveText</code> waits until that heading’s text matches.</dd></div>
+        <div><dt>toHaveURL</dt><dd>Keep checking until the address matches a pattern. <code>/iana\.org/</code> means the address contains <code>iana.org</code>. The backslash makes the dot a plain dot.</dd></div>
+        <div><dt>expected</dt><dd>The text the check asked for. In the practice box it is Example Domain.</dd></div>
+        <div><dt>received</dt><dd>The text the page actually showed. The practice box starts with other words.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Open example.com.</li>
+        <li>Check that the main heading says Example Domain.</li>
+        <li>Click the link named Learn more.</li>
+        <li>Check that the new address contains iana.org.</li>
+      </ol>
+      <p>The program only writes those steps down.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the steps once more. The box below is those same steps. If a step fails, the result names that step and shows the text it found.</p>
       <figure class="code">
     <figcaption>tests/flow.spec.js · npx playwright test tests/flow.spec.js</figcaption>
     <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
@@ -66,29 +77,39 @@ test(&quot;read the example and follow Learn more&quot;, async ({ page }) =&gt; 
   await expect(page).toHaveURL(/iana\.org/);
 });</code></pre>
   </figure>
-      
-      <p>Commands worth remembering: <code>npx playwright test --debug</code> pauses on this test. <code>npx playwright test --ui</code> opens the watcher. <code>npx playwright show-report</code> opens the last HTML report. A failure’s call log lists each action and why it waited.</p>
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>await page.goto(&quot;https://example.com&quot;);</code><span>Step 1. If this times out, the problem is the network or the address, not the heading.</span></li>
-<li><code>const heading = page.getByRole(&quot;heading&quot;, { level: 1 });</code><span>A locator variable. Nothing is fetched yet. The search happens when you assert or act.</span></li>
-<li><code>await expect(heading).toHaveText(&quot;Example Domain&quot;);</code><span>Step 2. On failure you get the text Playwright actually saw, including a note when the locator matched nothing.</span></li>
-<li><code>await page.getByRole(&quot;link&quot;, { name: &quot;Learn more&quot; }).click();</code><span>Step 3. Auto-waiting applies. If two links share the name, the error says the locator matched two elements.</span></li>
-<li><code>await expect(page).toHaveURL(/iana\.org/);</code><span>Step 4. The address must contain <code>iana.org</code>. A wrong click fails here with the URL you did reach.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run the failing check. Change the received text to Example Domain and run again.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk">
+        <li><code>await page.goto(&quot;https://example.com&quot;);</code><span>Open example.com. If this step fails, the problem is the address or the connection.</span></li>
+        <li><code>const heading = page.getByRole(&quot;heading&quot;, { level: 1 });</code><span>Name the main heading. The page is read later, when you check or click.</span></li>
+        <li><code>await expect(heading).toHaveText(&quot;Example Domain&quot;);</code><span>Check that the heading’s whole text is Example Domain. A failure shows the text the page had.</span></li>
+        <li><code>await page.getByRole(&quot;link&quot;, { name: &quot;Learn more&quot; }).click();</code><span>Click the link named Learn more. The click waits until that link is ready.</span></li>
+        <li><code>await expect(page).toHaveURL(/iana\.org/);</code><span>Check that the address contains iana.org. A different page fails here with the address you reached.</span></li>
+      </ol>
+      <p>These commands help you look when the two lines are not enough.</p>
+      <dl class="words">
+        <div><dt>call log</dt><dd>The list of actions printed with a failed check.</dd></div>
+        <div><dt>npx playwright test --debug</dt><dd>Runs the test and pauses, so you can step through it.</dd></div>
+        <div><dt>npx playwright test --ui</dt><dd>Opens a window where you can watch the test and move through its steps.</dd></div>
+        <div><dt>npx playwright show-report</dt><dd>Opens the last HTML report, a page of results from the run.</dd></div>
+        <div><dt>test.only</dt><dd>A temporary mark that runs one test and skips the rest. Remove it when you finish.</dd></div>
+      </dl>
+      <h2>Try it</h2>
+      <p>Press Run the check and read the two lines. Change the received text to Example Domain, then run the check again.</p>
       <div class="demo" data-kind="stage" data-stage="debug">
-      <p class="demo-lead"><strong>Demo.</strong> Expected is Example Domain. Received starts out wrong on purpose.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Expected is Example Domain. Change the received text and run again.</p>
       
       <label class="demo-field">Received heading<input class="received" type="text" value="Wrong title"></label>
       <div class="demo-actions"><button type="button" class="demo-run">Run the check</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Rewriting locators before reading which step failed. The log already narrowed it down.</li>
-<li>Leaving <code>.only</code> on a test. <code>test.only</code> runs that test and skips the rest. Fine for an afternoon. Surprising tomorrow. The config can set <code>forbidOnly</code> so CI rejects it.</li>
-<li>Fixing a product bug and a test bug in the same edit. You will not know which one matched the evidence.</li></ul>
-      <h2>Recap</h2>
-      <p>Read the expectation and the call log. Open the trace or UI mode when you need to see the page. Change one thing. A full flow is still just ordered steps with assertions between them.</p>
+      <h2>Easy to mix up</h2>
+      <ul>
+        <li>The output names the step that failed. Read that step before you change the test.</li>
+        <li>Change one thing, then run the check again.</li>
+        <li>A mark that runs only one test skips the rest. Remove that mark when you finish.</li>
+      </ul>
+      <h2>Remember</h2>
+      <p>Read the expected text and the received text before you change the test. Change one thing, then run the check again.</p>
       <label class="done"><input type="checkbox" data-done="playwright/20-debugging-a-flow"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="19-configuration.html"><small>Previous</small>Configuration, projects, and hooks</a><a class="next" href="../index.html"><small>Next</small>Back to the start</a></nav>
     </main>

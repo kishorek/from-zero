@@ -40,16 +40,34 @@
       <p class="kicker">Layer 02 · Lesson 5 of 17</p>
       <h1>Environment variables</h1>
       <p class="one-idea"><strong>One idea.</strong> A setting can live outside the file. The file only knows the name.</p>
-      <h2>The idea</h2>
-      <p>An environment variable is a named setting that lives outside your file, in the environment of the process. <code>process.env</code> is an object of those settings. <code>process.env.API_KEY</code> reads the one named <code>API_KEY</code>.</p>
-<p>Secrets (passwords, tokens) do not belong in source code. Anyone who receives the file would receive the secret. Put them in the environment. Node.js 20 and newer can load a file of settings when you start the program: <code>node --env-file=.env app.mjs</code>. The file is named <code>.env</code> by convention. Do not commit that file.</p>
-      <h2>Why it matters</h2>
-      <p>Playwright projects use the environment for CI secrets, base URLs, and passwords. The habit starts here: code asks for a name, the environment supplies the value, logs never print the value.</p>
-      <h2>A picture to hold</h2>
-      <p>A coat check. The script knows the ticket name (<code>API_KEY</code>). The cloakroom (the environment) holds the coat. You can hand the same script to someone else with an empty cloakroom, and it will say the coat is missing instead of smuggling your coat in the script.</p>
-      
-      <h2>A small example</h2>
-      
+      <h2>Start with a normal day</h2>
+      <p>You hand a coat to a cloakroom and keep a ticket with a name on it. The coat stays in the cloakroom.</p>
+      <p>A setting works the same way. The file knows the name, such as <code>API_KEY</code>. The value stays outside the file. A password written in the file travels with anyone who copies the file.</p>
+      <h2>New words</h2>
+      <p><code>const</code>, <code>if</code>, <code>else</code>, and <code>console.log</code> are the same tools as in the first layer.</p>
+      <dl class="words">
+        <div><dt>environment variable</dt><dd>A named setting that lives outside the file. The file knows the name. The surroundings hold the value.</dd></div>
+        <div><dt>process.env</dt><dd>The group of those settings for this run. <code>process.env.API_KEY</code> reads the one named <code>API_KEY</code>. A missing name is <code>undefined</code>.</dd></div>
+        <div><dt>secret</dt><dd>A password, or a token that stands in for one. It does not belong in the program file. A log is text people copy into bug reports, so the log should not contain the secret.</dd></div>
+        <div><dt>.env</dt><dd>A text file of settings. Each line is a name, an equals sign, and a value. That line is not JavaScript.</dd></div>
+        <div><dt>.env.example</dt><dd>A file you may share. It lists the names and leaves the values blank.</dd></div>
+        <div><dt>commit</dt><dd>Save a file into the shared history of the project. Share <code>.env.example</code>. Keep <code>.env</code> on your machine.</dd></div>
+        <div><dt>--env-file</dt><dd>An option on the <code>node</code> command. Node.js 20 or newer reads that file before the program starts. Node does not load <code>.env</code> unless you ask.</dd></div>
+        <div><dt>!</dt><dd>Means “not.” <code>!key</code> is true when <code>key</code> is missing.</dd></div>
+        <div><dt>process.exitCode</dt><dd>The final number for the terminal. <code>1</code> means something was wrong.</dd></div>
+        <div><dt>length</dt><dd>How many characters are in the text. Printing the length shows that a secret arrived, without printing the secret.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Write one line in a file named <code>.env</code>. The name is <code>API_KEY</code>. The value is replace-me.</li>
+        <li>Start the program with <code>node --env-file=.env app.mjs</code>, so the settings load first.</li>
+        <li>Ask the environment for <code>API_KEY</code>.</li>
+        <li>If nothing is there, say it is missing and mark the run as failed. Do not invent a password inside the file.</li>
+        <li>If a value is there, say the setting is set and show how many characters it has. Do not show the value.</li>
+      </ol>
+      <p>The file only asks for a name. Node.js 20 or newer understands <code>--env-file</code>. It will not load <code>.env</code> unless you ask. The value replace-me has 10 characters. You should see that length, not the secret.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the five steps again. The first box is the settings file. It is not JavaScript. The caption on the second box is how you start the program. The code only looks up the name.</p>
       <figure class="code">
     <figcaption>.env  (do not commit this file)</figcaption>
     <pre><code class="language-sh">API_KEY=replace-me</code></pre>
@@ -65,14 +83,18 @@ if (!key) {
 }</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>API_KEY is set. Length: 10</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>API_KEY=replace-me</code><span>One setting per line, name then equals then value. This is not JavaScript. The <code>--env-file</code> flag reads it before your script starts.</span></li>
-<li><code>const key = process.env.API_KEY;</code><span>Look up that name. If it was not set, <code>key</code> is <code>undefined</code>.</span></li>
-<li><code>console.log(&quot;Missing API_KEY. Set it in the environment.&quot;);</code><span>Tell the reader what to fix. Do not invent a fallback password inside the file.</span></li>
-<li><code>console.log(&quot;API_KEY is set. Length:&quot;, key.length);</code><span>Prove the value arrived without printing it. Length is enough evidence while you learn.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run with CITY=Lisbon. Then erase that line and run again. The script should say the city is missing.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk">
+        <li><code>API_KEY=replace-me</code><span>Put one setting on one line. The name comes first, then an equals sign, then the value. This line is not JavaScript. The <code>--env-file</code> flag reads it before the program starts.</span></li>
+        <li><code>const key = process.env.API_KEY;</code><span>Look up <code>API_KEY</code> and keep what comes back. If the name was not set, <code>key</code> is <code>undefined</code>.</span></li>
+        <li><code>if (!key) {</code><span>Ask whether that value is missing. The <code>!</code> means not. A missing value takes this path.</span></li>
+        <li><code>console.log(&quot;Missing API_KEY. Set it in the environment.&quot;);</code><span>Tell the reader what to fix. Do not invent a fallback password inside the file.</span></li>
+        <li><code>process.exitCode = 1;</code><span>Mark this run as failed. The number 1 means something was wrong.</span></li>
+        <li><code>} else {</code><span>Take this path when a value was there.</span></li>
+        <li><code>console.log(&quot;API_KEY is set. Length:&quot;, key.length);</code><span>Show that the value arrived, without showing the value. The length is enough evidence while you learn. replace-me is 10 characters long.</span></li>
+      </ol>
+      <h2>Try it</h2>
+      <p>Run with <code>CITY=Lisbon</code>. Then erase that line and run again. The script should say the city is missing.</p>
       <div class="demo" data-kind="js" data-match="one-of" data-hint="Print the city when CITY is set. Say it is missing when the line is gone.">
       <p class="demo-lead"><strong>Practice.</strong> The box reads the settings above. It does not hide a city inside the code.</p>
       <label class="demo-field">Settings, one NAME=value per line<textarea class="demo-env">CITY=Lisbon</textarea></label><label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const city = process.env.CITY;
@@ -87,11 +109,13 @@ if (!city) {
       <template class="demo-expect">Lisbon
 Missing CITY.</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Printing the secret “just to check.” Logs get copied into bug reports.</li>
-<li>Committing <code>.env</code>. Commit a <code>.env.example</code> that lists the names with blank values.</li>
-<li>Expecting Node.js to load <code>.env</code> by itself. You opt in with <code>--env-file</code>, or with a tool you installed on purpose.</li></ul>
-      <h2>Recap</h2>
+      <h2>Easy to mix up</h2>
+      <ul>
+        <li>Printing the secret “just to check.” Logs get copied into bug reports.</li>
+        <li>Committing <code>.env</code>. Commit a <code>.env.example</code> that lists the names with blank values.</li>
+        <li>Expecting Node.js to load <code>.env</code> by itself. You opt in with <code>--env-file</code>, or with a tool you installed on purpose.</li>
+      </ul>
+      <h2>Remember</h2>
       <p><code>process.env</code> holds named settings from outside the file. Keep secrets there. Print that a secret exists, not what it is.</p>
       <label class="done"><input type="checkbox" data-done="automation/05-environment-variables"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="04-arguments.html"><small>Previous</small>Command-line arguments</a><a class="next" href="06-files.html"><small>Next</small>Reading and writing files</a></nav>

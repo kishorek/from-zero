@@ -39,17 +39,40 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 17 of 17</p>
       <h1>A script that turns a list into a report</h1>
-      <p class="one-idea"><strong>One idea.</strong> Read a list, skip blanks and comments, write a numbered report.</p>
-      <h2>The idea</h2>
-      <p>This script is the layer in one file. It reads <code>tasks.txt</code> from the script’s folder, drops blank lines and comments, numbers what remains, and writes <code>report.txt</code> with today’s date. If the source file is missing, it prints an error and exits <code>1</code>.</p>
-<p>The rules live in functions. The reading and writing sit in <code>main</code>. That split is what you will keep doing: pure decisions in one place, effects (files, network, browsers) at the edge.</p>
-      <h2>Why it matters</h2>
-      <p>You can now automate a boring tidy-up without a browser. Layer 3 adds the browser. The shape does not change. Read input, decide, write output, report failure with a code.</p>
-      <h2>A picture to hold</h2>
-      <p>A night clerk. The inbox is <code>tasks.txt</code>. The clerk discards blank slips and slips that start with <code>#</code>, numbers the rest, dates the packet, and files it as <code>report.txt</code>. If the inbox was never delivered, the clerk turns on the red lamp and writes nothing.</p>
-      
-      <h2>A small example</h2>
-      <p>Create <code>tasks.txt</code> beside the script first. Lines starting with <code>#</code> are comments. Then run <code>node report.mjs</code>.</p>
+      <p class="one-idea"><strong>One idea.</strong> Read a list, skip blank lines and notes, and write a numbered report.</p>
+      <h2>Start with a normal day</h2>
+      <p>You are the night clerk. The inbox is a text file named <code>tasks.txt</code>. Some slips are blank. Some start with <code>#</code>, which means “this is a note, not a task.”</p>
+      <p>You keep the real tasks, number them, write today’s date at the top, and file the packet as <code>report.txt</code>. If the inbox never arrived, you switch on a red lamp and you leave yesterday’s report alone.</p>
+      <h2>New words</h2>
+      <p>These words showed up in earlier lessons. This file uses them in one job, so here they are again.</p>
+      <dl class="words">
+        <div><dt>import</dt><dd>Bring a tool in from another file. This script is saved as <code>.mjs</code> so <code>import</code> is allowed.</dd></div>
+        <div><dt>readFileSync</dt><dd>Read a whole file before the next line runs. <code>&quot;utf8&quot;</code> means “read it as ordinary text.” <code>writeFileSync</code> replaces a file with new text. Both come from <code>node:fs</code>, Node’s file tools.</dd></div>
+        <div><dt>path.join</dt><dd>Glue a folder and a file name into one path. <code>path.dirname</code> is the folder that holds a file.</dd></div>
+        <div><dt>import.meta.url</dt><dd>The address of this script. <code>fileURLToPath</code> turns that address into a normal path, so the script finds <code>tasks.txt</code> beside itself.</dd></div>
+        <div><dt>function</dt><dd>A named recipe. <code>() =&gt;</code> is a short function. The practice box writes <code>function</code> instead. Same idea.</dd></div>
+        <div><dt>split and trim</dt><dd><code>split(&quot;\n&quot;)</code> breaks text into lines. <code>trim</code> removes spaces at both ends of a line.</dd></div>
+        <div><dt>map and filter</dt><dd><code>map</code> builds a new list by changing each line. <code>filter</code> keeps the lines that pass a test.</dd></div>
+        <div><dt>startsWith</dt><dd>Asks whether a line begins with some text. <code>!</code> in front flips the answer. A line that starts with <code>#</code> is a note.</dd></div>
+        <div><dt>&amp;&amp;</dt><dd>Both tests must pass. Here: the line has characters, and it is not a note.</dd></div>
+        <div><dt>forEach</dt><dd>Do one action for each item. <code>index</code> starts at 0, so the printed number is <code>index + 1</code>.</dd></div>
+        <div><dt>${ }</dt><dd>Inside backticks, <code>${dated}</code> drops a value into the sentence.</dd></div>
+        <div><dt>Date</dt><dd><code>new Date()</code> means now. <code>Intl.DateTimeFormat</code> turns that moment into words. <code>dateStyle: &quot;full&quot;</code> asks for the long form, such as Sunday, October 4, 2026.</dd></div>
+        <div><dt>try / catch</dt><dd><code>try</code> attempts the read. If the file is missing, <code>catch</code> receives the error. <code>error.message</code> is the short explanation.</dd></div>
+        <div><dt>console.error</dt><dd>Print a problem sentence. It is separate from an ordinary <code>console.log</code> note.</dd></div>
+        <div><dt>exit code</dt><dd><code>process.exitCode = 1</code> tells the terminal something was wrong. Setting it does not stop the function, so the function also <code>return</code>s and skips the write.</dd></div>
+        <div><dt>readFile</dt><dd>In the practice box only, <code>readFile</code> and <code>writeFile</code> stand in for <code>readFileSync</code> and <code>writeFileSync</code>.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Find <code>tasks.txt</code> in the same folder as the script.</li>
+        <li>Read it as text. If it is missing, print an error, set the exit code to 1, and stop. Leave <code>report.txt</code> alone.</li>
+        <li>Split the text into lines. Trim each line. Keep a line when it has text and does not start with <code>#</code>.</li>
+        <li>Build the report. A dated title, a blank line, then <code>1. Buy milk</code> and so on. If nothing remains, the report says <code>No tasks today.</code></li>
+        <li>Save that text as <code>report.txt</code>. Print how many tasks you wrote.</li>
+      </ol>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge"><code>visibleTasks</code> decides which lines count. <code>reportText</code> builds the packet as text. <code>main</code> is the only part that reads and writes files. Create <code>tasks.txt</code> beside the script, then run <code>node report.mjs</code>.</p>
       <figure class="code">
     <figcaption>tasks.txt</figcaption>
     <pre><code class="language-sh"># today
@@ -103,15 +126,16 @@ main();</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>Wrote 2 tasks.</pre></div>
       
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>function visibleTasks(raw) {</code><span>Turn file text into the lines worth keeping. No files are touched in here. That makes the rule easy to trust.</span></li>
-<li><code>.filter((line) =&gt; line.length &gt; 0 &amp;&amp; !line.startsWith(&quot;#&quot;));</code><span>Keep a line when it has characters and does not start with <code>#</code>. <code>&amp;&amp;</code> means both tests must pass. <code>startsWith</code> is a string question.</span></li>
-<li><code>function reportText(tasks) {</code><span>Build the report as a string. Writing the file is someone else’s job.</span></li>
-<li><code>tasks.forEach((task, index) =&gt; lines.push(`${index + 1}. ${task}`));</code><span><code>forEach</code> runs a function for each item and does not build a new array. Pushing onto <code>lines</code> is the effect we want.</span></li>
-<li><code>raw = readFileSync(source, &quot;utf8&quot;);</code><span>Read the inbox. A missing file throws. The <code>catch</code> turns that into a sentence and exit code <code>1</code>.</span></li>
-<li><code>writeFileSync(target, reportText(tasks));</code><span>Replace <code>report.txt</code> with the new report. Open that file and check the date and the numbering.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run the box. Comments and blank lines are skipped. Add a third task in the file and run again. The report should number three tasks.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>const here = path.dirname(fileURLToPath(import.meta.url));</code><span>The folder this script lives in. The next lines look for tasks.txt there.</span></li>
+<li><code>function visibleTasks(raw) {</code><span>Turn the file’s text into the lines worth keeping. This function does not read or write a file.</span></li>
+<li><code>.filter((line) =&gt; line.length &gt; 0 &amp;&amp; !line.startsWith(&quot;#&quot;));</code><span>Keep a line when it has characters and does not start with #.</span></li>
+<li><code>function reportText(tasks) {</code><span>Build the report as one string, including today’s date. Saving the file happens later.</span></li>
+<li><code>tasks.forEach((task, index) =&gt; lines.push(`${index + 1}. ${task}`));</code><span>Add a numbered line for each task. The first task is number 1. Index still starts at 0.</span></li>
+<li><code>raw = readFileSync(source, &quot;utf8&quot;);</code><span>Read the inbox. A missing file jumps to catch, which prints a sentence and sets exit code 1.</span></li>
+<li><code>writeFileSync(target, reportText(tasks));</code><span>Replace report.txt with the new report. The last line prints how many tasks were in it.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Press Run. The report lists Buy milk as 1 and Reply to Ada as 2. The note and the blank line stay out. Add a third task and run again.</p>
       <div class="demo" data-kind="js" data-match="includes" data-hint="Number the real tasks. Skip blanks and lines that start with #.">
       <p class="demo-lead"><strong>Practice.</strong> Lines that start with # are notes, not tasks.</p>
       <label class="demo-field">tasks.txt<textarea class="demo-file" data-name="tasks.txt"># today
@@ -134,12 +158,12 @@ console.log(readFile("report.txt"));</textarea></label>
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">1. Buy milk</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Catching the read error and still writing an empty report. You just destroyed yesterday’s report because today’s inbox was missing.</li>
-<li>Numbering comment lines. Filter first, then number.</li>
-<li>Putting the date format, the filter, and the file write in one long block. When it breaks, you cannot tell which job failed.</li></ul>
-      <h2>Recap</h2>
-      <p>A practical script reads input, cleans it with ordinary JavaScript, writes an output, and sets an exit code when the input is missing. The next layer points this same discipline at a browser.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>A missing inbox should stop before any write. Writing anyway replaces yesterday’s report with an empty one.</li>
+<li>Filter first, then number. A line that starts with # is a note, so it never becomes task 1.</li>
+<li>The date, the filter, and the file write are three jobs. Each function does one, so a failure points at one job.</li></ul>
+      <h2>Remember</h2>
+      <p>Read the list, drop blank lines and notes, number what remains, and write the report. A missing file sets exit code 1 and leaves the old report alone.</p>
       <label class="done"><input type="checkbox" data-done="automation/17-a-small-automation"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="16-logs-and-exit-codes.html"><small>Previous</small>Logs and exit codes</a><a class="next" href="../playwright/01-what-automation-is.html"><small>Next</small>What browser automation is</a></nav>
     </main>

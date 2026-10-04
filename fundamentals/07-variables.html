@@ -39,19 +39,33 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 7 of 17</p>
       <h1>Variables</h1>
-      <p class="one-idea"><strong>One idea.</strong> A variable is a name attached to a value.</p>
-      <h2>The idea</h2>
-      <p>A variable is a name you choose for a value, so you can use the value again. <code>let</code> creates a name whose value may be replaced later. <code>const</code> creates a name you will not reassign.</p>
-<p>The name is for you and for later lines. The engine does not care that you called it <code>cups</code>. It cares that the spelling matches wherever you use it.</p>
-      <h2>Why it matters</h2>
-      <p>Without names, a program is a trail of loose values. With names, you can talk about “the cup count” in one place and change it once. Tests and scripts are mostly names pointing at pages, files, and results.</p>
-      <h2>A picture to hold</h2>
-      <p>A jar with a label. The label is the variable name. What is inside is the value. <code>let</code> means you may empty the jar and put something else in. <code>const</code> means the label stays stuck to this jar. You can still change the insides of an object later. You may not peel the label off and stick it on a different jar.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> A variable is a name stuck to a value, so you can use that value again.</p>
+      <h2>Start with a normal day</h2>
+      <p>A jar has a label. The label is a name you chose. What is inside the jar is the value.</p>
+      <p>Some labels can be moved onto a new jar. <code>let</code> is that kind of name. You may put a new value under the same name later.</p>
+      <p><code>const</code> is a label stuck to this jar. You will keep this name on this value. The spelling of the name has to match every time you use it.</p>
+      <h2>New words</h2>
+      <p>The program stores a count and a kind of kettle. These are the only new marks.</p>
+      <dl class="words">
+        <div><dt>variable</dt><dd>A name attached to a value.</dd></div>
+        <div><dt>value</dt><dd>The thing stored under the name. A number, or a piece of text.</dd></div>
+        <div><dt>let</dt><dd>Create a name whose value you may replace later.</dd></div>
+        <div><dt>const</dt><dd>Create a name you will keep on this same value. Replacing it stops the program.</dd></div>
+        <div><dt>=</dt><dd>One equals sign stores a value under a name. It asks no question.</dd></div>
+        <div><dt>console.log</dt><dd>Show the current value on the screen.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Name a count <code>cups</code> and store 1.</li>
+        <li>Add 1 to that count and store the result under the same name.</li>
+        <li>Name the kettle and store the word electric. Keep that name where it is.</li>
+        <li>Show the count, then show the kettle.</li>
+      </ol>
+      <p>The program writes those four steps with <code>let</code>, <code>const</code>, and one equals sign.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. Each line below is one of them. The names <code>cups</code> and <code>kettle</code> are yours. The helper only cares that the spelling matches.</p>
       <figure class="code">
-    <figcaption>cups.js · node cups.js</figcaption>
+    <figcaption>cups.js</figcaption>
     <pre><code class="language-js">let cups = 1;
 cups = cups + 1;
 const kettle = &quot;electric&quot;;
@@ -60,17 +74,16 @@ console.log(kettle);</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>2
 electric</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>let cups = 1;</code><span>Create the name <code>cups</code> and store the number <code>1</code>. One equals sign stores. It does not compare.</span></li>
-<li><code>cups = cups + 1;</code><span>Read the current value, add 1, and store the result back under the same name. <code>cups</code> is now <code>2</code>.</span></li>
-<li><code>const kettle = &quot;electric&quot;;</code><span>Create <code>kettle</code> and store text. A later line <code>kettle = &quot;gas&quot;</code> would stop the program, because <code>const</code> refuses reassignment.</span></li>
-<li><code>console.log(cups);</code><span>Print the current value of <code>cups</code>, which is the number 2.</span></li>
-<li><code>console.log(kettle);</code><span>Print the text stored in <code>kettle</code>.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Start from 0, add 10, add 5, and print the score. You should see 15.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>let cups = 1;</code><span>Create the name cups and store the number 1. One equals sign stores.</span></li>
+<li><code>cups = cups + 1;</code><span>Read the current number, add 1, and store the result under the same name. cups is now 2.</span></li>
+<li><code>const kettle = &quot;electric&quot;;</code><span>Create the name kettle and store the text electric. A later line that stores a new kettle would stop the program.</span></li>
+<li><code>console.log(cups);</code><span>Show the number stored in cups. That number is 2.</span></li>
+<li><code>console.log(kettle);</code><span>Show the text stored in kettle.</span></li></ol>
+      <h2>Try it</h2>
+      <p>The box starts a score at 0, adds 10, then adds 5. Press Run. You should see 15.</p>
       <div class="demo" data-kind="js" data-match="exact" data-hint="Add 10 and then add 5. Print score once at the end.">
-      <p class="demo-lead"><strong>Practice.</strong> The second addition is the piece to check.</p>
+      <p class="demo-lead"><strong>Practice.</strong> The name score keeps the running total.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">let score = 0;
 score = score + 10;
 score = score + 5;
@@ -79,12 +92,10 @@ console.log(score);</textarea></label>
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">15</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Using one equals sign to ask “are these the same?”. <code>=</code> stores. <code>===</code> compares, and it arrives in the conditions lesson.</li>
-<li>Misspelling a name on a later line. <code>cup</code> and <code>cups</code> are two different names.</li>
-<li>Reaching for <code>var</code>. It is older JavaScript. It leaks out of blocks in surprising ways. Use <code>let</code> and <code>const</code>.</li></ul>
-      <h2>Recap</h2>
-      <p><code>let</code> names a value you may replace. <code>const</code> names a value you will not reassign. The spelling of the name has to match every time you use it.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>One equals sign stores a value. Asking “are these the same?” uses three equals signs, <code>===</code>. That spelling arrives with choices, a few lessons from now.</li><li><code>cup</code> and <code>cups</code> are two different names. The spelling has to match.</li><li>Use <code>let</code> and <code>const</code>. An older spelling, <code>var</code>, is loose about where the name can be seen.</li></ul>
+      <h2>Remember</h2>
+      <p><code>let</code> names a value you may replace. <code>const</code> names a value you will keep. One equals sign stores. The spelling of the name has to match.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/07-variables"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="06-your-first-program.html"><small>Previous</small>Your first program</a><a class="next" href="08-numbers-and-text.html"><small>Next</small>Numbers and text</a></nav>
     </main>

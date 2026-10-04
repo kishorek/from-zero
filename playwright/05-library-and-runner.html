@@ -42,16 +42,39 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 5 of 20</p>
       <h1>The library and the test runner</h1>
-      <p class="one-idea"><strong>One idea.</strong> The library means you open and close the browser. The test runner does that for you.</p>
-      <h2>The idea</h2>
-      <p>There are two ways to use the same browser powers. The library (<code>playwright</code>) is for a script: you launch, you close, you decide what to print. The runner (<code>@playwright/test</code>) is for checks: you write <code>test(...)</code>, you receive a <code>page</code>, you <code>expect</code> something, and the runner collects pass, fail, retries, and a report.</p>
-<p>Use the runner for anything you want to repeat and trust. Use the library for a one-off tool, such as saving a login or scraping a page you are allowed to read. This course teaches the runner as the default and shows the library where the launch itself is the lesson.</p>
-      <h2>Why it matters</h2>
-      <p>Copying a library script into a test file, or a test into a plain script, fails in a confusing way. The imports differ. The runner already launched the browser for you. A library script has to launch it.</p>
-      <h2>A picture to hold</h2>
-      <p>A car you drive yourself, versus a driving exam. The car is the same. In the exam, someone else starts the session, watches each task, and writes pass or fail. The runner is the examiner. The library is the car keys.</p>
-      
-      <h2>A small example</h2>
+      <p class="one-idea"><strong>One idea.</strong> With the library, you open and close the browser. The test runner does that for you.</p>
+      <h2>Start with a normal day</h2>
+      <p>You can drive a car yourself. You pick up the keys, you drive, you park, you lock the doors.</p>
+      <p>A driving exam uses the same car. Someone else starts the session, watches one task, and writes pass or fail. The library is the keys. The test runner is the examiner.</p>
+      <h2>New words</h2>
+      <dl class="words">
+        <div><dt>library</dt><dd>The <code>playwright</code> package. Your script calls <code>chromium.launch()</code> to start the browser, and <code>browser.close()</code> to stop it.</dd></div>
+        <div><dt>runner</dt><dd>The <code>@playwright/test</code> package. You describe a check. The runner starts the browser, runs the check, and closes the browser.</dd></div>
+        <div><dt>import</dt><dd>Pull named tools out of a package. The two files below import from different packages.</dd></div>
+        <div><dt>await</dt><dd>Pause this one function until that step finishes. The function is marked <code>async</code> so <code>await</code> is allowed.</dd></div>
+        <div><dt>page</dt><dd>One browser tab. <code>newPage()</code> opens one. <code>goto</code> opens an address in it. <code>title()</code> reads the document title.</dd></div>
+        <div><dt>headless</dt><dd>The usual way <code>launch()</code> starts Chromium: no window on the screen.</dd></div>
+        <div><dt>test</dt><dd>One named check. The sentence in quotes is what the report prints.</dd></div>
+        <div><dt>=&gt;</dt><dd>A short way to write a function. <code>async ({ page }) =&gt;</code> is the function the runner will call.</dd></div>
+        <div><dt>{ page }</dt><dd>The runner hands you a tab it already opened. A fixture is a tool the runner sets up for you. <code>page</code> is the fixture you use here.</dd></div>
+        <div><dt>expect</dt><dd>A check. <code>toHaveTitle</code> waits until the tab’s title matches that text. If it never matches, the test fails.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <p>Library script. You hold the keys.</p>
+      <ol class="plain">
+        <li>Start Chromium.</li>
+        <li>Open a tab and go to <code>https://example.com</code>.</li>
+        <li>Print the title.</li>
+        <li>Close the browser.</li>
+      </ol>
+      <p>Test. The examiner holds the keys.</p>
+      <ol class="plain">
+        <li>Name one fact: the title is Example Domain.</li>
+        <li>The runner gives you a tab. Open <code>https://example.com</code>.</li>
+        <li>Expect the title to be Example Domain. The runner closes the browser afterward.</li>
+      </ol>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">The first file is the keys. Run it with <code>node script.mjs</code>. The second file is the exam. Run it with <code>npx playwright test</code>. Same address. Different person starts the car.</p>
       
       <figure class="code">
     <figcaption>script.mjs · node script.mjs</figcaption>
@@ -74,26 +97,24 @@ test(&quot;title is Example Domain&quot;, async ({ page }) =&gt; {
   </figure>
       <div class="output"><strong>What you should see</strong><pre>Example Domain</pre></div>
       
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const browser = await chromium.launch();</code><span>Library style. You start Chromium. Headless is the default, so no window appears.</span></li>
-<li><code>await browser.close();</code><span>You also stop it. Forgetting <code>close</code> leaves a browser process running.</span></li>
-<li><code>import { test, expect } from &quot;@playwright/test&quot;;</code><span>Runner style. You do not import <code>chromium</code> here. The runner creates the page and closes it.</span></li>
-<li><code>test(&quot;title is Example Domain&quot;, async ({ page }) =&gt; {</code><span>Declare one test. The name is what the report prints. <code>{ page }</code> pulls the page fixture out of the argument. A fixture is a tool the runner sets up for you.</span></li>
-<li><code>await expect(page).toHaveTitle(&quot;Example Domain&quot;);</code><span>An assertion. If the title never becomes that string, the test fails. If it does, the test passes.</span></li></ol>
-      <h2>Try it yourself</h2>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>const browser = await chromium.launch();</code><span>Library style. You start Chromium. No window appears, because headless is the usual setting.</span></li>
+<li><code>await browser.close();</code><span>You stop it. Skip this line and the browser program keeps running.</span></li>
+<li><code>import { test, expect } from &quot;@playwright/test&quot;;</code><span>Runner style. The runner creates the tab and closes the browser. This file does not import <code>chromium</code>.</span></li>
+<li><code>test(&quot;title is Example Domain&quot;, async ({ page }) =&gt; {</code><span>Name one check. <code>{ page }</code> takes the tab the runner already opened.</span></li>
+<li><code>await expect(page).toHaveTitle(&quot;Example Domain&quot;);</code><span>The title should become that text. A match passes. A title that never matches fails.</span></li></ol>
+      <h2>Try it</h2>
       <p>Turn the checkbox on and off. Watch which side leaves a browser open.</p>
       <div class="demo" data-kind="stage" data-stage="split">
-      <p class="demo-lead"><strong>Demo.</strong> Same car. One of them is an exam with an examiner.</p>
+      <p class="demo-lead"><strong>Practice.</strong> The box means the library script forgot to close the browser.</p>
       
       <label class="demo-field"><input class="forget" type="checkbox"> The library script forgets browser.close()</label>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Calling <code>chromium.launch</code> inside a <code>test</code>. The runner already did the launch. You would be opening a second browser the runner does not track.</li>
-<li>Forgetting <code>await</code> on <code>goto</code> or <code>close</code>. The process moves on while the browser is still working.</li>
-<li>Naming every file <code>.spec.js</code> and also trying to run it with plain <code>node</code>. Spec files are for the runner.</li></ul>
-      <h2>Recap</h2>
-      <p>The library means you launch and close. The runner means you write <code>test</code> and <code>expect</code>, and it owns the browser. Prefer the runner for repeatable checks.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li><code>chromium.launch</code> inside a <code>test</code> opens a second browser. The runner already started one and will not track the extra.</li><li><code>goto</code> and <code>close</code> need <code>await</code>. The next line otherwise runs while the browser is still working.</li><li>A <code>.spec.js</code> file belongs to the runner. <code>node</code> runs a library script such as <code>script.mjs</code>.</li></ul>
+      <h2>Remember</h2>
+      <p>The library means you launch and you close. The runner means you write <code>test</code> and <code>expect</code>, and it owns the browser. Repeatable checks use the runner.</p>
       <label class="done"><input type="checkbox" data-done="playwright/05-library-and-runner"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="04-installing.html"><small>Previous</small>Installing Playwright</a><a class="next" href="06-your-first-test.html"><small>Next</small>Your first test</a></nav>
     </main>

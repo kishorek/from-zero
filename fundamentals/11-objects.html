@@ -39,19 +39,33 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 11 of 17</p>
       <h1>Objects</h1>
-      <p class="one-idea"><strong>One idea.</strong> An object is a record of named facts about one thing.</p>
-      <h2>The idea</h2>
-      <p>An object groups values under names. You write it with curly braces. Each entry is a property: a name, a colon, and a value.</p>
-<p>You read a property with a dot: <code>cup.kind</code>. You change a property by assigning to it. This is how one “thing” in your program carries several facts at once.</p>
-      <h2>Why it matters</h2>
-      <p>A test result, a file’s details, and a person’s record are all objects in practice. Arrays are for “many in a row.” Objects are for “several facts about one thing.”</p>
-      <h2>A picture to hold</h2>
-      <p>A paper form with labeled blanks. <code>kind</code> is a blank. <code>mug</code> is what someone wrote in it. An array is a numbered queue. An object is the form each person in that queue might hold.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> An object is one form, with a name on each blank.</p>
+      <h2>Start with a normal day</h2>
+      <p>An array is a numbered row. An object is a paper form about one thing.</p>
+      <p>The form for a cup has blanks: what kind it is, how many millilitres it holds, and whether it is empty. Each blank has a label.</p>
+      <p>You read a blank by its label. You can erase one blank and write a new answer. The form is still the same form.</p>
+      <h2>New words</h2>
+      <p>The form below is one cup.</p>
+      <dl class="words">
+        <div><dt>object</dt><dd>A group of named facts about one thing.</dd></div>
+        <div><dt>{ }</dt><dd>Curly braces. They wrap the form.</dd></div>
+        <div><dt>property</dt><dd>One blank on the form: a name, a colon, and a value. Commas separate the blanks.</dd></div>
+        <div><dt>dot</dt><dd><code>cup.kind</code> reads the blank named kind. The dot means “the fact called…”</dd></div>
+        <div><dt>true and false</dt><dd>Yes-or-no values. People call this kind a boolean. <code>false</code> is a value. The text <code>"false"</code> is just text.</dd></div>
+        <div><dt>undefined</dt><dd>The answer when you ask for a blank the form does not have. The practice box asks for a missing author.</dd></div>
+        <div><dt>const</dt><dd>The name cup stays on this form. You may still change a blank inside the form.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Fill in a form for one cup: kind mug, volume 300, empty no.</li>
+        <li>Read the kind blank and show it.</li>
+        <li>Change the empty blank to yes, and show it.</li>
+      </ol>
+      <p>The program writes that form with curly braces and reads a blank with a dot.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the three steps again. Each line inside the braces is one blank. <code>cup.kind</code> is “look at the kind blank.”</p>
       <figure class="code">
-    <figcaption>cup.js · node cup.js</figcaption>
+    <figcaption>cup.js</figcaption>
     <pre><code class="language-js">const cup = {
   kind: &quot;mug&quot;,
   volumeMl: 300,
@@ -63,17 +77,16 @@ console.log(cup.empty);</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>mug
 true</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>kind: &quot;mug&quot;,</code><span>A property. The name is <code>kind</code>. The value is the string <code>mug</code>. Commas separate properties.</span></li>
-<li><code>volumeMl: 300,</code><span>A number property. No quotes around the value.</span></li>
-<li><code>empty: false,</code><span><code>false</code> is a boolean, a value that is only true or false. It is not the string <code>&quot;false&quot;</code>.</span></li>
-<li><code>console.log(cup.kind);</code><span>The dot reads the <code>kind</code> property. This prints <code>mug</code>.</span></li>
-<li><code>cup.empty = true;</code><span>Replace the <code>empty</code> property. The name <code>cup</code> still points at the same object. <code>const</code> allows this.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Print the title, change the pages, and print a missing author. The last line is undefined.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>kind: &quot;mug&quot;,</code><span>One blank. The label is kind. The value is the text mug. The comma separates it from the next blank.</span></li>
+<li><code>volumeMl: 300,</code><span>A number blank. No quotes around 300.</span></li>
+<li><code>empty: false,</code><span>A yes-or-no blank. false means no. It is a value, not the text “false”.</span></li>
+<li><code>console.log(cup.kind);</code><span>Read the kind blank and show it. The screen shows mug.</span></li>
+<li><code>cup.empty = true;</code><span>Write yes into the empty blank. The name cup still points at the same form.</span></li></ol>
+      <h2>Try it</h2>
+      <p>The box shows a book’s title, changes the page count, then asks for an author. There is no author blank, so the last line is undefined.</p>
       <div class="demo" data-kind="js" data-match="includes" data-hint="Ask for book.author, a name the record does not have.">
-      <p class="demo-lead"><strong>Practice.</strong> A missing name prints undefined. It does not crash by itself.</p>
+      <p class="demo-lead"><strong>Practice.</strong> title and pages are blanks. author was never filled in.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const book = { title: "Little Women", pages: 400 };
 console.log(book.title);
 book.pages = 420;
@@ -83,12 +96,10 @@ console.log(book.author);</textarea></label>
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">undefined</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Using a dot for an array index, or brackets-with-a-number for a property you meant to name. <code>steps[0]</code> is an index. <code>cup.kind</code> is a property.</li>
-<li>Forgetting commas between properties.</li>
-<li>Writing <code>cup.empty = &quot;false&quot;</code> when you wanted the boolean. The string <code>&quot;false&quot;</code> is still text, and it counts as present.</li></ul>
-      <h2>Recap</h2>
-      <p>An object is a record of named properties inside curly braces. Read them with a dot. A missing property is <code>undefined</code>.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li><code>steps[0]</code> uses a number address on a list. <code>cup.kind</code> uses a name on a form.</li><li>Blanks inside the braces need commas between them.</li><li><code>false</code> is a yes-or-no value. <code>"false"</code> is text, and it still counts as filled in.</li></ul>
+      <h2>Remember</h2>
+      <p>An object is a form of named blanks inside curly braces. A dot reads a blank. A missing blank is <code>undefined</code>.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/11-objects"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="10-arrays.html"><small>Previous</small>Arrays</a><a class="next" href="12-conditions.html"><small>Next</small>Conditions</a></nav>
     </main>

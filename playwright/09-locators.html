@@ -42,20 +42,36 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 9 of 20</p>
       <h1>Locators</h1>
-      <p class="one-idea"><strong>One idea.</strong> Find an element by its job and its name.</p>
-      <h2>The idea</h2>
-      <p>A locator is a description of an element, rechecked every time you use it. It is not a snapshot of the element from five seconds ago. <code>page.getByRole(&quot;heading&quot;, { name: &quot;Example Domain&quot; })</code> means “the heading whose accessible name is Example Domain.”</p>
-<p>The accessible name is the name assistive technology would announce. For a heading or a link, it is usually the visible text. For an input, it is usually its label.</p>
-<p>Prefer this order: <code>getByRole</code>, <code>getByLabel</code>, <code>getByPlaceholder</code>, <code>getByText</code>, <code>getByAltText</code>, <code>getByTitle</code>, <code>getByTestId</code>. CSS and XPath through <code>page.locator</code> still work, and they break when the layout markup changes. Use them when no user-facing description exists, and prefer a stable <code>data-testid</code> over a CSS path when you control the page.</p>
-      <h2>Why it matters</h2>
-      <p>Tests that depend on <code>div &gt; div &gt; span:nth-child(2)</code> fail whenever someone wraps the span. Tests that depend on “the button named Save” fail when the button stops being Save, which is the failure you actually wanted.</p>
-      <h2>A picture to hold</h2>
-      <p>Asking a stranger for “the door labeled Exit” instead of “the third rectangle from the left.” The building can be repainted. The job of the door and the word on it are what a person uses. Roles are jobs: button, link, heading, textbox, checkbox.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> Find a thing on the page by its job and the words on it.</p>
+      <h2>Start with a normal day</h2>
+      <p>You ask a stranger for “the door labeled Exit.” You do not say “the third rectangle from the left.”</p>
+      <p>The building can be repainted. The job of the door, and the word on it, stay useful.</p>
+      <p>On a page, the job might be heading, link, or button. The words are what a person can read.</p>
+      <h2>New words</h2>
+      <p>The program looks for a heading and a link. Read these words before the spelling.</p>
+      <dl class="words">
+        <div><dt>element</dt><dd>One thing on the page: a heading, a link, a button, a box.</dd></div>
+        <div><dt>locator</dt><dd>A description of that thing. Each time you use it, Playwright looks again. It is not a photo taken five seconds ago.</dd></div>
+        <div><dt>role</dt><dd>The job. <code>heading</code> is a title. <code>link</code> is something a person can follow. <code>button</code> is something a person can press.</dd></div>
+        <div><dt>accessible name</dt><dd>The name a screen reader would say. For a heading or a link, it is usually the visible text. For a box, it is usually the label.</dd></div>
+        <div><dt>getByRole</dt><dd>Find something by its job and its name. <code>page.getByRole("heading", { name: "Example Domain" })</code> means “the heading whose name is Example Domain.”</dd></div>
+        <div><dt>await</dt><dd>Pause this step until the browser finishes it.</dd></div>
+        <div><dt>async and =&gt;</dt><dd><code>async</code> marks a function that uses await. <code>=&gt;</code> is a short way to write a function.</dd></div>
+        <div><dt>expect</dt><dd>A check. <code>toBeVisible()</code> means a person could see it. The check keeps looking for a short time.</dd></div>
+        <div><dt>href</dt><dd>The address a link points at.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Open https://example.com.</li>
+        <li>Find the heading named Example Domain.</li>
+        <li>Find the link named Learn more.</li>
+        <li>Check that the heading is visible, and that the link’s address mentions iana.org.</li>
+      </ol>
+      <p>The program writes those four steps. It finds things the way the stranger finds the Exit door.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. The first lines only borrow <code>test</code> and <code>expect</code> from Playwright. The <code>getByRole</code> lines are the “door labeled Exit” requests.</p>
       <figure class="code">
-    <figcaption>tests/locate.spec.js · npx playwright test</figcaption>
+    <figcaption>tests/locate.spec.js</figcaption>
     <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
 
 test(&quot;the heading and the learn-more link&quot;, async ({ page }) =&gt; {
@@ -66,17 +82,18 @@ test(&quot;the heading and the learn-more link&quot;, async ({ page }) =&gt; {
   await expect(more).toHaveAttribute(&quot;href&quot;, /iana\.org/);
 });</code></pre>
   </figure>
-      
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>page.getByRole(&quot;heading&quot;, { name: &quot;Example Domain&quot; })</code><span>Role <code>heading</code> matches <code>h1</code> through <code>h6</code>. <code>name</code> is the accessible name. You can add <code>{ level: 1 }</code> when you care that it is an <code>h1</code>.</span></li>
-<li><code>page.getByRole(&quot;link&quot;, { name: &quot;Learn more&quot; })</code><span>Role <code>link</code> matches an anchor a person can follow. The name is its text.</span></li>
-<li><code>await expect(heading).toBeVisible();</code><span>Visible means a person could see it: it is on screen, not hidden. The expectation retries.</span></li>
-<li><code>toHaveAttribute(&quot;href&quot;, /iana\.org/)</code><span>Read the <code>href</code> attribute and match the pattern. The backslash makes the dot a literal dot inside the pattern.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Find the heading named Example Domain. Then change the name to Example and see the miss.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>page.getByRole(&quot;heading&quot;, { name: &quot;Example Domain&quot; })</code><span>Find the heading whose visible name is Example Domain. A heading is the title on the page.</span></li>
+<li><code>page.getByRole(&quot;link&quot;, { name: &quot;Learn more&quot; })</code><span>Find the link whose text is Learn more.</span></li>
+<li><code>await expect(heading).toBeVisible();</code><span>Check that a person could see that heading. The check waits a moment if the page is still drawing.</span></li>
+<li><code>toHaveAttribute(&quot;href&quot;, /iana\.org/)</code><span>Read the link’s address and ask whether it contains iana.org. The slashes wrap a pattern. The backslash says the dot is a real dot.</span></li></ol>
+      <h2>Other ways to point</h2>
+      <p><code>getByLabel</code> finds a box by the label a person can see. That is the next spelling to reach for.</p>
+      <p>A path through the page’s tags, such as “the second span inside the third div,” breaks when someone wraps that span. Use it only when the page has no job and no words you can name.</p>
+      <h2>Try it</h2>
+      <p>Press Find. The heading named Example Domain should match. Then change the name to Example and press Find again. That shorter name misses.</p>
       <div class="demo" data-kind="stage" data-stage="locator">
-      <p class="demo-lead"><strong>Demo.</strong> Role is the job. Name is the text a person sees.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Role is the job. Name is the words a person sees.</p>
       
       <div class="mini-page"><h4 data-role="heading" data-name="Example Domain">Example Domain</h4><p><a data-role="link" data-name="Learn more">Learn more</a></p><p><button type="button" data-role="button" data-name="Save">Save</button></p></div>
       <label class="demo-field">Role<select class="role"><option>heading</option><option>link</option><option>button</option></select></label>
@@ -84,12 +101,10 @@ test(&quot;the heading and the learn-more link&quot;, async ({ page }) =&gt; {
       <div class="demo-actions"><button type="button" class="demo-run">Find</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Starting with CSS because it feels precise. It is precise about structure, which is the brittle part.</li>
-<li>Saving a located element with old APIs such as <code>page.$</code> and reusing the handle later. A locator re-finds. A handle goes stale.</li>
-<li>Matching a name that includes hidden text you did not know about. The accessible name can include text from a label. Read the failure’s suggestion.</li></ul>
-      <h2>Recap</h2>
-      <p>Locators describe an element by role and name, and they re-find it on every use. Prefer <code>getByRole</code> and <code>getByLabel</code>. Leave CSS for last.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>A path through tags is precise about structure, and structure changes. A job and a name survive a repaint.</li><li>A locator looks again every time you use it. An old saved handle can point at a thing that is already gone.</li><li>The accessible name can include words from a label, including words you did not notice. Read the suggestion in the failure.</li></ul>
+      <h2>Remember</h2>
+      <p>A locator describes a thing by its job and its name, and it looks again every time. Start with <code>getByRole</code> and <code>getByLabel</code>.</p>
       <label class="done"><input type="checkbox" data-done="playwright/09-locators"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="08-navigating.html"><small>Previous</small>Navigating</a><a class="next" href="10-actions.html"><small>Next</small>Actions</a></nav>
     </main>

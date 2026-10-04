@@ -39,20 +39,34 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 14 of 17</p>
       <h1>Functions</h1>
-      <p class="one-idea"><strong>One idea.</strong> A function is a named block you can run with different inputs.</p>
-      <h2>The idea</h2>
-      <p>A function packages instructions under a name. You define it once. You call it whenever you need that work, possibly with different inputs.</p>
-<p>Inputs are parameters, the names in the parentheses. A call passes arguments, the actual values. <code>return</code> sends a value back to the caller and ends the function.</p>
-<p>An arrow function is another spelling of the same idea: const labelFor = (item, price) =&gt; item + &quot; &quot; + price. It is still a function. This course mentions it now so later pages are readable.</p>
-      <h2>Why it matters</h2>
-      <p>Copying the same lines five times makes five places to fix. A function makes one place. You will reuse functions whenever a job repeats.</p>
-      <h2>A picture to hold</h2>
-      <p>A function is a custom rubber stamp you carve yourself. The parameters are the blank spaces on the stamp. Each call inks the stamp with different words and presses it. <code>return</code> is the paper you hand back.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> A function is a named recipe. You write it once and use it with new ingredients.</p>
+      <h2>Start with a normal day</h2>
+      <p>You carve one rubber stamp with blank spaces. Each time you use it, you fill the blanks with different words and press it.</p>
+      <p>The stamp for a price label needs two blanks: the item, and the price. Tea and 4.5 make one label. Milk and 2 make another. The stamp stays the same.</p>
+      <p>Writing the recipe does not press the stamp. You press it when you ask for it by name.</p>
+      <h2>New words</h2>
+      <p>The recipe is called labelFor. The practice box uses a smaller recipe called initials.</p>
+      <dl class="words">
+        <div><dt>function</dt><dd>A named group of steps you can run whenever you ask for it.</dd></div>
+        <div><dt>parameter</dt><dd>A blank name in the parentheses, such as <code>item</code> and <code>price</code>. It waits for a value.</dd></div>
+        <div><dt>argument</dt><dd>The actual value you pass in when you use the function, such as <code>"tea"</code> and <code>4.5</code>.</dd></div>
+        <div><dt>call</dt><dd>Using the function by writing its name and parentheses. That is when the steps run.</dd></div>
+        <div><dt>return</dt><dd>Hand a value back to the caller, and stop the function there.</dd></div>
+        <div><dt>${ }</dt><dd>Inside backticks, drop a stored value into a sentence. <code>${item}</code> becomes tea.</dd></div>
+        <div><dt>[0]</dt><dd>The first character of a piece of text. The practice box uses <code>first[0]</code> to get the first letter. Addresses start at 0.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Write a recipe named labelFor. It needs an item and a price.</li>
+        <li>The recipe hands back one sentence: the item, the word costs, and the price.</li>
+        <li>Ask for that recipe with tea and 4.5. Show what comes back.</li>
+        <li>Ask again with milk and 2. Show what comes back.</li>
+      </ol>
+      <p>The recipe is written once. The two calls supply different ingredients.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. The first two lines are the recipe. They do not show anything by themselves. The <code>console.log</code> lines are the two times you press the stamp.</p>
       <figure class="code">
-    <figcaption>label.js · node label.js</figcaption>
+    <figcaption>label.js</figcaption>
     <pre><code class="language-js">function labelFor(item, price) {
   return `${item} costs ${price}`;
 }
@@ -61,16 +75,15 @@ console.log(labelFor(&quot;milk&quot;, 2));</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>tea costs 4.5
 milk costs 2</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>function labelFor(item, price) {</code><span>Define a function named <code>labelFor</code>. It expects two values, stored as <code>item</code> and <code>price</code> for this call. Defining it does not run it yet.</span></li>
-<li><code>return `${item} costs ${price}`;</code><span>Build a string and hand it back to whoever called the function. Lines after <code>return</code> in the same function would not run.</span></li>
-<li><code>console.log(labelFor(&quot;tea&quot;, 4.5));</code><span>Call the function. <code>&quot;tea&quot;</code> becomes <code>item</code>. <code>4.5</code> becomes <code>price</code>. <code>console.log</code> prints whatever the function returns.</span></li>
-<li><code>console.log(labelFor(&quot;milk&quot;, 2));</code><span>A second call with different arguments. The same definition does new work.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Finish initials so Ada and Lovelace print A.L. Then try your own names.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>function labelFor(item, price) {</code><span>Start a recipe named labelFor. It expects two values, stored as item and price for this use. Writing this line does not run the recipe yet.</span></li>
+<li><code>return `${item} costs ${price}`;</code><span>Build a sentence and hand it back. The drop-in marks place the current item and price into the sentence.</span></li>
+<li><code>console.log(labelFor(&quot;tea&quot;, 4.5));</code><span>Run the recipe. tea goes into item. 4.5 goes into price. Show the sentence that comes back.</span></li>
+<li><code>console.log(labelFor(&quot;milk&quot;, 2));</code><span>Run the same recipe again, with different values.</span></li></ol>
+      <h2>Try it</h2>
+      <p>The box builds initials from Ada and Lovelace. The first letter of each name, with a period between them, is A.L. Press Run. You should see A.L.</p>
       <div class="demo" data-kind="js" data-match="pattern" data-pattern="^[A-Za-z]\.[A-Za-z]$" data-hint="Return the first letter, a period, and the other first letter.">
-      <p class="demo-lead"><strong>Practice.</strong> first[0] is the first character of a string.</p>
+      <p class="demo-lead"><strong>Practice.</strong> first[0] is the first letter. Addresses start at 0.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">function initials(first, last) {
   return first[0] + "." + last[0];
 }
@@ -79,12 +92,10 @@ console.log(initials("Ada", "Lovelace"));</textarea></label>
       <div class="demo-out" role="status"></div>
       
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Forgetting to call the function. A definition alone prints nothing.</li>
-<li>Forgetting <code>return</code> and then wondering why the caller got <code>undefined</code>. If you want a value out, return it.</li>
-<li>Mixing up the order of arguments. <code>labelFor(4.5, &quot;tea&quot;)</code> stores the number in <code>item</code> and the text in <code>price</code>. The names do not reorder your values.</li></ul>
-      <h2>Recap</h2>
-      <p>A function is a named block with inputs and an optional <code>return</code>. A call runs it. Arrow functions are the same idea with a shorter spelling.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>Writing the recipe does not run it. A call, the name plus parentheses, runs it.</li><li>Leave out <code>return</code>, and the caller receives <code>undefined</code>. Hand the value back when you want it out.</li><li>Order matters. <code>labelFor(4.5, "tea")</code> stores the number in item and the text in price. The names do not sort your values.</li></ul>
+      <h2>Remember</h2>
+      <p>A function is a named recipe with blanks. A call fills the blanks and runs it. <code>return</code> hands a value back.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/14-functions"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="13-loops.html"><small>Previous</small>Loops</a><a class="next" href="15-errors.html"><small>Next</small>Errors</a></nav>
     </main>

@@ -39,16 +39,32 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 13 of 17</p>
       <h1>Promises</h1>
-      <p class="one-idea"><strong>One idea.</strong> A promise is an IOU. then runs after the current lines finish.</p>
-      <h2>The idea</h2>
-      <p>Some work does not finish on this line: reading a large file, waiting on the network, waiting on a timer. A promise is JavaScript’s IOU for that work. It will either settle by fulfilling with a value, or settle by rejecting with an error.</p>
-<p><code>.then(function)</code> registers what to do when the promise fulfills. <code>.catch(function)</code> registers what to do when it rejects. Even if the promise is already fulfilled, the <code>.then</code> function runs after the current stretch of code finishes. That ordering surprises people once, and then it explains a lot.</p>
-      <h2>Why it matters</h2>
-      <p>Playwright is promise-shaped from top to bottom. <code>page.goto</code> gives you a promise. If you do not wait for it, you will ask questions about a page that has not opened. This lesson is the idea. The next one is the spelling you will actually live in.</p>
-      <h2>A picture to hold</h2>
-      <p>A coat-check ticket. You do not hold the coat yet. You hold a ticket that will become a coat, or an apology if the coat is lost. <code>.then</code> is what you will do with the coat. The rest of your errands on this block can continue before the coat arrives. In the tiny example below, the “coat” arrives quickly, and the ticket system still makes you finish the current errand first.</p>
-      
-      <h2>A small example</h2>
+      <p class="one-idea"><strong>One idea.</strong> A promise is a ticket for a later answer. The line under the call still runs first.</p>
+      <h2>Start with a normal day</h2>
+      <p>You leave a coat at the coat check. They hand you a ticket. You do not hold the coat yet.</p>
+      <p>You start the next errand on this block. You do not wait at the counter. Later the ticket becomes the coat, or an apology if the coat is lost.</p>
+      <h2>New words</h2>
+      <p>The ticket has names. The program below uses them for a kettle. The line under the call still runs before the later “Tea is ready” line.</p>
+      <dl class="words">
+        <div><dt>promise</dt><dd>A ticket for an answer that is not here yet. It will fulfill with a value, or reject with an error.</dd></div>
+        <div><dt>fulfill</dt><dd>The promise finishes with a value. In the program, <code>resolve</code> does this.</dd></div>
+        <div><dt>reject</dt><dd>The promise finishes with an error instead of a value.</dd></div>
+        <div><dt>then</dt><dd>What to do when the promise fulfills. That step runs after the lines under the call.</dd></div>
+        <div><dt>catch</dt><dd>What to do when the promise rejects.</dd></div>
+        <div><dt>arrow</dt><dd><code>=&gt;</code> is a short way to write a function.</dd></div>
+        <div><dt>Error</dt><dd>An object that carries a message about what went wrong. <code>new Error(&quot;Kettle is off&quot;)</code> builds one.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Start the kettle, and take a ticket instead of the tea.</li>
+        <li>If the kettle is off, the ticket fails with an error.</li>
+        <li>If the kettle is on, the ticket succeeds with “Tea is ready”.</li>
+        <li>Plan to print that message when the ticket succeeds.</li>
+        <li>On this same stretch, say that the kettle has started.</li>
+      </ol>
+      <p>The ticket may already be ready. You still finish the line you are on. “Tea is ready” prints after “Kettle started”.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the five steps again. The box is one file. It takes the ticket, plans the later print, and still prints “Kettle started” first.</p>
       
       <figure class="code">
     <figcaption>ticket.mjs · node ticket.mjs</figcaption>
@@ -71,16 +87,16 @@ console.log(&quot;Kettle started&quot;);</code></pre>
       <div class="output"><strong>What you should see</strong><pre>Kettle started
 Tea is ready</pre></div>
       
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>return new Promise((resolve, reject) =&gt; {</code><span>Create a promise. Call <code>resolve(value)</code> when the work succeeds. Call <code>reject(error)</code> when it fails.</span></li>
-<li><code>reject(new Error(&quot;Kettle is off&quot;));</code><span><code>new Error</code> builds an error object with a message. Rejecting is the promise version of throwing.</span></li>
-<li><code>resolve(&quot;Tea is ready&quot;);</code><span>Fulfill the promise with a string. This happens immediately in this demo. The <code>.then</code> callback still waits its turn.</span></li>
-<li><code>pourTea().then((message) =&gt; {</code><span>Register the next step. <code>message</code> will be <code>&quot;Tea is ready&quot;</code>.</span></li>
-<li><code>console.log(&quot;Kettle started&quot;);</code><span>This line is still in the current stretch, so it prints first. Then the <code>.then</code> callback prints <code>Tea is ready</code>.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run it and read the order. Kettle started prints before Tea is ready. Then set kettleOn to false and keep the catch.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>return new Promise((resolve, reject) =&gt; {</code><span>Hand back a ticket. Call resolve when the work succeeds. Call reject when it fails. The arrow is a short function.</span></li>
+<li><code>reject(new Error(&quot;Kettle is off&quot;));</code><span>Build an error with that message, and reject the promise with it.</span></li>
+<li><code>resolve(&quot;Tea is ready&quot;);</code><span>Fulfill the promise with those words. The later print still waits its turn.</span></li>
+<li><code>pourTea().then((message) =&gt; {</code><span>Plan the step that prints the message. The message will be “Tea is ready”.</span></li>
+<li><code>console.log(&quot;Kettle started&quot;);</code><span>This is the line under the call. It still runs before the later “Tea is ready” line.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Run the box. “Kettle started” prints before “Tea is ready”. The line under the call still runs first. Then set kettleOn to false and keep the catch. You should see “Kettle is off”.</p>
       <div class="demo" data-kind="js" data-match="one-of" data-hint="With the kettle on, end on Tea is ready. With it off, end on Kettle is off.">
-      <p class="demo-lead"><strong>Practice.</strong> The line under pourTea() still runs before then.</p>
+      <p class="demo-lead"><strong>Practice.</strong> The line under the call still runs before Tea is ready.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">function pourTea() {
   return new Promise(function (resolve, reject) {
     const kettleOn = true;
@@ -103,12 +119,12 @@ console.log("Kettle started");</textarea></label>
 Tea is ready
 Kettle is off</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Expecting <code>.then</code> to run before the lines under it. The callback is scheduled after the current stretch.</li>
-<li>Forgetting to <code>return</code> the promise from a function. The caller then has nothing to wait on.</li>
-<li>Writing long chains of <code>.then</code> inside <code>.then</code>. It works, and it is hard to read. The next lesson replaces that shape with <code>await</code>.</li></ul>
-      <h2>Recap</h2>
-      <p>A promise fulfills with a value or rejects with an error. <code>.then</code> and <code>.catch</code> register what happens next. Those callbacks run after the current code finishes.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>The line under the call still runs before the later “Tea is ready” line. <code>then</code> does not jump ahead of it.</li>
+<li>Forgetting to return the promise. The caller has nothing to wait on.</li>
+<li>A rejection with no <code>catch</code>. The error has nowhere to go.</li></ul>
+      <h2>Remember</h2>
+      <p>A promise fulfills with a value or rejects with an error. <code>then</code> and <code>catch</code> say what happens next. Those steps run after the current lines, so “Kettle started” prints before “Tea is ready”.</p>
       <label class="done"><input type="checkbox" data-done="automation/13-promises"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="12-modules.html"><small>Previous</small>Modules</a><a class="next" href="14-async-await.html"><small>Next</small>async and await</a></nav>
     </main>

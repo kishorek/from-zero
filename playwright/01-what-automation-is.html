@@ -42,19 +42,34 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 1 of 20</p>
       <h1>What browser automation is</h1>
-      <p class="one-idea"><strong>One idea.</strong> Browser automation is a list of actions a program performs in a browser.</p>
-      <h2>The idea</h2>
-      <p>Browser automation means a program uses a web browser the way a person would. It opens an address, waits for the page, clicks a link, types into a box, and reads the result.</p>
-<p>The program does not become the page. It stands outside the page and drives the browser. That is different from JavaScript that lives inside the page, and different from <code>fetch</code>, which only receives the document the server sent.</p>
-      <h2>Why it matters</h2>
-      <p>Some things worth checking only exist after the page’s own JavaScript runs: a button that appears, a menu that opens, a message that arrives late. <code>fetch</code> never sees those. A browser, driven by a script, does.</p>
-      <h2>A picture to hold</h2>
-      <p>A very fast assistant who only follows the card you wrote. The assistant can use the mouse and read the screen. The assistant does not guess that you meant a different button with a similar name. The card is the whole job.</p>
-      
-      <h2>A small example</h2>
-      <p>This file does not open a browser yet. It writes the shape of a job as data, so you can see a script as a list of actions before Playwright carries them out.</p>
+      <p class="one-idea"><strong>One idea.</strong> Browser automation is a written list of things a program will do in a browser.</p>
+      <h2>Start with a normal day</h2>
+      <p>You write a card for a careful assistant. Open this address. Read the heading. Close the page.</p>
+      <p>The assistant can use the mouse and read the screen. The assistant follows the card. A similar-looking button is a different button if the card named another one.</p>
+      <p>The assistant stands outside the page. JavaScript that lives inside the page is a different job. Asking a server for the raw page, with <code>fetch</code>, never sees a button that appears only after the page’s own script runs.</p>
+      <h2>New words</h2>
+      <p>This page does not open a browser yet. It writes the card as data, so you can see the list before a tool carries it out.</p>
+      <dl class="words">
+        <div><dt>browser automation</dt><dd>A program uses a browser the way a person would: open, click, type, and read.</dd></div>
+        <div><dt>URL</dt><dd>The address of a page, such as <code>https://example.com</code>.</dd></div>
+        <div><dt>array</dt><dd>A list, written in square brackets.</dd></div>
+        <div><dt>object</dt><dd>One form of named blanks, written in curly braces. Here each form is one action.</dd></div>
+        <div><dt>for...of</dt><dd>Take each item in the list and run the steps inside the braces.</dd></div>
+        <div><dt>??</dt><dd>If the value on the left is missing, use the value on the right.</dd></div>
+        <div><dt>fetch</dt><dd>Ask another computer for the page’s text. It does not click, and it does not see buttons the page adds later.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Open https://example.com.</li>
+        <li>Read the heading.</li>
+        <li>Close.</li>
+        <li>Show each action’s verb, and its detail when it has one.</li>
+      </ol>
+      <p>Three actions. The program stores them, then walks the list.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. Each object is one action. <code>do</code> is the verb. <code>url</code> or <code>what</code> is the detail.</p>
       <figure class="code">
-    <figcaption>plan.js · node plan.js</figcaption>
+    <figcaption>plan.js</figcaption>
     <pre><code class="language-js">const steps = [
   { do: &quot;open&quot;, url: &quot;https://example.com&quot; },
   { do: &quot;read&quot;, what: &quot;heading&quot; },
@@ -68,15 +83,14 @@ for (const step of steps) {
       <div class="output"><strong>What you should see</strong><pre>open https://example.com
 read heading
 close</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const steps = [</code><span>An array of objects. Each object is one action with a verb and, sometimes, a detail.</span></li>
-<li><code>{ do: &quot;open&quot;, url: &quot;https://example.com&quot; },</code><span>The first action names a URL. A URL is the address of a page.</span></li>
-<li><code>console.log(step.do, step.url ?? step.what ?? &quot;&quot;);</code><span><code>??</code> means “if the left side is missing, use the right side.” The line prints the verb and whichever detail exists.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Add a click step after the read step and before close. Then run.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>const steps = [</code><span>Start a list of actions. Each item is one form.</span></li>
+<li><code>{ do: &quot;open&quot;, url: &quot;https://example.com&quot; },</code><span>The first action. The verb is open. The detail is an address.</span></li>
+<li><code>console.log(step.do, step.url ?? step.what ?? &quot;&quot;);</code><span>Show the verb, then the detail. If url is missing, use what. If that is also missing, show nothing extra. Close has no detail, so the line shows only close.</span></li></ol>
+      <h2>Try it</h2>
+      <p>The box already has a click between read and close. Press Run. You should see open, read, click, close, in that order.</p>
       <div class="demo" data-kind="js" data-match="exact" data-hint="Print open, read, click, close, in that order.">
-      <p class="demo-lead"><strong>Practice.</strong> Order matters. Open, read, click, close.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Four verbs, in this order: open, read, click, close.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const steps = [
   { do: "open", url: "https://example.com" },
   { do: "read", what: "heading" },
@@ -93,12 +107,10 @@ read
 click
 close</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Describing the goal (“make sure the site works”) and calling that a script. Automation needs the actions.</li>
-<li>Assuming <code>fetch</code> and a browser see the same thing. <code>fetch</code> sees the response. A browser also runs the page.</li>
-<li>Pointing an assistant at a site whose owner did not agree to automation. Permission is part of the task.</li></ul>
-      <h2>Recap</h2>
-      <p>Browser automation is a program using a browser: open, act, read, close. The script is a precise list. It stands outside the page.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>A goal such as “make sure the site works” is not a script. The script is the list of actions.</li><li><code>fetch</code> receives the text the server sent. A browser also runs the page, so it can see a button that appears later.</li><li>Point the assistant only at a site whose owner agreed. Permission is part of the task.</li></ul>
+      <h2>Remember</h2>
+      <p>Browser automation is a program using a browser: open, act, read, close. The script is that list. It stands outside the page.</p>
       <label class="done"><input type="checkbox" data-done="playwright/01-what-automation-is"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="../automation/17-a-small-automation.html"><small>Previous</small>A script that turns a list into a report</a><a class="next" href="02-what-playwright-is.html"><small>Next</small>What Playwright is</a></nav>
     </main>

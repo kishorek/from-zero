@@ -39,17 +39,28 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 11 of 17</p>
       <h1>Dates and times</h1>
-      <p class="one-idea"><strong>One idea.</strong> A Date is one instant. Month numbers in the constructor start at 0.</p>
-      <h2>The idea</h2>
-      <p>A <code>Date</code> is a single moment in time. <code>new Date()</code> is “now,” according to the computer’s clock. <code>toISOString()</code> prints that moment in UTC, the shared clock used by files and APIs, in a form like <code>2026-09-27T18:04:00.000Z</code>.</p>
-<p><code>Intl.DateTimeFormat</code> prints the same moment for humans, in a language and a style you choose. Building a date from parts is the sharp edge: in the <code>Date</code> constructor, months are numbered <code>0</code> through <code>11</code>. January is <code>0</code>.</p>
-      <h2>Why it matters</h2>
-      <p>Reports need a date. Tests that mean “yesterday” break at midnight if you build the string by hand. Store an instant. Format it at the edge, when a human will read it.</p>
-      <h2>A picture to hold</h2>
-      <p>A timestamp is a pin on a world clock. UTC is the world clock. Your laptop’s time zone is a local poster of that same pin. <code>Intl</code> paints the poster. The pin does not move when you change the poster’s language.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> A Date is one moment. You can print it for a machine or for a person.</p>
+      <h2>Start with a normal day</h2>
+      <p>You buy one train ticket. The office also writes a filing slip for that same departure. The slip uses a strict order. The ticket uses ordinary words.</p>
+      <p>Rewording the ticket does not move the train. The departure stays one moment.</p>
+      <h2>New words</h2>
+      <p><code>const</code> and <code>console.log</code> mean the same as before. The program prints two papers for the current moment. The practice box builds 27 January 2026 and prints the month name.</p>
+      <dl class="words">
+        <div><dt>Date</dt><dd>One moment. <code>new Date()</code> is now. <code>new Date(2026, 0, 27)</code> is a year, a month, and a day. In that form the month starts at 0, so January is 0.</dd></div>
+        <div><dt>toISOString</dt><dd>The machine line for that moment. The year comes first, then <code>T</code>, then the time. <code>Z</code> at the end means UTC, the shared world clock. It looks like <code>2026-09-27T18:04:00.000Z</code>.</dd></div>
+        <div><dt>DateTimeFormat</dt><dd>Turns the same moment into a sentence for people. <code>en</code> means English. <code>dateStyle: &quot;medium&quot;</code> looks like <code>Sep 27, 2026</code>. <code>timeStyle: &quot;short&quot;</code> looks like <code>2:04 PM</code>. <code>format</code> returns that text and leaves the moment alone.</dd></div>
+        <div><dt>month</dt><dd>Ask for the month name only. <code>&quot;long&quot;</code> is the full word, such as January. <code>slice(0, 10)</code> keeps the first ten characters of the machine line, which is the date.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Take the current moment.</li>
+        <li>Print the machine line for that moment.</li>
+        <li>Build an English formatter with a medium date and a short time.</li>
+        <li>Print the human sentence for the same moment.</li>
+      </ol>
+      <p>The moment does not change. Only the spelling changes.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. The first line stores the moment. The second line prints the machine spelling. The middle lines build the human sentence. The last line prints it. A machine line looks like <code>2026-09-27T18:04:00.000Z</code>. A human line looks like <code>Sep 27, 2026, 2:04 PM</code>. Your clock picks the numbers.</p>
       <figure class="code">
     <figcaption>today.mjs · node today.mjs</figcaption>
     <pre><code class="language-js">const now = new Date();
@@ -60,17 +71,18 @@ const formatted = new Intl.DateTimeFormat(&quot;en&quot;, {
 }).format(now);
 console.log(formatted);</code></pre>
   </figure>
-      
-      <p>The ISO line is for machines. The formatted line follows your computer’s time zone and will look like <code>Sep 27, 2026, 2:04 PM</code>. January is month <code>0</code> if you write <code>new Date(2026, 0, 27)</code>.</p>
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const now = new Date();</code><span>Capture the current instant. Calling it twice a second later gives a different instant.</span></li>
-<li><code>console.log(now.toISOString());</code><span>Print UTC in ISO form. The <code>Z</code> means the offset is zero, which is UTC.</span></li>
-<li><code>new Intl.DateTimeFormat(&quot;en&quot;, {</code><span>Make a formatter. <code>&quot;en&quot;</code> is English. The options choose a medium date and a short time.</span></li>
-<li><code>}).format(now);</code><span>Apply the formatter to the instant. This returns a string. It does not change <code>now</code>.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run the box. January is month 0. Change 0 to 1 and the formatted line moves to February.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>const now = new Date();</code><span>Store the current moment under the name now. Ask again a second later and you get a different moment.</span></li>
+<li><code>console.log(now.toISOString());</code><span>Print the machine line. The Z at the end means the world clock.</span></li>
+<li><code>const formatted = new Intl.DateTimeFormat(&quot;en&quot;, {</code><span>Start a stored name, formatted. Build an English formatter. The brace opens its settings. The name receives the sentence, not the formatter.</span></li>
+<li><code>dateStyle: &quot;medium&quot;,</code><span>Ask for a middle-length date, such as Sep 27, 2026.</span></li>
+<li><code>timeStyle: &quot;short&quot;,</code><span>Ask for a short time, such as 2:04 PM. The clock where you are picks the hour.</span></li>
+<li><code>}).format(now);</code><span>Close the settings. Turn the moment into a sentence and store that sentence as formatted. now does not change.</span></li>
+<li><code>console.log(formatted);</code><span>Print the human sentence.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Press Run. The second line should say January. The month number in the box is 0. Change 0 to 1 and that line moves to February.</p>
       <div class="demo" data-kind="js" data-match="includes" data-hint="Use month 0 if you want January.">
-      <p class="demo-lead"><strong>Practice.</strong> toISOString is for machines. The formatted line is for people.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Month 0 prints January.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const day = new Date(2026, 0, 27);
 console.log(day.toISOString().slice(0, 10));
 console.log(new Intl.DateTimeFormat("en", { month: "long" }).format(day));</textarea></label>
@@ -78,12 +90,10 @@ console.log(new Intl.DateTimeFormat("en", { month: "long" }).format(day));</text
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">January</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Treating month <code>1</code> as January. In this constructor, <code>1</code> is February.</li>
-<li>Comparing dates by their formatted strings. Two locales format the same instant differently. Compare ISO strings, or compare <code>getTime()</code>, which is milliseconds.</li>
-<li>Building “today” by slicing a local string and then parsing it back. Take <code>new Date()</code> and format once, at the end.</li></ul>
-      <h2>Recap</h2>
-      <p><code>new Date()</code> captures an instant. <code>toISOString</code> is the machine spelling, in UTC. <code>Intl.DateTimeFormat</code> is the human spelling. Constructor months start at 0.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>Month <code>0</code> is January. Month <code>1</code> is February. In <code>new Date(2026, 0, 27)</code> the middle number is not the calendar month.</li><li>Do not check two moments by comparing human sentences. Another language spells the same moment differently. Compare the machine lines.</li><li><code>toISOString</code> uses the world clock. A date built from parts starts at midnight where you are. The machine day can be the day before. Do not cut up a human sentence and read it back as a moment. Take <code>new Date()</code> and format once, at the end.</li></ul>
+      <h2>Remember</h2>
+      <p>A Date is one moment. <code>toISOString</code> writes the machine line, on the world clock. <code>Intl.DateTimeFormat</code> writes the human sentence. When you pass a month number, January is 0.</p>
       <label class="done"><input type="checkbox" data-done="automation/11-dates"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="10-lists.html"><small>Previous</small>Transforming lists</a><a class="next" href="12-modules.html"><small>Next</small>Modules</a></nav>
     </main>

@@ -40,16 +40,34 @@
       <p class="kicker">Layer 02 · Lesson 6 of 17</p>
       <h1>Reading and writing files</h1>
       <p class="one-idea"><strong>One idea.</strong> A file remembers text after the program stops.</p>
-      <h2>The idea</h2>
-      <p>A file on disk outlives the program. <code>writeFileSync</code> stores text. <code>readFileSync</code> reads it back. Both come from <code>node:fs</code>. The <code>Sync</code> in the name means this line waits for the disk before the next line runs. That is a clear model while the files are small.</p>
-<p>Later, <code>async</code> and <code>await</code> will show the non-blocking versions, <code>readFile</code> and <code>writeFile</code> from <code>node:fs/promises</code>. Playwright uses that waiting style. The ideas are the same: a path, the text, and the encoding.</p>
-      <h2>Why it matters</h2>
-      <p>Reports, downloaded data, and Playwright’s <code>storageState</code> are all files. If you can write a note and read it back, those features are the same motion with a fancier path.</p>
-      <h2>A picture to hold</h2>
-      <p>A notebook you close when you leave the room. Variables forget everything when the program ends. The notebook is still on the desk. <code>writeFileSync</code> is closing the notebook. <code>readFileSync</code> is opening it tomorrow.</p>
-      
-      <h2>A small example</h2>
-      
+      <h2>Start with a normal day</h2>
+      <p>You write a shopping note and close the notebook. You leave the room. The words in your head are gone. The notebook is still on the desk.</p>
+      <p>A program is the same. Names it created disappear when it stops. A file does not.</p>
+      <h2>New words</h2>
+      <p><code>import</code>, <code>const</code>, and <code>console.log</code> are the same tools as before. This lesson adds files.</p>
+      <dl class="words">
+        <div><dt>node:fs</dt><dd>Node’s file tools. The curly braces in <code>import { readFileSync, writeFileSync }</code> pull in those two names.</dd></div>
+        <div><dt>Sync</dt><dd>The line waits until the disk is finished before the next line runs.</dd></div>
+        <div><dt>writeFileSync</dt><dd>Store text in a file. It creates the file, or replaces what was there.</dd></div>
+        <div><dt>readFileSync</dt><dd>Read a file and hand back the text.</dd></div>
+        <div><dt>appendFileSync</dt><dd>Add text at the end of a file. The practice box calls this <code>appendFile</code>.</dd></div>
+        <div><dt>utf8</dt><dd>Read the file as ordinary text. Without it you get a buffer, a bag of raw bytes, which is the wrong tool for a note.</dd></div>
+        <div><dt>new URL</dt><dd>Build a file address. <code>import.meta.url</code> is the address of this script. <code>&quot;./note.txt&quot;</code> means the note in the same folder.</dd></div>
+        <div><dt>\n</dt><dd>One new line. After milk, the next words start on the following line.</dd></div>
+        <div><dt>readFile / writeFile</dt><dd>In the practice box, these stand in for <code>readFileSync</code> and <code>writeFileSync</code>.</dd></div>
+        <div><dt>process.cwd()</dt><dd>The folder you were in when you started the program. A plain path such as <code>note.txt</code> starts there. The <code>URL</code> form follows the script instead.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Bring in the two tools that read and write, and wait while they do it.</li>
+        <li>Build an address for <code>note.txt</code> in the same folder as this script.</li>
+        <li>Write “Buy milk” into that file, and replace whatever was there.</li>
+        <li>Read the file back as text.</li>
+        <li>Show that text.</li>
+      </ol>
+      <p>Replacing is the usual write. Adding to the note is <code>appendFile</code> in the practice box. The practice names <code>readFile</code> and <code>writeFile</code> are the stand-ins for the <code>Sync</code> tools above.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the five steps again. This file does them in order. The write waits for the disk before the read starts. You run it with <code>node note.mjs</code>.</p>
       <figure class="code">
     <figcaption>note.mjs · node note.mjs</figcaption>
     <pre><code class="language-js">import { readFileSync, writeFileSync } from &quot;node:fs&quot;;
@@ -60,15 +78,16 @@ const text = readFileSync(file, &quot;utf8&quot;);
 console.log(text);</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>Buy milk</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>import { readFileSync, writeFileSync } from &quot;node:fs&quot;;</code><span>Bring in two functions. Curly braces mean “these names, not the whole module.”</span></li>
-<li><code>const file = new URL(&quot;./note.txt&quot;, import.meta.url);</code><span>Build a file address next to this script. <code>./</code> means “in the same folder as this file.”</span></li>
-<li><code>writeFileSync(file, &quot;Buy milk\n&quot;);</code><span>Create or replace <code>note.txt</code> with that text. <code>\n</code> is one newline character. Replacing is the default. There is also <code>appendFileSync</code> when you want to add.</span></li>
-<li><code>const text = readFileSync(file, &quot;utf8&quot;);</code><span>Read the bytes and decode them as text. Without <code>utf8</code>, you get a buffer of bytes, which is the wrong tool for a note.</span></li>
-<li><code>console.log(text);</code><span>Print the note. The newline makes the shell move to the next line after <code>milk</code>.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run once. The note is written, then read back. Change writeFile to appendFile, press Run twice, and watch the note grow. Reset starts the file over.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk">
+        <li><code>import { readFileSync, writeFileSync } from &quot;node:fs&quot;;</code><span>Bring in two tools by name. Curly braces mean these names, not the whole module.</span></li>
+        <li><code>const file = new URL(&quot;./note.txt&quot;, import.meta.url);</code><span>Point at a note beside this script. The name file holds that address, not the note itself. <code>./</code> means in the same folder as this file.</span></li>
+        <li><code>writeFileSync(file, &quot;Buy milk\n&quot;);</code><span>Save one line into the note, replacing the old text. <code>\n</code> is one newline character. Replacing is the default. <code>appendFileSync</code> adds instead.</span></li>
+        <li><code>const text = readFileSync(file, &quot;utf8&quot;);</code><span>Read the note back as text. The name text holds that note. Without <code>utf8</code>, you get a buffer of bytes, which is the wrong tool for a note.</span></li>
+        <li><code>console.log(text);</code><span>Show the note. The newline makes the next line start after milk.</span></li>
+      </ol>
+      <h2>Try it</h2>
+      <p>Run once. The note is written, then read back. Change <code>writeFile</code> to <code>appendFile</code>, press Run twice, and watch the note grow. Reset starts the file over.</p>
       <div class="demo" data-kind="js" data-match="includes" data-hint="Write two lines, then print the file.">
       <p class="demo-lead"><strong>Practice.</strong> writeFile replaces the note. appendFile adds to it. Each Run continues from the file box.</p>
       <label class="demo-field">note.txt<textarea class="demo-file" data-name="note.txt"></textarea></label><label class="demo-field">Code<textarea class="demo-code" spellcheck="false">writeFile("note.txt", "Buy milk\nBuy tea\n");
@@ -77,11 +96,13 @@ console.log(readFile("note.txt"));</textarea></label>
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">Buy milk</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Passing a folder to <code>readFileSync</code>. Reading a folder throws. Read a file path.</li>
-<li>Forgetting <code>utf8</code> and then calling string methods on a buffer.</li>
-<li>Using a path like <code>note.txt</code> and expecting it to sit beside the script no matter where you launched <code>node</code>. A plain relative path is relative to <code>process.cwd()</code>. The URL form above follows the script.</li></ul>
-      <h2>Recap</h2>
+      <h2>Easy to mix up</h2>
+      <ul>
+        <li>Passing a folder to <code>readFileSync</code>. Reading a folder stops with an error. Read a file path.</li>
+        <li>Forgetting <code>utf8</code> and then calling string methods on a buffer.</li>
+        <li>Using a path like <code>note.txt</code> and expecting it to sit beside the script no matter where you launched <code>node</code>. A plain relative path is relative to <code>process.cwd()</code>. The URL form above follows the script.</li>
+      </ul>
+      <h2>Remember</h2>
       <p><code>writeFileSync</code> stores text. <code>readFileSync</code> reads it back as <code>utf8</code>. A path built from <code>import.meta.url</code> stays next to the script.</p>
       <label class="done"><input type="checkbox" data-done="automation/06-files"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="05-environment-variables.html"><small>Previous</small>Environment variables</a><a class="next" href="07-paths.html"><small>Next</small>Paths and folders</a></nav>

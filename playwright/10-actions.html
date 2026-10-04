@@ -42,16 +42,31 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 10 of 20</p>
       <h1>Actions</h1>
-      <p class="one-idea"><strong>One idea.</strong> click presses. fill replaces the whole field.</p>
-      <h2>The idea</h2>
-      <p>An action is a locator plus a verb. <code>click</code> presses. <code>fill</code> clears an input and types the whole value at once, which is what you want for form fields. <code>press</code> sends one key, such as <code>Enter</code>. <code>check</code> and <code>uncheck</code> handle checkboxes. <code>selectOption</code> chooses from a <code>&lt;select&gt;</code>.</p>
-<p>Playwright refuses to act on an element that is hidden, disabled, or still moving. That refusal is protection. The auto-waiting lesson explains the rules. This lesson is the verbs.</p>
-      <h2>Why it matters</h2>
-      <p>Most bugs in hand-written scripts come from typing into the wrong kind of element, or from sending keys one by one when <code>fill</code> was the right tool. Choosing the verb that matches the control keeps the test close to a person’s behavior.</p>
-      <h2>A picture to hold</h2>
-      <p>A hand. <code>click</code> is a press. <code>fill</code> is replacing the contents of a labeled blank, the way you would clear a form field and write the answer. <code>press(&quot;Enter&quot;)</code> is hitting one key. You would not repaint a whole form by tapping one key at a time unless the field truly requires it.</p>
-      
-      <h2>A small example</h2>
+      <p class="one-idea"><strong>One idea.</strong> A click presses. Filling a box replaces everything already in it.</p>
+      <h2>Start with a normal day</h2>
+      <p>You see a link that says Learn more. You press it. Then you look at the address bar to see whether you moved.</p>
+      <p>A form field is a different hand movement. You clear the box and write the whole answer. You do not tap the letters one by one unless that box is listening for each key.</p>
+      <h2>New words</h2>
+      <dl class="words">
+        <div><dt>locator</dt><dd>A way to point at one thing on the page, checked again when you use it. <code>getByRole(&quot;link&quot;, { name: &quot;Learn more&quot; })</code> points at the link whose visible name is Learn more.</dd></div>
+        <div><dt>click</dt><dd>Press that thing. <code>await</code> waits until the press has been sent and the navigation it caused has settled.</dd></div>
+        <div><dt>fill</dt><dd>Clear an input and put the whole value in. This is the usual verb for a text field. The practice box below uses that idea.</dd></div>
+        <div><dt>press</dt><dd>Send one key, such as <code>Enter</code>.</dd></div>
+        <div><dt>check</dt><dd>Tick a checkbox. <code>uncheck</code> clears it.</dd></div>
+        <div><dt>selectOption</dt><dd>Choose one entry from a dropdown menu, the <code>&lt;select&gt;</code> element.</dd></div>
+        <div><dt>await</dt><dd>Pause until that verb finishes. A click without <code>await</code> lets the test end while the press is still happening.</dd></div>
+        <div><dt>toHaveURL</dt><dd>Check the address after the click. <code>/iana\.org/</code> is a pattern: slashes wrap it, and <code>\.</code> means a real dot. The address should contain <code>iana.org</code>.</dd></div>
+        <div><dt>hidden</dt><dd>Playwright will not press a control that is hidden, switched off, or still moving. The next lesson explains that wait. This lesson is the verbs.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Open <code>https://example.com</code>.</li>
+        <li>Find the link named Learn more.</li>
+        <li>Click it.</li>
+        <li>Check that the address now contains <code>iana.org</code>.</li>
+      </ol>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Find the link, then call <code>click</code>. The other verbs use the same shape: point at the control, then call <code>fill</code>, <code>press</code>, <code>check</code>, or <code>selectOption</code>. This file shows the click.</p>
       
       <figure class="code">
     <figcaption>tests/action.spec.js · npx playwright test</figcaption>
@@ -65,24 +80,22 @@ test(&quot;follow Learn more&quot;, async ({ page }) =&gt; {
   </figure>
       
       
-      <h2>Line by line</h2>
+      <h2>What each line is saying</h2>
       <ol class="walk"><li><code>await page.goto(&quot;https://example.com&quot;);</code><span>Start on a page that contains the link.</span></li>
-<li><code>getByRole(&quot;link&quot;, { name: &quot;Learn more&quot; }).click()</code><span>Find the link and click it. <code>click</code> returns a promise. <code>await</code> waits until the click has been issued and the navigation it caused has settled.</span></li>
-<li><code>await expect(page).toHaveURL(/iana\.org/);</code><span>The click should have changed the address. Assert the result, not only the fact that <code>click</code> returned.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Type a note, press Save, and read the line the page shows.</p>
+<li><code>getByRole(&quot;link&quot;, { name: &quot;Learn more&quot; }).click()</code><span>Point at the link, then press it. <code>await</code> waits until the press has landed and the new page has settled.</span></li>
+<li><code>await expect(page).toHaveURL(/iana\.org/);</code><span>The address should now contain iana.org. The check is about the page you landed on.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Type a note, press Save, and read the line the page shows. Change the note and save again. The new text replaces the old text.</p>
       <div class="demo" data-kind="stage" data-stage="form">
-      <p class="demo-lead"><strong>Demo.</strong> fill replaces what was there. It does not add to the end.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Saving writes the whole note. A second save replaces it.</p>
       
       <div class="mini-page"><label>Note <input class="person" type="text" value=""></label><p><button type="button" class="save">Save</button></p><p class="saved"></p></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Using <code>pressSequentially</code> for every input. It is for fields that listen to each key. <code>fill</code> is the default for normal inputs.</li>
-<li>Clicking a locator that matches two buttons. Playwright will complain that it resolved to more than one element. Make the name more specific.</li>
-<li>Ignoring the promise. <code>locator.click()</code> without <code>await</code> lets the test end while the click is still happening.</li></ul>
-      <h2>Recap</h2>
-      <p>Call the verb on a locator: <code>click</code>, <code>fill</code>, <code>check</code>, <code>press</code>, <code>selectOption</code>. <code>await</code> it. Then assert what changed.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li><code>fill</code> is the usual verb for a normal text field. <code>pressSequentially</code> is for a field that listens to each key.</li><li>A locator that matches two buttons stops and says so. Add more of the visible name so one button remains.</li><li><code>click()</code> needs <code>await</code>. The test otherwise ends while the press is still happening.</li></ul>
+      <h2>Remember</h2>
+      <p>Point at the control, then call the verb: <code>click</code>, <code>fill</code>, <code>check</code>, <code>press</code>, or <code>selectOption</code>. <code>await</code> it. Then check what changed on the page.</p>
       <label class="done"><input type="checkbox" data-done="playwright/10-actions"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="09-locators.html"><small>Previous</small>Locators</a><a class="next" href="11-auto-waiting.html"><small>Next</small>Auto-waiting</a></nav>
     </main>

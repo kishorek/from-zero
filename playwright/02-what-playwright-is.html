@@ -42,17 +42,31 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 2 of 20</p>
       <h1>What Playwright is</h1>
-      <p class="one-idea"><strong>One idea.</strong> Playwright is a library that drives Chromium, Firefox, and WebKit.</p>
-      <h2>The idea</h2>
-      <p>Playwright is an open source project from Microsoft. You install it with npm. Your Node.js script asks Playwright to launch a browser, and Playwright speaks to that browser through a debugging channel.</p>
-<p>The same script can target three engine families: Chromium (the family Chrome and Edge belong to), Firefox, and WebKit (the family Safari belongs to). You write the actions once. A setting chooses the browser.</p>
-<p>Playwright also waits for elements to be ready before it clicks, and it includes a test runner that reports pass and fail. You will install that runner in a few lessons. This lesson is only the map.</p>
-      <h2>Why it matters</h2>
-      <p>Names pile up fast: Playwright, Playwright Test, Chromium, a “headless” browser. Headless means the browser runs without a visible window. The actions are the same. You choose a window with <code>headless: false</code> when you want to watch.</p>
-      <h2>A picture to hold</h2>
-      <p>A qualified driver who can drive three models of car. Your directions stay in one language. The driver handles the pedals for whichever car you handed over the keys to. Playwright is the driver. Chromium, Firefox, and WebKit are the cars.</p>
-      
-      <h2>A small example</h2>
+      <p class="one-idea"><strong>One idea.</strong> Playwright is a helper that can drive three kinds of browser.</p>
+      <h2>Start with a normal day</h2>
+      <p>You hand a driver the same directions every time: open this address, read the heading, come back. The driver can sit in three different cars. You do not learn three sets of pedals.</p>
+      <p>Playwright is the driver. The cars are three browser families. This page only learns their names. Installing them comes in a later lesson.</p>
+      <h2>New words</h2>
+      <dl class="words">
+        <div><dt>Playwright</dt><dd>A helper you add to Node.js. Your script asks it to open a browser and use the page.</dd></div>
+        <div><dt>library</dt><dd>A box of ready-made functions. You install the box, then call the functions by name.</dd></div>
+        <div><dt>Chromium</dt><dd>One browser family. Chrome and Edge belong to it.</dd></div>
+        <div><dt>Firefox</dt><dd>A second browser family. Its own program, with its own habits.</dd></div>
+        <div><dt>WebKit</dt><dd>A third browser family. Safari belongs to it.</dd></div>
+        <div><dt>engine</dt><dd>The program that draws the page. Playwright drives the engine. Playwright is not itself the browser.</dd></div>
+        <div><dt>headless</dt><dd>The browser runs with no window on the screen. The actions are the same. <code>headless: false</code> shows the window when you want to watch.</dd></div>
+        <div><dt>array</dt><dd>A list in square brackets. This list holds the three names.</dd></div>
+        <div><dt>for...of</dt><dd>Walk the list one name at a time. <code>const engine</code> is the name for this lap.</dd></div>
+        <div><dt>+</dt><dd>Between pieces of text, the plus sign glues them into one sentence.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Write down the three browser names: chromium, firefox, webkit.</li>
+        <li>For each name, print one sentence: Playwright can drive that name.</li>
+        <li>Stop. These steps do not open a window.</li>
+      </ol>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">The list is step 1. The loop is step 2. Nothing here launches a browser. That waits until Playwright is installed.</p>
       
       <figure class="code">
     <figcaption>engines.js · node engines.js</figcaption>
@@ -65,13 +79,13 @@ for (const engine of engines) {
 Playwright can drive firefox.
 Playwright can drive webkit.</pre></div>
       
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const engines = [&quot;chromium&quot;, &quot;firefox&quot;, &quot;webkit&quot;];</code><span>The three browser engines Playwright supports with one API. An API is the set of function names you are allowed to call.</span></li>
-<li><code>console.log(&quot;Playwright can drive &quot; + engine + &quot;.&quot;);</code><span>One sentence per engine. The real launch comes after installation. Today you are learning the names.</span></li></ol>
-      <h2>Try it yourself</h2>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>const engines = [&quot;chromium&quot;, &quot;firefox&quot;, &quot;webkit&quot;];</code><span>The three names, in a list. One set of directions can name any of them.</span></li>
+<li><code>console.log(&quot;Playwright can drive &quot; + engine + &quot;.&quot;);</code><span>One sentence per name. The loop variable <code>engine</code> holds whichever name this lap is on.</span></li></ol>
+      <h2>Try it</h2>
       <p>Match each word to its job, then press Check.</p>
       <div class="demo" data-kind="stage" data-stage="words">
-      <p class="demo-lead"><strong>Demo.</strong> Pick one answer for each blank.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Language is JavaScript. Runtime is Node.js. Library is Playwright.</p>
       
       <label class="demo-field">Language<select data-pick="language"><option>Playwright</option><option>JavaScript</option><option>Node.js</option></select></label>
       <label class="demo-field">Runtime<select data-pick="runtime"><option>Playwright</option><option>JavaScript</option><option>Node.js</option></select></label>
@@ -79,12 +93,10 @@ Playwright can drive webkit.</pre></div>
       <div class="demo-actions"><button type="button" class="demo-run">Check</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Calling Playwright a browser. It drives browsers. You still install browser binaries, which the install lesson does.</li>
-<li>Assuming a passing Chromium run guarantees Safari. WebKit is a separate engine. Run it when Safari behavior matters.</li>
-<li>Confusing Playwright with the JavaScript already inside the website you are visiting. They are different programs.</li></ul>
-      <h2>Recap</h2>
-      <p>Playwright is a Node.js library that drives Chromium, Firefox, and WebKit. Headless means no window. The same actions work in all three engines.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>Playwright drives a browser. The browser itself is a separate download, covered in the install lesson.</li><li>Chromium, Firefox, and WebKit are three programs. A pass in Chromium says what Chromium did. Safari uses WebKit, so Safari questions get a WebKit run.</li><li>The script inside the website is a third program. Playwright sits outside that page and drives it.</li></ul>
+      <h2>Remember</h2>
+      <p>Playwright is the driver. Chromium, Firefox, and WebKit are the three cars. Headless means the car runs with no window. The same directions work for all three.</p>
       <label class="done"><input type="checkbox" data-done="playwright/02-what-playwright-is"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="01-what-automation-is.html"><small>Previous</small>What browser automation is</a><a class="next" href="03-where-javascript-runs.html"><small>Next</small>Browser JavaScript, Node.js, and Playwright</a></nav>
     </main>

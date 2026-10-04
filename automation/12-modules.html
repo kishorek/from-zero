@@ -39,17 +39,36 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 12 of 17</p>
       <h1>Modules</h1>
-      <p class="one-idea"><strong>One idea.</strong> export shares a name. import uses that name from another file.</p>
-      <h2>The idea</h2>
-      <p>A module is a file that shares some of its names and keeps the rest private. <code>export</code> marks a name as public. <code>import</code> brings that name into another file.</p>
-<p>The other file is named with a relative path starting with <code>./</code>. You include the <code>.mjs</code> ending. Node.js does not guess file endings for your own modules.</p>
-      <h2>Why it matters</h2>
-      <p>One file that does everything becomes hard to read and risky to change. Playwright projects split the same way: config in one file, tests in others, shared helpers in others. The mechanism is <code>export</code> and <code>import</code>.</p>
-      <h2>A picture to hold</h2>
-      <p>A shop counter. The workshop behind the counter can be messy. The counter (<code>export</code>) is the short list of what customers may ask for. Another file is a customer. It does not reach over the counter and grab a private tool.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> A module is a file that shares a recipe. export offers it. import uses it.</p>
+      <h2>Start with a normal day</h2>
+      <p>A bakery keeps a recipe in the kitchen. The counter offers a short list. A customer may ask for a loaf. The customer may not take a private tool from the kitchen.</p>
+      <p>A module is that kitchen, written as a file. export offers a recipe. import uses it. The .mjs ending tells Node.js the file is that kind of file.</p>
+      <h2>New words</h2>
+      <p>money.mjs keeps the price recipe. shop.mjs uses it. The practice box also offers a recipe named half.</p>
+      <dl class="words">
+        <div><dt>module</dt><dd>A file that shares a recipe. Other files can use what it offers. The rest of the file stays private.</dd></div>
+        <div><dt>export</dt><dd>Offer a recipe. Other files can import that name. A recipe with no export stays in the file.</dd></div>
+        <div><dt>function</dt><dd>A named recipe. You write the steps once. You run them when you use the name. <code>priceWithTax</code> takes a price. <code>half</code> takes a number.</dd></div>
+        <div><dt>return</dt><dd>Hand a value back, and stop the recipe there.</dd></div>
+        <div><dt>Math.round</dt><dd>Round to the nearest whole number. <code>Math</code> is the set of number tools. <code>round</code> is one of them. Multiply by 100, round, then divide by 100. That keeps the cents.</dd></div>
+        <div><dt>import</dt><dd>Use a recipe another file offers. <code>import { priceWithTax }</code> asks for that one name.</dd></div>
+        <div><dt>{ }</dt><dd>On an import line, the braces wrap the names you want. <code>{ priceWithTax }</code> asks for one name. <code>{ half }</code> asks for the other. These are not the braces around a recipe body.</dd></div>
+        <div><dt>from</dt><dd>The file that offers the names. It comes after the braces on the import line.</dd></div>
+        <div><dt>./</dt><dd>The folder this file is already in. <code>./money.mjs</code> is the money file beside shop.mjs. It is not the folder your terminal is in.</dd></div>
+        <div><dt>../</dt><dd>One folder up. It is the folder that holds the folder this file is in.</dd></div>
+        <div><dt>.mjs</dt><dd>The ending on the file name. It tells Node.js the file is a module. Write it in the import path. Node.js will not add it for you.</dd></div>
+        <div><dt>console.log</dt><dd>Print one line so you can see it.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>In money.mjs, write a recipe that adds ten percent and rounds to cents.</li>
+        <li>Offer that recipe with export.</li>
+        <li>In shop.mjs, import the recipe from the file beside it.</li>
+        <li>Use the recipe with 4, and print the result.</li>
+      </ol>
+      <p>The shop file does not copy the recipe. It uses the offered name.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. The first box is money.mjs. It offers the recipe. The second box is shop.mjs. It imports that recipe and prints the price of 4 with tax.</p>
       <figure class="code">
     <figcaption>money.mjs</figcaption>
     <pre><code class="language-js">export function priceWithTax(price) {
@@ -63,16 +82,15 @@
 console.log(priceWithTax(4));</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>4.4</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>export function priceWithTax(price) {</code><span>Define a function and make it public. Other files may import this name.</span></li>
-<li><code>return Math.round(price * 1.1 * 100) / 100;</code><span>Ten percent tax, rounded to cents. <code>Math.round</code> rounds to the nearest integer, so the <code>* 100</code> and <code>/ 100</code> shift the decimal.</span></li>
-<li><code>import { priceWithTax } from &quot;./money.mjs&quot;;</code><span>Ask for that public name from the neighboring file. The path is relative to <code>shop.mjs</code>, not to the shell’s current folder.</span></li>
-<li><code>console.log(priceWithTax(4));</code><span>Call it as if it lived here. The function still runs in the module that defined it.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Add export function half in money.mjs. Import half in shop.mjs and print half(9). You should see 4.5.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>export function priceWithTax(price) {</code><span>Write a recipe named priceWithTax and offer it. price is the number you pass in. Other files may import this name.</span></li>
+<li><code>return Math.round(price * 1.1 * 100) / 100;</code><span>Add ten percent. 1.1 means the price plus a tenth. Shift the cents up by 100, round to a whole number, then shift back. Hand that number back.</span></li>
+<li><code>import { priceWithTax } from &quot;./money.mjs&quot;;</code><span>Use the offered name from the file beside this one. The path starts at shop.mjs. The .mjs ending is required.</span></li>
+<li><code>console.log(priceWithTax(4));</code><span>Run the recipe with 4 and print the result. The recipe still lives in money.mjs.</span></li></ol>
+      <h2>Try it</h2>
+      <p>The money file also offers half. The shop file imports half and prints half(9). Press Run. You should see 4.5.</p>
       <div class="demo" data-kind="modules" data-mode="modules" data-match="includes" data-hint="Export half, import half, and print half(9).">
-      <p class="demo-lead"><strong>Practice.</strong> If shop imports a name money does not export, the box says so.</p>
+      <p class="demo-lead"><strong>Practice.</strong> half(9) prints 4.5.</p>
       <label class="demo-field">money.mjs<textarea class="demo-money" spellcheck="false">export function priceWithTax(price) {
   return Math.round(price * 1.1 * 100) / 100;
 }
@@ -87,12 +105,10 @@ console.log(half(9));</textarea></label>
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">4.5</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Forgetting the file ending in the import path. <code>./money</code> is not enough for your own files.</li>
-<li>Using a path from the project root out of habit. <code>./</code> means “beside this file.” <code>../</code> means “the parent of this file’s folder.”</li>
-<li>Exporting everything “just in case.” Export the functions a caller actually needs.</li></ul>
-      <h2>Recap</h2>
-      <p><code>export</code> makes a name public. <code>import</code> takes that name from a relative path that includes the file ending. Everything else in the file stays private.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>The import path needs the file ending. <code>./money</code> is not enough. Write <code>./money.mjs</code>.</li><li><code>./</code> means beside this file. <code>../</code> means one folder up. A path from the project root is a different address.</li><li>Offer the recipes another file uses. A name with no export stays in the file. Another file cannot import it.</li></ul>
+      <h2>Remember</h2>
+      <p>A module is a file that shares a recipe. export offers it. import uses it. .mjs tells Node.js the file is that kind of file.</p>
       <label class="done"><input type="checkbox" data-done="automation/12-modules"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="11-dates.html"><small>Previous</small>Dates and times</a><a class="next" href="13-promises.html"><small>Next</small>Promises</a></nav>
     </main>

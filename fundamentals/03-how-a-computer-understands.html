@@ -39,43 +39,52 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 3 of 17</p>
       <h1>How does a computer understand instructions?</h1>
-      <p class="one-idea"><strong>One idea.</strong> The computer follows rules for the marks you typed. Quotes change the rule.</p>
-      <h2>The idea</h2>
-      <p>The processor inside a computer follows extremely small electrical steps. It does not read English, and it does not read JavaScript either. A translator sits between your file and the processor.</p>
-<p>For JavaScript, that translator is an engine. Chrome and Node.js both use an engine called V8. V8 reads your file, checks the spelling, and carries out the instructions. When people say “the computer understands the code,” they mean this engine accepted it and did it.</p>
-      <h2>Why it matters</h2>
-      <p>Two pieces of text can look similar and mean different things, because the engine follows rules, not vibes. The example below adds numbers one way and glues text another way. Both use <code>+</code>. The quotes change the rule.</p>
-      <h2>A picture to hold</h2>
-      <p>Imagine a very literal clerk who speaks only a private shorthand. You write a letter in JavaScript. V8 is the interpreter who turns your letter into the clerk’s shorthand and reads it aloud. If your letter breaks the grammar, the interpreter stops and points at the line.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> The computer follows spelling rules. Quotes change what the plus sign does.</p>
+      <h2>Start with a normal day</h2>
+      <p>A clerk follows the form in front of them. They do not guess what you meant. They follow the marks on the form.</p>
+      <p>Your file is the form. A helper program reads it and carries out the steps. If a mark is wrong, the helper stops and points at the line.</p>
+      <p>The same plus sign can add, or it can glue words together. The quotes decide which rule applies.</p>
+      <h2>New words</h2>
+      <p>These words are enough for the two lines below.</p>
+      <dl class="words">
+        <div><dt>helper</dt><dd>The program that reads your file and carries out the steps. People also call it an engine. Inside this course’s tools, that helper’s product name is V8. You can forget the product name.</dd></div>
+        <div><dt>number</dt><dd>A value used for arithmetic. Digits with no quotes, such as <code>2</code>.</dd></div>
+        <div><dt>text</dt><dd>Words or digits inside quotes, such as <code>"2"</code>.</dd></div>
+        <div><dt>quotes</dt><dd>The marks <code>"</code> that turn digits into text.</dd></div>
+        <div><dt>+</dt><dd>On numbers, this sign adds. On text, this sign glues the pieces into one longer text.</dd></div>
+        <div><dt>console.log</dt><dd>The spelling for “show this on the screen.”</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Add the numbers 2 and 3. Show the result.</li>
+        <li>Take the text “2” and the text “3”. Glue them. Show the result.</li>
+      </ol>
+      <p>Both steps use a plus sign. The quotes are the only difference.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the two steps again. The first line has no quotes, so it adds. The second line has quotes, so it glues. Predict both results, then look.</p>
       <figure class="code">
-    <figcaption>rules.js · node rules.js</figcaption>
+    <figcaption>rules.js</figcaption>
     <pre><code class="language-js">console.log(2 + 3);
 console.log(&quot;2&quot; + &quot;3&quot;);</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>5
 23</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>console.log(2 + 3);</code><span>There are no quotes, so <code>2</code> and <code>3</code> are numbers. Plus adds them. The engine prints <code>5</code>.</span></li>
-<li><code>console.log(&quot;2&quot; + &quot;3&quot;);</code><span>The quotes make text. Plus on text glues the pieces into a longer text. The engine prints <code>23</code>, not <code>5</code>.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run the line as it is. You should see 23, because the quotes make text and plus glues text.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>console.log(2 + 3);</code><span>Show the sum of two numbers. There are no quotes, so 2 and 3 are numbers. 2 plus 3 is 5.</span></li>
+<li><code>console.log(&quot;2&quot; + &quot;3&quot;);</code><span>Show two pieces of text glued together. The quotes make text. The screen shows 23.</span></li></ol>
+      <h2>Try it</h2>
+      <p>The line glues the text “2” to the number 3. Press Run. You should see 23.</p>
       <div class="demo" data-kind="js" data-match="exact" data-hint="Keep the quotes around 2. Plus glues text.">
-      <p class="demo-lead"><strong>Practice.</strong> Predict first, then press Run.</p>
+      <p class="demo-lead"><strong>Practice.</strong> One side is text. Guess the result, then press Run.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">console.log("2" + 3);</textarea></label>
       <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">23</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Believing the computer grasps your goal. It applies rules to the text you wrote.</li>
-<li>Assuming <code>+</code> always means arithmetic. With text, <code>+</code> joins.</li>
-<li>Editing random lines after an error. Read the line number in the message first. The engine is pointing.</li></ul>
-      <h2>Recap</h2>
-      <p>An engine translates JavaScript into work the processor can do. V8 is that engine in Node.js and Chrome. The same symbol can follow different rules when the values differ.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>The helper follows the marks you typed. It does not guess your goal.</li><li>A plus sign adds numbers. A plus sign glues text.</li><li>When a message appears, read the line number first. The helper is pointing at a line.</li></ul>
+      <h2>Remember</h2>
+      <p>A helper reads your file and follows spelling rules. Quotes turn digits into text, and then the plus sign glues instead of adding.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/03-how-a-computer-understands"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="02-what-is-code.html"><small>Previous</small>What is code?</a><a class="next" href="04-what-is-a-language.html"><small>Next</small>What is a programming language?</a></nav>
     </main>

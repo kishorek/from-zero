@@ -39,59 +39,65 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 9 of 17</p>
       <h1>Operators</h1>
-      <p class="one-idea"><strong>One idea.</strong> An operator is a symbol that does something with values.</p>
-      <h2>The idea</h2>
-      <p>An operator sits between values, or just in front of one value, and produces a result. <code>+</code> adds. <code>===</code> asks a yes-or-no question. <code>&amp;&amp;</code> combines two of those answers.</p>
-      <p><code>=</code> is not an operator that compares. It stores a value in a variable. You already used it. Comparison uses <code>===</code>.</p>
-      <table>
-        <thead><tr><th>Symbol</th><th>Name</th><th>Example</th></tr></thead>
-        <tbody>
-          <tr><td><code>+</code> <code>-</code> <code>*</code> <code>/</code></td><td>Arithmetic</td><td><code>10 + 2</code> is <code>12</code>. <code>10 / 2</code> is <code>5</code>.</td></tr>
-          <tr><td><code>%</code></td><td>Remainder</td><td><code>10 % 3</code> is <code>1</code>. Three fits into ten three times, and one is left over.</td></tr>
-          <tr><td><code>===</code> <code>!==</code></td><td>Equality</td><td><code>3 === 3</code> is true. <code>3 !== "3"</code> is true, because a number and text are different kinds.</td></tr>
-          <tr><td><code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code></td><td>Comparison</td><td><code>10 &gt; 5</code> is true. <code>10 &gt;= 10</code> is true.</td></tr>
-          <tr><td><code>&amp;&amp;</code> <code>||</code> <code>!</code></td><td>Logic</td><td><code>&amp;&amp;</code> means both. <code>||</code> means either. <code>!</code> flips true and false.</td></tr>
-        </tbody>
-      </table>
-      <h2>Why it matters</h2>
-      <p>Every later decision is an operator. A condition is a comparison. A loop stops because a comparison becomes false. A price with tax is arithmetic. If the symbols are fuzzy, those lessons feel like spelling tricks.</p>
-      <h2>A picture to hold</h2>
-      <p>Arithmetic is a calculator. Comparison is a yes-or-no question on a form. <code>&amp;&amp;</code> is two light switches in a row: both must be on. <code>||</code> is two switches side by side: either one is enough. <code>!</code> is the switch that says the opposite of what it sees.</p>
-      <h2>A small example</h2>
+      <p class="one-idea"><strong>One idea.</strong> An operator is a symbol that does a job with values.</p>
+      <h2>Start with a normal day</h2>
+      <p>A calculator adds. A form asks a yes-or-no question. Both are symbols sitting between two values.</p>
+      <p>You have 10 apples. Add 2. Then ask how many are left over if 3 people share them. Then ask whether you still have at least 5.</p>
+      <h2>New words</h2>
+      <p>Learn these symbols before the program. The chart further down adds a few more.</p>
+      <dl class="words">
+        <div><dt>operator</dt><dd>A symbol that takes values and produces a result.</dd></div>
+        <div><dt>+</dt><dd>Adds two numbers. On text, it glues.</dd></div>
+        <div><dt>%</dt><dd>The remainder. <code>10 % 3</code> is 1, because 3 fits into 10 three times and 1 is left.</dd></div>
+        <div><dt>&gt;=</dt><dd>Asks “is the first value at least as big as the second?” The answer is true or false.</dd></div>
+        <div><dt>===</dt><dd>Asks “are these the same value, and the same kind?” One equals sign stores. Three equals signs ask.</dd></div>
+        <div><dt>!==</dt><dd>Asks “are these different?”</dd></div>
+        <div><dt>&amp;&amp;</dt><dd>Both answers must be true. Like two light switches in a row.</dd></div>
+        <div><dt>true and false</dt><dd>The only two answers a yes-or-no question can give.</dd></div>
+        <div><dt>=</dt><dd>One equals sign stores a value under a name.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Remember that there are 10 apples.</li>
+        <li>Show 10 plus 2.</li>
+        <li>Show the remainder when 10 is shared by 3.</li>
+        <li>Show whether 10 is at least 5.</li>
+      </ol>
+      <p>Three questions. The program writes them with three symbols.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. The first line only remembers the 10. Each <code>console.log</code> line is one question.</p>
       <figure class="code">
-        <figcaption>apples.js · node apples.js</figcaption>
+        <figcaption>apples.js</figcaption>
         <pre><code class="language-js">const apples = 10;
-const people = 3;
 console.log(apples + 2);
-console.log(apples - 2);
-console.log(apples * 2);
-console.log(apples / 2);
-console.log(apples % people);
-const enough = apples &gt;= 5 &amp;&amp; people !== 0;
-console.log(enough);
-console.log(!enough);</code></pre>
+console.log(apples % 3);
+console.log(apples &gt;= 5);</code></pre>
       </figure>
       <div class="output"><strong>What you should see</strong><pre>12
-8
-20
-5
 1
-true
-false</pre></div>
-      <h2>Line by line</h2>
+true</pre></div>
+      <h2>What each line is saying</h2>
       <ol class="walk">
-        <li><code>console.log(apples + 2);</code><span><code>+</code> adds. 10 plus 2 is 12.</span></li>
-        <li><code>console.log(apples - 2);</code><span><code>-</code> subtracts. 10 minus 2 is 8.</span></li>
-        <li><code>console.log(apples * 2);</code><span><code>*</code> multiplies. The star is the multiply sign in code.</span></li>
-        <li><code>console.log(apples / 2);</code><span><code>/</code> divides. 10 divided by 2 is 5.</span></li>
-        <li><code>console.log(apples % people);</code><span><code>%</code> is the remainder. 3 fits into 10 three times, and 1 apple is left.</span></li>
-        <li><code>const enough = apples &gt;= 5 &amp;&amp; people !== 0;</code><span><code>&gt;=</code> asks “at least 5?”. <code>!==</code> asks “not zero?”. <code>&amp;&amp;</code> keeps the answer only when both are true.</span></li>
-        <li><code>console.log(!enough);</code><span><code>!</code> flips the answer. enough is true, so <code>!enough</code> is false.</span></li>
+        <li><code>const apples = 10;</code><span>Store the number 10 under the name apples.</span></li>
+        <li><code>console.log(apples + 2);</code><span>Show 10 plus 2. The result is 12.</span></li>
+        <li><code>console.log(apples % 3);</code><span>Show what is left when 3 people share 10 apples. The result is 1.</span></li>
+        <li><code>console.log(apples &gt;= 5);</code><span>Ask whether 10 is at least 5. The answer is true.</span></li>
       </ol>
-      <h2>Try it yourself</h2>
-      <p>7 cookies are shared by 3 friends. Print the remainder, then print whether there are cookies and there is at least one friend.</p>
+      <h2>A few more symbols</h2>
+      <p>You do not need these for the program above. The practice box uses “both” and “different.” The others can wait until you meet them.</p>
+      <table>
+        <thead><tr><th>Symbol</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>-</code> <code>*</code> <code>/</code></td><td>Subtract, multiply, and divide. The star is the multiply sign.</td></tr>
+          <tr><td><code>&gt;</code> <code>&lt;</code> <code>&lt;=</code></td><td>Greater than, less than, and “at most.”</td></tr>
+          <tr><td><code>||</code></td><td>Either answer may be true. Like two switches side by side.</td></tr>
+          <tr><td><code>!</code></td><td>Flips an answer. True becomes false. False becomes true.</td></tr>
+        </tbody>
+      </table>
+      <h2>Try it</h2>
+      <p>7 cookies are shared by 3 friends. The first line shows the remainder, which is 1. The second line asks two questions that are both true, so you should see true.</p>
       <div class="demo" data-kind="js" data-match="exact" data-hint="7 % 3 is 1. Both parts of &amp;&amp; should be true.">
-        <p class="demo-lead"><strong>Practice.</strong> Remainder first. Then a yes-or-no answer.</p>
+        <p class="demo-lead"><strong>Practice.</strong> First the leftover cookies. Then “are there cookies, and is there a friend?”</p>
         <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const cookies = 7;
 const friends = 3;
 console.log(cookies % friends);
@@ -101,14 +107,14 @@ console.log(cookies &gt; 0 &amp;&amp; friends !== 0);</textarea></label>
         <template class="demo-expect">1
 true</template>
       </div>
-      <h2>Common mistakes</h2>
+      <h2>Easy to mix up</h2>
       <ul>
-        <li>Writing <code>=</code> to ask “are these the same?”. One equals sign stores. <code>===</code> compares.</li>
-        <li>Using <code>+</code> on text and expecting a sum. <code>&quot;10&quot; + 2</code> glues text and produces <code>&quot;102&quot;</code>.</li>
-        <li>Reading <code>&amp;&amp;</code> as the word “and” that you print. It produces true or false.</li>
+        <li>One equals sign stores a value. Three equals signs ask whether two values are the same.</li>
+        <li><code>"10" + 2</code> glues text and produces <code>"102"</code>. The quotes make the 10 into text.</li>
+        <li><code>&amp;&amp;</code> produces true or false. It does not print the word “and”.</li>
       </ul>
-      <h2>Recap</h2>
-      <p>Arithmetic operators calculate. Comparison operators answer yes or no. <code>&amp;&amp;</code>, <code>||</code>, and <code>!</code> combine those answers. The next lessons use these symbols inside lists, records, and choices.</p>
+      <h2>Remember</h2>
+      <p><code>+</code> and <code>%</code> calculate. <code>&gt;=</code> and <code>===</code> answer yes or no. <code>&amp;&amp;</code> asks for both answers to be true. One equals sign stores.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/09-operators"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="08-numbers-and-text.html"><small>Previous</small>Numbers and text</a><a class="next" href="10-arrays.html"><small>Next</small>Arrays</a></nav>
     </main>

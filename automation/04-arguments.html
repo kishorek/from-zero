@@ -39,17 +39,31 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 4 of 17</p>
       <h1>Command-line arguments</h1>
-      <p class="one-idea"><strong>One idea.</strong> Arguments are the extra words you type after the script name.</p>
-      <h2>The idea</h2>
-      <p>Arguments are extra words on the command. In <code>node greet.mjs Ada</code>, the word <code>Ada</code> is an argument. Node.js stores the whole command in <code>process.argv</code>, an array of strings.</p>
-<p>Index <code>0</code> is the path to <code>node</code>. Index <code>1</code> is the path to your script. Your first real argument is index <code>2</code>.</p>
-      <h2>Why it matters</h2>
-      <p>A useful script does not hide its input inside the file. You pass the file name, the city, or the URL on the command, so tomorrow you can run the same file on different input.</p>
-      <h2>A picture to hold</h2>
-      <p>A food-truck window. The script is the kitchen. The words after the script name are the order shouted at the window. The kitchen does not rewrite the menu for each customer. It reads the order.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> Arguments are the extra words you type after the file name.</p>
+      <h2>Start with a normal day</h2>
+      <p>A food truck has one kitchen. The words you shout at the window are the order. The kitchen does not rewrite the recipe for each person. It reads the order.</p>
+      <p>In <code>node greet.mjs Ada</code>, the word Ada is the order. Tomorrow you can shout a different name and use the same file.</p>
+      <h2>New words</h2>
+      <p>The list of words has a surprising start. Your own word is not the first item.</p>
+      <dl class="words">
+        <div><dt>argument</dt><dd>An extra word typed after the file name.</dd></div>
+        <div><dt>process.argv</dt><dd>The whole command, stored as a list of text. argv is short for argument values.</dd></div>
+        <div><dt>index 0</dt><dd>The first item. Here it is the address of <code>node</code> itself.</dd></div>
+        <div><dt>index 1</dt><dd>The address of your file.</dd></div>
+        <div><dt>index 2</dt><dd>The first word you added. In the example, Ada. The practice box also uses index 3 for the city.</dd></div>
+        <div><dt>!</dt><dd>Means “not.” <code>!name</code> is true when the name is missing.</dd></div>
+        <div><dt>&lt;name&gt;</dt><dd>A hint in a usage line. It means “put a value here.” You do not type the angle brackets.</dd></div>
+        <div><dt>exit code</dt><dd>The final number. 1 means this run was missing something it needed.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Read the first extra word.</li>
+        <li>If that word is missing, show how to run the file, and set the final number to 1.</li>
+        <li>If the word is there, show “Hello,” and the word.</li>
+      </ol>
+      <p>With Ada, you see the greeting. With no extra word, you see the usage line.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the three steps again. <code>process.argv[2]</code> is the extra word. The <code>if</code> chooses the missing-word path or the greeting.</p>
       <figure class="code">
     <figcaption>greet.mjs · node greet.mjs Ada</figcaption>
     <pre><code class="language-js">const name = process.argv[2];
@@ -61,16 +75,15 @@ if (!name) {
 }</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>Hello, Ada.</pre></div>
-      <p>Run it with no extra word and the usage line appears, with exit code 1. The <code>!</code> means “not.” <code>!name</code> is true when <code>name</code> is missing.</p>
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const name = process.argv[2];</code><span>Read the first word you added after the script name. If you did not add one, <code>name</code> is <code>undefined</code>.</span></li>
-<li><code>if (!name) {</code><span>Missing argument. Say how to run the script, and mark the exit code as a failure.</span></li>
-<li><code>console.log(&quot;Usage: node greet.mjs &lt;name&gt;&quot;);</code><span>A usage line is a tiny manual. Angle brackets mean “put a value here.” You do not type the brackets.</span></li>
-<li><code>console.log(`Hello, ${name}.`);</code><span>The argument was present. Build a sentence with it.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Fill in the name and the city, then run. Empty words should print the usage line.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>const name = process.argv[2];</code><span>Store the first extra word. If you typed none, name is undefined, which means missing.</span></li>
+<li><code>if (!name) {</code><span>This path runs when the word is missing.</span></li>
+<li><code>console.log(&quot;Usage: node greet.mjs &lt;name&gt;&quot;);</code><span>Show a tiny manual. The brackets mean “a name goes here.”</span></li>
+<li><code>console.log(`Hello, ${name}.`);</code><span>The word was present. Drop it into the greeting. The backticks allow that drop-in.</span></li></ol>
+      <h2>Try it</h2>
+      <p>The box starts with Ada and Lagos. Press Run. You should see a hello that names both. Clear the words and run again. You should see a usage line.</p>
       <div class="demo" data-kind="js" data-match="one-of" data-hint="With two words, say hello. With a missing word, print Usage.">
-      <p class="demo-lead"><strong>Practice.</strong> Your first word is process.argv[2]. The next is process.argv[3].</p>
+      <p class="demo-lead"><strong>Practice.</strong> The first extra word is argv[2]. The next is argv[3].</p>
       <label class="demo-field">Words after the script name<input class="demo-args" type="text" value="Ada Lagos"></label><label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const name = process.argv[2];
 const city = process.argv[3];
 if (!name || !city) {
@@ -84,12 +97,10 @@ if (!name || !city) {
       <template class="demo-expect">Hello, Ada from Lagos.
 Usage:</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Reading <code>process.argv[0]</code> and expecting your name. That slot is Node.js itself.</li>
-<li>Forgetting that every argument arrives as text. The number <code>3</code> arrives as <code>&quot;3&quot;</code> until you convert it with <code>Number</code>.</li>
-<li>Putting the value in the file and also requiring it as an argument, so you have two sources and they drift apart.</li></ul>
-      <h2>Recap</h2>
-      <p><code>process.argv</code> is the command, split into words. Your first argument is index 2. Check that it exists before you use it.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li><code>process.argv[0]</code> is Node.js itself. Your first word is <code>[2]</code>.</li><li>Every extra word arrives as text. The number 3 arrives as <code>"3"</code> until you turn it into a number with <code>Number</code>.</li><li>Keep the changing value in the command. A second copy written inside the file will drift away from it.</li></ul>
+      <h2>Remember</h2>
+      <p><code>process.argv</code> is the command, split into words. Your first extra word is index 2. Check that it exists before you use it.</p>
       <label class="done"><input type="checkbox" data-done="automation/04-arguments"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="03-npm.html"><small>Previous</small>npm and package.json</a><a class="next" href="05-environment-variables.html"><small>Next</small>Environment variables</a></nav>
     </main>

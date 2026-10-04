@@ -42,16 +42,32 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 6 of 20</p>
       <h1>Your first test</h1>
-      <p class="one-idea"><strong>One idea.</strong> A test opens a page and expects one fact.</p>
-      <h2>The idea</h2>
-      <p>A test is a function with a name and an opinion. The name says what should be true. The body makes that true-or-false observable. <code>npx playwright test</code> finds files named like <code>tests/*.spec.js</code>, runs each <code>test</code>, and prints a summary.</p>
-<p>Run one file with <code>npx playwright test tests/example.spec.js</code>. Run one test by its name with <code>npx playwright test -g &quot;title&quot;</code>. The <code>-g</code> flag filters by title.</p>
-      <h2>Why it matters</h2>
-      <p>This is the unit you will repeat. Everything else (locators, forms, traces) plugs into this shape. Once the command feels ordinary, the rest is vocabulary.</p>
-      <h2>A picture to hold</h2>
-      <p>A checklist item with a pencil. The string inside <code>test</code> is the item. <code>expect</code> is the pencil mark. The runner reads the whole checklist and tells you which marks are missing.</p>
-      
-      <h2>A small example</h2>
+      <p class="one-idea"><strong>One idea.</strong> A test opens a page and checks one fact.</p>
+      <h2>Start with a normal day</h2>
+      <p>A checklist has one line: “The sign on the door says Example Domain.” You walk to the door. You look at the sign. You tick the line, or you leave it blank.</p>
+      <p>The sentence inside <code>test</code> is that line. <code>expect</code> is the pencil. The runner reads the list and tells you which ticks are missing.</p>
+      <h2>New words</h2>
+      <dl class="words">
+        <div><dt>test</dt><dd>One named check. The words in quotes should state a fact, because a failure report quotes them.</dd></div>
+        <div><dt>expect</dt><dd>The check itself. <code>toHaveTitle</code> looks at the document title and waits until it matches, or until time runs out.</dd></div>
+        <div><dt>import</dt><dd>Bring <code>test</code> and <code>expect</code> in from <code>@playwright/test</code>, the runner.</dd></div>
+        <div><dt>async</dt><dd>Marks a function that can pause. <code>await</code> is the pause. It waits until that step finishes.</dd></div>
+        <div><dt>=&gt;</dt><dd>A short way to write a function. The runner calls this function and passes it a tab.</dd></div>
+        <div><dt>{ page }</dt><dd>The tab the runner already opened for this test. You do not launch the browser yourself.</dd></div>
+        <div><dt>goto</dt><dd>Open an address in that tab and wait until the document has loaded.</dd></div>
+        <div><dt>load</dt><dd>The moment the document and its immediate files have finished arriving. <code>goto</code> waits for that moment.</dd></div>
+        <div><dt>.spec.js</dt><dd>The ending of a test file. <code>npx playwright test</code> finds files like <code>tests/example.spec.js</code> and runs each <code>test</code> inside.</dd></div>
+        <div><dt>-g</dt><dd>A filter. <code>npx playwright test -g &quot;title&quot;</code> runs only the tests whose names contain that word.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Bring in <code>test</code> and <code>expect</code>.</li>
+        <li>Name one fact: example.com names itself in the title.</li>
+        <li>Open <code>https://example.com</code> and wait until it has loaded.</li>
+        <li>Check that the title is <code>Example Domain</code>.</li>
+      </ol>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Four lines. The name is the fact. <code>goto</code> walks to the door. <code>expect</code> reads the sign. Run it with <code>npx playwright test tests/example.spec.js</code>.</p>
       
       <figure class="code">
     <figcaption>tests/example.spec.js · npx playwright test</figcaption>
@@ -64,26 +80,24 @@ test(&quot;example.com names itself in the title&quot;, async ({ page }) =&gt; {
   </figure>
       
       
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>import { test, expect } from &quot;@playwright/test&quot;;</code><span>Bring in the two functions the runner wants you to use. <code>test</code> declares. <code>expect</code> checks.</span></li>
-<li><code>test(&quot;example.com names itself in the title&quot;, async ({ page }) =&gt; {</code><span>The title should read like a statement of fact. Future failures quote this sentence.</span></li>
-<li><code>await page.goto(&quot;https://example.com&quot;);</code><span>Open the address and wait for the load event. The load event means the document and its immediate resources have finished.</span></li>
-<li><code>await expect(page).toHaveTitle(&quot;Example Domain&quot;);</code><span>Retry until the page title matches, or until the timeout. The default timeout is enough for this site.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run the check. Then type Wrong and run it again so you can see a failure. Put Example Domain back.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>import { test, expect } from &quot;@playwright/test&quot;;</code><span><code>test</code> names the check. <code>expect</code> performs it.</span></li>
+<li><code>test(&quot;example.com names itself in the title&quot;, async ({ page }) =&gt; {</code><span>The name is a fact. A failure report quotes this sentence.</span></li>
+<li><code>await page.goto(&quot;https://example.com&quot;);</code><span>Open the address and wait until the document has loaded.</span></li>
+<li><code>await expect(page).toHaveTitle(&quot;Example Domain&quot;);</code><span>Keep looking until the title matches, or until time runs out. This site is fast enough for the usual limit.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Press Run test. Then type a wrong title and run it again so you can see a failure. Put Example Domain back.</p>
       <div class="demo" data-kind="stage" data-stage="title">
-      <p class="demo-lead"><strong>Demo.</strong> The page title really is Example Domain.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Example Domain passes. Any other title fails.</p>
       
       <label class="demo-field">Expected title<input class="expect-title" type="text" value="Example Domain"></label>
       <div class="demo-actions"><button type="button" class="demo-run">Run test</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Giving tests names like <code>test 1</code>. The report is unreadable. Name the fact you care about.</li>
-<li>Forgetting <code>async</code>. <code>await</code> inside a non-async test is a syntax error.</li>
-<li>Sharing one <code>page</code> across tests by hand. The runner gives each test a fresh page. Let it.</li></ul>
-      <h2>Recap</h2>
-      <p>A test opens a page and expects a fact. <code>npx playwright test</code> runs the files in <code>tests</code>. Name tests after the fact they check.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>A name like <code>test 1</code> tells you nothing when it fails. Name the fact.</li><li><code>await</code> belongs in a function marked <code>async</code>. Without that mark, the file is a syntax error.</li><li>Each test receives its own <code>page</code> from the runner. Sharing one tab by hand mixes the tests together.</li></ul>
+      <h2>Remember</h2>
+      <p>A test opens a page and checks one fact. <code>npx playwright test</code> runs the files in <code>tests</code>. Name the test after the fact.</p>
       <label class="done"><input type="checkbox" data-done="playwright/06-your-first-test"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="05-library-and-runner.html"><small>Previous</small>The library and the test runner</a><a class="next" href="07-browser-context-page.html"><small>Next</small>Browser, context, and page</a></nav>
     </main>

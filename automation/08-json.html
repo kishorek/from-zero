@@ -39,17 +39,39 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 8 of 17</p>
       <h1>JSON</h1>
-      <p class="one-idea"><strong>One idea.</strong> JSON is text for data. Parse turns that text into values.</p>
-      <h2>The idea</h2>
-      <p>JSON is a text format for numbers, strings, booleans, arrays, and objects. It looks like JavaScript and it is stricter. Keys are in double quotes. There are no comments, no trailing commas, and no functions.</p>
-<p><code>JSON.stringify(value)</code> turns a value into JSON text. <code>JSON.parse(text)</code> turns JSON text back into a value. Files and web APIs use this pair constantly.</p>
-      <h2>Why it matters</h2>
-      <p>Configuration files, API responses, and Playwright’s stored login state are JSON. You will read them with <code>parse</code> and write them with <code>stringify</code>. Treating JSON as “JavaScript you can paste anywhere” causes syntax errors that look unfair until you know the extra rules.</p>
-      <h2>A picture to hold</h2>
-      <p>A shipping label. Your objects are the contents of the box. JSON is the flat label that can travel through a file or across the network. <code>stringify</code> prints the label. <code>parse</code> reads the label and rebuilds the contents. The label cannot describe a function, because a function is a behavior, not cargo.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> JSON is text for data. Stringify writes that text. Parse reads it back.</p>
+      <h2>Start with a normal day</h2>
+      <p>A friend asks what is in a box. You do not hand over the box. You write a label: a name, and a number of cups.</p>
+      <p>The label is flat text. It can sit in a file. It can travel to another computer. Someone who reads the label builds a new box with the same facts. The label lists facts only. It cannot carry an action.</p>
+      <h2>New words</h2>
+      <p>The file below writes a label and reads it back. The practice box reads a list of tasks from a file. These words cover both.</p>
+      <dl class="words">
+        <div><dt>JSON</dt><dd>Text that holds data, such as text, numbers, lists, and objects. It looks a little like JavaScript. The rules are stricter.</dd></div>
+        <div><dt>stringify</dt><dd><code>JSON.stringify</code> turns a value into JSON text. The result is text, not an object.</dd></div>
+        <div><dt>parse</dt><dd><code>JSON.parse</code> reads JSON text and builds a value again. It accepts text only.</dd></div>
+        <div><dt>const</dt><dd>A name for a value. <code>person</code>, <code>raw</code>, <code>again</code>, and <code>tasks</code> are names.</dd></div>
+        <div><dt>object</dt><dd>One record with named blanks, inside <code>{ }</code>. In the sample, the blanks are name and cups.</dd></div>
+        <div><dt>key</dt><dd>The name of a blank, such as name or cups. In JSON every key wears double quotes. In the JavaScript line, name needs no quotes.</dd></div>
+        <div><dt>string</dt><dd>Text. After stringify, <code>raw</code> is text. You cannot write <code>raw.cups</code> on text.</dd></div>
+        <div><dt>dot</dt><dd><code>again.cups</code> means the cups blank on the object named again.</dd></div>
+        <div><dt>array</dt><dd>A list in order, inside <code>[ ]</code>. The practice file holds two tasks.</dd></div>
+        <div><dt>index</dt><dd>The number of a spot in a list. The first spot is <code>0</code>. <code>tasks[0]</code> is the first task.</dd></div>
+        <div><dt>readFile</dt><dd>In the practice box, this reads a named file and returns its text. The file is <code>tasks.json</code>.</dd></div>
+        <div><dt>double quotes</dt><dd>The <code>&quot;</code> marks. JSON keys and JSON text use them. Single quotes are not allowed.</dd></div>
+        <div><dt>trailing comma</dt><dd>A comma with nothing after it. A comma just before <code>]</code> is one. JavaScript often allows it. JSON does not.</dd></div>
+        <div><dt>console.log</dt><dd>Show a value on the screen.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Write down one person: the name Asha, and 2 cups.</li>
+        <li>Turn that record into one line of JSON text.</li>
+        <li>Show the line.</li>
+        <li>Read the line back into a new record.</li>
+        <li>Show the number of cups.</li>
+      </ol>
+      <p>The trip through text keeps the number. Cups stays the number <code>2</code>. It does not become the text <code>&quot;2&quot;</code>.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the five steps again. The file turns one record into text, then builds a new record from that text.</p>
       <figure class="code">
     <figcaption>pack.mjs · node pack.mjs</figcaption>
     <pre><code class="language-js">const person = { name: &quot;Asha&quot;, cups: 2 };
@@ -60,17 +82,18 @@ console.log(again.cups);</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>{&quot;name&quot;:&quot;Asha&quot;,&quot;cups&quot;:2}
 2</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const person = { name: &quot;Asha&quot;, cups: 2 };</code><span>An ordinary JavaScript object. The key <code>name</code> did not need quotes in JavaScript.</span></li>
-<li><code>const raw = JSON.stringify(person);</code><span>Produce a string of JSON. Inside that string, keys wear double quotes. <code>raw</code> is text, not an object. You cannot write <code>raw.cups</code>.</span></li>
-<li><code>console.log(raw);</code><span>Print the label. It is one string.</span></li>
-<li><code>const again = JSON.parse(raw);</code><span>Read the label and build a new object.</span></li>
-<li><code>console.log(again.cups);</code><span>The new object has a number property <code>cups</code>. The trip out to text and back preserved it.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run it and print the first task. Then add a comma before the ] and run again. Read the error, then remove the comma.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk">
+        <li><code>const person = { name: &quot;Asha&quot;, cups: 2 };</code><span>An ordinary JavaScript object. The key name does not need quotes here.</span></li>
+        <li><code>const raw = JSON.stringify(person);</code><span>Make one string of JSON. Inside that string, the keys wear double quotes. <code>raw</code> is text. You cannot write <code>raw.cups</code>.</span></li>
+        <li><code>console.log(raw);</code><span>Show the label. It is one string.</span></li>
+        <li><code>const again = JSON.parse(raw);</code><span>Read the label and build a new object.</span></li>
+        <li><code>console.log(again.cups);</code><span>Show the cups blank on the new object. It is the number 2.</span></li>
+      </ol>
+      <h2>Try it</h2>
+      <p>Run the box. It prints the first task, Buy milk. Then add a comma just before the <code>]</code> in tasks.json and run again. Read the error. Take the comma back out.</p>
       <div class="demo" data-kind="js" data-match="includes" data-hint="Keep the JSON valid, then print the first task.">
-      <p class="demo-lead"><strong>Practice.</strong> JSON uses double quotes and does not allow a trailing comma.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Print the first task. Do not leave a comma before the ].</p>
       <label class="demo-field">tasks.json<textarea class="demo-file" data-name="tasks.json">["Buy milk", "Reply to Ada"]</textarea></label><label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const raw = readFile("tasks.json");
 const tasks = JSON.parse(raw);
 console.log(tasks[0]);</textarea></label>
@@ -78,12 +101,15 @@ console.log(tasks[0]);</textarea></label>
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">Buy milk</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Calling <code>JSON.parse</code> on an object that is already parsed. Parse eats text.</li>
-<li>Trailing commas and single quotes in a <code>.json</code> file. Legal in many JavaScript objects. Illegal in JSON.</li>
-<li>Expecting <code>stringify</code> to keep functions or <code>undefined</code> object properties. It drops them.</li></ul>
-      <h2>Recap</h2>
-      <p>JSON is strict text for data. <code>JSON.stringify</code> writes it. <code>JSON.parse</code> reads it. Keys use double quotes, and the format holds values, not functions.</p>
+      <h2>Easy to mix up</h2>
+      <ul>
+        <li><code>JSON.parse</code> eats text. Do not parse an object you already have.</li>
+        <li>A trailing comma, or single quotes, is allowed in many JavaScript objects. Both are forbidden in JSON.</li>
+        <li><code>JSON.stringify</code> keeps facts it can write as text. It drops a function stored on an object. A function is a saved action. It also drops a blank on an object when that blank is <code>undefined</code>, which means no value.</li>
+        <li>JSON has no comments. A <code>//</code> note in the text makes parse fail.</li>
+      </ul>
+      <h2>Remember</h2>
+      <p>JSON is strict text for data. <code>JSON.stringify</code> writes it. <code>JSON.parse</code> reads it. Keys use double quotes. The text holds values, not actions.</p>
       <label class="done"><input type="checkbox" data-done="automation/08-json"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="07-paths.html"><small>Previous</small>Paths and folders</a><a class="next" href="09-text.html"><small>Next</small>Cleaning up text</a></nav>
     </main>

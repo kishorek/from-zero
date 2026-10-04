@@ -18,29 +18,29 @@
   <main id="content" class="wrap layer-lead">
     <p class="kicker">Layer 03</p>
     <h1>Playwright</h1>
-    <p>Playwright lets a Node.js program drive a real browser: open pages, click, type, and check what a person would see. These twenty lessons assume you can read the earlier practice boxes, including <code>async</code> and <code>await</code>. The demos are pretend pages. You do not need a working install to use them.</p>
-<p>Use a site and an account you are allowed to automate. The examples use <code>https://example.com</code> and pages the test builds itself, so you can learn the tool without touching anyone else’s login.</p>
+    <p>Playwright lets a program drive a real browser: open pages, click, type, and check what a person would see. These twenty lessons assume you finished the earlier practice boxes. When a lesson needs you to wait for the browser, it explains that wait in ordinary words first. The demos are pretend pages. You do not need a working install to use them.</p>
+<p>Use a site and an account you are allowed to automate. The examples use example.com and pages the check builds itself, so you can learn the tool without touching anyone else’s login.</p>
     <p class="progress-line" data-progress="playwright" data-ids="playwright/01-what-automation-is,playwright/02-what-playwright-is,playwright/03-where-javascript-runs,playwright/04-installing,playwright/05-library-and-runner,playwright/06-your-first-test,playwright/07-browser-context-page,playwright/08-navigating,playwright/09-locators,playwright/10-actions,playwright/11-auto-waiting,playwright/12-assertions,playwright/13-forms,playwright/14-screenshots-and-traces,playwright/15-popups,playwright/16-frames,playwright/17-network,playwright/18-storage-state,playwright/19-configuration,playwright/20-debugging-a-flow"></p>
     <ol class="toc"><li><span class="n">01</span><div><a href="01-what-automation-is.html">What browser automation is</a><p>A program performs the clicks and reads the screen.</p></div></li>
-<li><span class="n">02</span><div><a href="02-what-playwright-is.html">What Playwright is</a><p>Playwright is a library that drives Chromium, Firefox, and WebKit.</p></div></li>
-<li><span class="n">03</span><div><a href="03-where-javascript-runs.html">Browser JavaScript, Node.js, and Playwright</a><p>Three places JavaScript shows up, with different powers.</p></div></li>
-<li><span class="n">04</span><div><a href="04-installing.html">Installing Playwright</a><p>Create a project, install the test runner, install the browsers.</p></div></li>
-<li><span class="n">05</span><div><a href="05-library-and-runner.html">The library and the test runner</a><p>playwright launches browsers. @playwright/test organizes checks.</p></div></li>
-<li><span class="n">06</span><div><a href="06-your-first-test.html">Your first test</a><p>A test opens a page and expects a title.</p></div></li>
-<li><span class="n">07</span><div><a href="07-browser-context-page.html">Browser, context, and page</a><p>The browser is the app. A context is a clean profile. A page is a tab.</p></div></li>
-<li><span class="n">08</span><div><a href="08-navigating.html">Navigating</a><p>goto opens an address. url, title, reload, and goBack read the trip.</p></div></li>
-<li><span class="n">09</span><div><a href="09-locators.html">Locators</a><p>Find elements by their role and name, the way a person would.</p></div></li>
-<li><span class="n">10</span><div><a href="10-actions.html">Actions</a><p>click, fill, check, and press do what a person would do.</p></div></li>
-<li><span class="n">11</span><div><a href="11-auto-waiting.html">Auto-waiting</a><p>Actions wait until the element is ready. Fixed sleeps hide bugs.</p></div></li>
-<li><span class="n">12</span><div><a href="12-assertions.html">Assertions</a><p>expect on a locator retries. expect on a plain value does not.</p></div></li>
-<li><span class="n">13</span><div><a href="13-forms.html">Forms</a><p>Locate inputs by their label. fill, check, and select, then assert the result.</p></div></li>
-<li><span class="n">14</span><div><a href="14-screenshots-and-traces.html">Screenshots, video, and traces</a><p>When a test fails, keep a picture and a recording of the steps.</p></div></li>
-<li><span class="n">15</span><div><a href="15-popups.html">Pages and popups</a><p>Wait for the popup before the click that opens it.</p></div></li>
-<li><span class="n">16</span><div><a href="16-frames.html">Frames</a><p>A frame is a page inside a page. Locate it, then locate inside it.</p></div></li>
-<li><span class="n">17</span><div><a href="17-network.html">Network routing</a><p>page.route answers a request on behalf of the network.</p></div></li>
-<li><span class="n">18</span><div><a href="18-storage-state.html">Saving a login with storage state</a><p>Log in once, save cookies, reuse the profile.</p></div></li>
-<li><span class="n">19</span><div><a href="19-configuration.html">Configuration, projects, and hooks</a><p>playwright.config.js sets defaults. beforeEach shares setup. Projects name browsers.</p></div></li>
-<li><span class="n">20</span><div><a href="20-debugging-a-flow.html">Debugging a failing test</a><p>Read the call log, open the trace, watch one run, then fix one thing.</p></div></li></ol>
+<li><span class="n">02</span><div><a href="02-what-playwright-is.html">What Playwright is</a><p>Playwright is the tool that drives Chrome, Firefox, and Safari’s engine.</p></div></li>
+<li><span class="n">03</span><div><a href="03-where-javascript-runs.html">Browser JavaScript, Node.js, and Playwright</a><p>The same language can run in a page, on your computer, or as the driver. Those are different rooms.</p></div></li>
+<li><span class="n">04</span><div><a href="04-installing.html">Installing Playwright</a><p>Set the tool up when you are ready: a folder, the checker, and the browsers.</p></div></li>
+<li><span class="n">05</span><div><a href="05-library-and-runner.html">The library and the test runner</a><p>One part drives the browser. Another part organizes the checks.</p></div></li>
+<li><span class="n">06</span><div><a href="06-your-first-test.html">Your first test</a><p>A first check: open a page and look at its title.</p></div></li>
+<li><span class="n">07</span><div><a href="07-browser-context-page.html">Browser, context, and page</a><p>The browser is the app. A context is a clean profile. A page is one tab.</p></div></li>
+<li><span class="n">08</span><div><a href="08-navigating.html">Navigating</a><p>Open an address, then read where you landed.</p></div></li>
+<li><span class="n">09</span><div><a href="09-locators.html">Locators</a><p>Find a button or a heading the way a person would: by its job and its words.</p></div></li>
+<li><span class="n">10</span><div><a href="10-actions.html">Actions</a><p>Click, type, and tick boxes, the way a person would.</p></div></li>
+<li><span class="n">11</span><div><a href="11-auto-waiting.html">Auto-waiting</a><p>The tool waits until the page is ready. A guessed pause hides problems.</p></div></li>
+<li><span class="n">12</span><div><a href="12-assertions.html">Assertions</a><p>A check aimed at the page keeps looking for a moment. A check of a plain value answers once.</p></div></li>
+<li><span class="n">13</span><div><a href="13-forms.html">Forms</a><p>Fill a form using the label a person can see, then check the result.</p></div></li>
+<li><span class="n">14</span><div><a href="14-screenshots-and-traces.html">Screenshots, video, and traces</a><p>When a check fails, keep a picture and a recording of the steps.</p></div></li>
+<li><span class="n">15</span><div><a href="15-popups.html">Pages and popups</a><p>A click sometimes opens a new tab. Wait for that tab.</p></div></li>
+<li><span class="n">16</span><div><a href="16-frames.html">Frames</a><p>A page can contain a smaller page. Find the small page, then find things inside it.</p></div></li>
+<li><span class="n">17</span><div><a href="17-network.html">Network routing</a><p>Answer a network request yourself, so a check does not depend on the real server.</p></div></li>
+<li><span class="n">18</span><div><a href="18-storage-state.html">Saving a login with storage state</a><p>Log in once, save that login, and reuse it.</p></div></li>
+<li><span class="n">19</span><div><a href="19-configuration.html">Configuration, projects, and hooks</a><p>A settings file for the whole suite, a shared setup step, and a name for each browser.</p></div></li>
+<li><span class="n">20</span><div><a href="20-debugging-a-flow.html">Debugging a failing test</a><p>When a check fails, read the story of what happened, then change one thing.</p></div></li></ol>
     <p><a class="button" href="01-what-automation-is.html">Start lesson 1</a></p>
   </main>
   <script src="../js/site.js"></script>

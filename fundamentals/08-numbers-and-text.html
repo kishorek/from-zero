@@ -39,20 +39,35 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 8 of 17</p>
       <h1>Numbers and text</h1>
-      <p class="one-idea"><strong>One idea.</strong> Numbers calculate. Quoted text is glued together.</p>
-      <h2>The idea</h2>
-      <p>A number is for arithmetic: <code>4.5</code>, <code>2</code>, <code>-1</code>. Text is called a string, because it is a string of characters. You write a string between quotes: <code>&quot;tea&quot;</code> or <code>'tea'</code>.</p>
-<p>A template literal is a string written with backticks. Inside it, ${price} is replaced with the value of price. You will see that spelling in the example as a sentence that includes the item and the price.</p>
-<p><code>typeof</code> reports the kind of value. Numbers report <code>&quot;number&quot;</code>. Strings report <code>&quot;string&quot;</code>.</p>
-      <h2>Why it matters</h2>
-      <p>Files, web pages, and test names are mostly text. Prices, counts, and status codes are numbers. Keeping them apart prevents the <code>&quot;10&quot; + 2</code> surprise, which glues text and produces <code>&quot;102&quot;</code>.</p>
-      <h2>A picture to hold</h2>
-      <p>A number is a weight on a scale. You can add weights. A string is a bead necklace. Adding necklaces clasps them into one longer necklace. It does not add the number of beads unless you ask a different question, such as <code>.length</code>.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> A number can be added. Text inside quotes gets glued together.</p>
+      <h2>Start with a normal day</h2>
+      <p>A price tag says 4.50. You can add another price to it. The word “tea” on the same tag is a label. Adding labels sticks them into a longer label.</p>
+      <p>The sentence you want is “tea costs 4.5”. You already have the word tea, and you already have the number 4.5. The program builds that sentence for you.</p>
+      <h2>New words</h2>
+      <p>The program uses a number, a piece of text, and a sentence that includes both.</p>
+      <dl class="words">
+        <div><dt>number</dt><dd>A value for arithmetic, written with no quotes. <code>4.5</code>, <code>2</code>, and <code>-1</code> are numbers.</dd></div>
+        <div><dt>string</dt><dd>The programming word for text. It is a string of characters, written inside quotes: <code>"tea"</code>.</dd></div>
+        <div><dt>quotes</dt><dd>The marks around text. Straight quotes <code>"</code> or <code>'</code> both work. The quotes themselves are not part of the text.</dd></div>
+        <div><dt>backticks</dt><dd>The slanted quotes <code>`</code>. A string written with backticks can drop values into a sentence.</dd></div>
+        <div><dt>${ }</dt><dd>Inside backticks, a dollar sign and braces drop in the current value of a name. <code>${price}</code> becomes <code>4.5</code>.</dd></div>
+        <div><dt>typeof</dt><dd>Asks what kind of value this is. A number answers <code>"number"</code>. Text answers <code>"string"</code>.</dd></div>
+        <div><dt>Number</dt><dd>Turns text that looks like a number into a real number. <code>Number("10")</code> is the number 10. The practice box uses this.</dd></div>
+        <div><dt>const</dt><dd>A name you will keep on this value.</dd></div>
+        <div><dt>+</dt><dd>Adds numbers. Glues text. <code>"10" + 2</code> glues, and the result is the text <code>"102"</code>.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Store the price 4.5 as a number. No quotes.</li>
+        <li>Store the word tea as text. Use quotes.</li>
+        <li>Build one sentence that includes both.</li>
+        <li>Ask what kind of thing the price is, and what kind of thing the item is.</li>
+      </ol>
+      <p>The program writes those four steps. The sentence uses backticks so the stored values can drop in.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. The strange line is the sentence. The backticks and the <code>${ }</code> marks are only there to drop the stored values in.</p>
       <figure class="code">
-    <figcaption>price.js · node price.js</figcaption>
+    <figcaption>price.js</figcaption>
     <pre><code class="language-js">const price = 4.5;
 const item = &quot;tea&quot;;
 const line = `${item} costs ${price}`;
@@ -63,17 +78,16 @@ console.log(typeof item);</code></pre>
       <div class="output"><strong>What you should see</strong><pre>tea costs 4.5
 number
 string</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const price = 4.5;</code><span>Store a number. No quotes. The decimal point is allowed.</span></li>
-<li><code>const item = &quot;tea&quot;;</code><span>Store a string. The quotes are boundaries. They are not part of the text.</span></li>
-<li><code>const line = `${item} costs ${price}`;</code><span>Backticks build one string. <code>${item}</code> and <code>${price}</code> drop the current values into the sentence.</span></li>
-<li><code>console.log(typeof price);</code><span><code>typeof</code> returns the string <code>&quot;number&quot;</code> for a number.</span></li>
-<li><code>console.log(typeof item);</code><span><code>typeof</code> returns the string <code>&quot;string&quot;</code> for text.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run both lines. The first prints 102. The second prints 12.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>const price = 4.5;</code><span>Store a number under the name price. There are no quotes. A decimal point is allowed.</span></li>
+<li><code>const item = &quot;tea&quot;;</code><span>Store text under the name item. The quotes mark the text. They are not part of the word tea.</span></li>
+<li><code>const line = `${item} costs ${price}`;</code><span>Build one sentence. The backticks allow the drop-in marks. <code>${item}</code> becomes tea. <code>${price}</code> becomes 4.5.</span></li>
+<li><code>console.log(typeof price);</code><span>Ask what kind of value price is, and show the answer. The answer is the word number.</span></li>
+<li><code>console.log(typeof item);</code><span>Ask what kind of value item is. The answer is the word string.</span></li></ol>
+      <h2>Try it</h2>
+      <p>The first line glues the text “10” to the number 2, so you see 102. The second line turns “10” into a number first, then adds, so you see 12. Press Run.</p>
       <div class="demo" data-kind="js" data-match="exact" data-hint="Keep both lines.">
-      <p class="demo-lead"><strong>Practice.</strong> Number("10") turns text into a number before the addition.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Quotes make text. Number("10") turns that text into a number.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">console.log("10" + 2);
 console.log(Number("10") + 2);</textarea></label>
       <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
@@ -81,12 +95,10 @@ console.log(Number("10") + 2);</textarea></label>
       <template class="demo-expect">102
 12</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Putting quotes around a number you mean to add. <code>&quot;4.5&quot;</code> is text.</li>
-<li>Mixing up template punctuation. The insert is <code>${name}</code> with a dollar sign and braces, inside backticks.</li>
-<li>Assuming numbers with a leading zero, or numbers written as <code>04</code>, are always the decimal you expect. Write normal decimals such as <code>4</code> and <code>4.5</code>.</li></ul>
-      <h2>Recap</h2>
-      <p>Numbers do arithmetic. The next lesson names the symbols that do that arithmetic. Strings are quoted text. Template literals build a sentence and insert values with <code>${}</code>. <code>typeof</code> tells you which kind you have.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li><code>"4.5"</code> is text, because of the quotes. <code>4.5</code> is a number.</li><li>The drop-in mark is <code>${name}</code>, with a dollar sign and braces, and it belongs inside backticks.</li><li>Write ordinary numbers such as <code>4</code> and <code>4.5</code>. A leading zero, as in <code>04</code>, is a different spelling with a surprising meaning.</li></ul>
+      <h2>Remember</h2>
+      <p>Numbers do arithmetic. Strings are text inside quotes. Backticks build a sentence and drop values in with <code>${ }</code>. <code>typeof</code> tells you which kind you have.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/08-numbers-and-text"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="07-variables.html"><small>Previous</small>Variables</a><a class="next" href="09-operators.html"><small>Next</small>Operators</a></nav>
     </main>

@@ -422,7 +422,7 @@
       var name = box.querySelector(".person").value;
       var drink = box.querySelector(".drink") ? box.querySelector(".drink").value : "";
       saved.textContent = "Saved " + (name || "(empty)") + (drink ? " likes " + drink : "");
-      setOut(box, name ? "ok" : "bad", name ? "Yes. The page shows what the person would read after Save." : "Type a name first. fill replaces the whole field.");
+      setOut(box, name ? "ok" : "bad", name ? "Yes. The page shows what the person would read after Save." : "Type a note first. Filling the box replaces the whole note.");
     });
   }
 

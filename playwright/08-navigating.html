@@ -42,16 +42,32 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 8 of 20</p>
       <h1>Navigating</h1>
-      <p class="one-idea"><strong>One idea.</strong> goto opens an address. Back returns to the previous one.</p>
-      <h2>The idea</h2>
-      <p><code>page.goto(url)</code> opens an address and waits until the load event, unless you change <code>waitUntil</code>. After that, <code>page.url()</code> is the address you actually landed on, which might differ if the site redirected you. <code>page.title()</code> is the document title.</p>
-<p><code>reload</code> loads the same address again. <code>goBack</code> walks history, like the browser’s back button. Prefer waiting for a specific fact afterward (<code>toHaveURL</code>, a heading) over waiting for the network to go quiet.</p>
-      <h2>Why it matters</h2>
-      <p>Every flow starts with navigation. The subtle part is knowing which moment counts as “arrived.” Waiting for the load event is a good default. Waiting for <code>networkidle</code> is a habit Playwright’s own docs discourage, because busy sites never go idle and quiet sites idle too early.</p>
-      <h2>A picture to hold</h2>
-      <p>Walking into a building and stopping in the lobby when the door shuts (the load event). You have arrived. People may still be moving inside. Check the sign in the lobby (the heading) before you declare you are in the right room.</p>
-      
-      <h2>A small example</h2>
+      <p class="one-idea"><strong>One idea.</strong> Open an address, read the sign in the lobby, then come back.</p>
+      <h2>Start with a normal day</h2>
+      <p>You walk into a building. You stop in the lobby when the door shuts behind you. People may still be moving in the rooms. You read the sign in the lobby before you decide you are in the right place.</p>
+      <p>The door shutting is the page finishing its first load. The sign is the title, or the address in the bar. Reload asks for the same door again. Back walks out to the place you came from.</p>
+      <h2>New words</h2>
+      <dl class="words">
+        <div><dt>goto</dt><dd><code>page.goto(url)</code> opens that address and waits until the document has loaded.</dd></div>
+        <div><dt>load</dt><dd>The door-shut moment. The document and its immediate files have arrived. <code>waitUntil</code> can choose a different moment. This lesson keeps the usual one.</dd></div>
+        <div><dt>url()</dt><dd>The address you actually landed on. A site can send you somewhere else on the way in.</dd></div>
+        <div><dt>title()</dt><dd>The document title. It lives in the page, not in the address bar.</dd></div>
+        <div><dt>toHaveURL</dt><dd>A check that the address matches. This site’s address includes a final slash: <code>https://example.com/</code>.</dd></div>
+        <div><dt>toHaveTitle</dt><dd>A check that the document title matches the text you wrote.</dd></div>
+        <div><dt>reload</dt><dd>Open the same address again, and wait for load again.</dd></div>
+        <div><dt>goBack</dt><dd>The browser’s Back button. It returns to the previous address in this tab.</dd></div>
+        <div><dt>await</dt><dd>Pause until that open, reload, or check has finished.</dd></div>
+        <div><dt>networkidle</dt><dd>A different wait: “the network looks quiet.” Busy sites may never get there. This lesson does not use it. Read a sign instead.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Open <code>https://example.com</code> and wait until it has loaded.</li>
+        <li>Check the address, including the final slash.</li>
+        <li>Check the title: Example Domain.</li>
+        <li>Reload the page, and check the title again.</li>
+      </ol>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Each line is one of those steps. <code>expect</code> reads the sign after you arrive. Run it with <code>npx playwright test</code>.</p>
       
       <figure class="code">
     <figcaption>tests/navigate.spec.js · npx playwright test</figcaption>
@@ -67,26 +83,24 @@ test(&quot;open example.com and read the address&quot;, async ({ page }) =&gt; {
   </figure>
       
       
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>await page.goto(&quot;https://example.com&quot;);</code><span>Navigate. The promise fulfills on the load event by default.</span></li>
-<li><code>await expect(page).toHaveURL(&quot;https://example.com/&quot;);</code><span>The final slash is part of this site’s address. A mismatch fails the test with both URLs printed.</span></li>
-<li><code>await expect(page).toHaveTitle(&quot;Example Domain&quot;);</code><span>The title lives in the document, not in the address bar. Check the one you mean.</span></li>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>await page.goto(&quot;https://example.com&quot;);</code><span>Open the address and wait until the document has loaded.</span></li>
+<li><code>await expect(page).toHaveURL(&quot;https://example.com/&quot;);</code><span>The final slash is part of this site’s address. A mismatch prints both addresses.</span></li>
+<li><code>await expect(page).toHaveTitle(&quot;Example Domain&quot;);</code><span>The title lives in the document. The address bar is a different sign.</span></li>
 <li><code>await page.reload();</code><span>Ask for the same document again, and wait for load again.</span></li></ol>
-      <h2>Try it yourself</h2>
+      <h2>Try it</h2>
       <p>Click Learn more, then press Back.</p>
       <div class="demo" data-kind="stage" data-stage="browser">
-      <p class="demo-lead"><strong>Demo.</strong> This is a tiny pretend browser.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Learn more changes the address. Back returns to example.com.</p>
       
       <div class="mini-browser"><div class="mini-bar"></div><div class="mini-page"></div></div>
       <div class="demo-actions"><button type="button" class="reload quiet">Reload</button><button type="button" class="back quiet">Back</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Passing <code>waitUntil: &quot;networkidle&quot;</code> as a default. Use it only when you have a measured reason. Prefer a visible fact.</li>
-<li>Comparing <code>page.url()</code> with a string that forgot the trailing slash or the <code>https</code>.</li>
-<li>Calling <code>goto</code> and then immediately reading the page with no <code>await</code>. You are early.</li></ul>
-      <h2>Recap</h2>
-      <p><code>goto</code> opens an address and waits for load. Check <code>toHaveURL</code> and <code>toHaveTitle</code>. <code>reload</code> and <code>goBack</code> move again. Prefer a visible fact over a quiet network.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li><code>networkidle</code> waits for a quiet network. The usual wait is the load, then a visible fact such as the title.</li><li>The address to check includes <code>https</code> and, on this site, the final slash.</li><li><code>goto</code> needs <code>await</code>. The next line otherwise reads the page before the door has shut.</li></ul>
+      <h2>Remember</h2>
+      <p><code>goto</code> opens an address and waits for load. Check the address and the title. <code>reload</code> and Back move again. Read a sign on the page.</p>
       <label class="done"><input type="checkbox" data-done="playwright/08-navigating"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="07-browser-context-page.html"><small>Previous</small>Browser, context, and page</a><a class="next" href="09-locators.html"><small>Next</small>Locators</a></nav>
     </main>

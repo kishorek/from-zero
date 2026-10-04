@@ -39,20 +39,32 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 16 of 17</p>
       <h1>Debugging</h1>
-      <p class="one-idea"><strong>One idea.</strong> Debugging means printing the value you are unsure about.</p>
-      <h2>The idea</h2>
-      <p>A bug is a difference between what you meant and what the engine did. Debugging is how you find the first line where those two diverge.</p>
-<p>The practical method is small. Read the error. Print the values just before the bad line. Check the assumption you are least sure of. Change one thing. Run again.</p>
-<p>The Node.js debugger (<code>node inspect file.js</code>) can pause on a line. You do not need it yet. <code>console.log</code> is enough for this course, and professionals still use it.</p>
-      <h2>Why it matters</h2>
-      <p>Later error messages can look noisy. The skill underneath is the same one you practice here. Find the first surprise. Change one thing, then run again.</p>
-      <h2>A picture to hold</h2>
-      <p>Looking for a lost key by walking your route backwards. You do not redecorate the house. You stand where you last know you had the key, then take one step.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> Debugging means showing the value you are unsure about, then changing one thing.</p>
+      <h2>Start with a normal day</h2>
+      <p>You lost a key. You walk the route backwards. You stand where you last know you had it, then you take one step.</p>
+      <p>A bug is a gap between what you meant and what the helper did. You find the first line where those two split.</p>
+      <p>The method is small. Read the message. Show the value just before the bad line. Change one thing. Run again.</p>
+      <h2>New words</h2>
+      <p>This page looks for a third tea step that was never written.</p>
+      <dl class="words">
+        <div><dt>bug</dt><dd>The program did something different from what you meant.</dd></div>
+        <div><dt>debugging</dt><dd>Gathering evidence about what the program actually did.</dd></div>
+        <div><dt>console.log</dt><dd>Show a label and a value. You can pass both, separated by a comma: <code>console.log("count", steps.length)</code>.</dd></div>
+        <div><dt>index</dt><dd>The address of an item. Two items have addresses 0 and 1. Address 2 is empty.</dd></div>
+        <div><dt>undefined</dt><dd>The value in an empty address. Asking for it does not always raise an alarm. It quietly gives you undefined.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>You believe there are three tea steps.</li>
+        <li>Show how many steps are actually in the list.</li>
+        <li>Show the first step.</li>
+        <li>Show the third step, and read what comes back.</li>
+      </ol>
+      <p>The list only has two words. The third address is empty. Seeing that is the whole lesson.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. Each <code>console.log</code> is one piece of evidence. The label in quotes tells you which number you are looking at.</p>
       <figure class="code">
-    <figcaption>peek.js · node peek.js</figcaption>
+    <figcaption>peek.js</figcaption>
     <pre><code class="language-js">const steps = [&quot;boil&quot;, &quot;steep&quot;];
 console.log(&quot;count&quot;, steps.length);
 console.log(&quot;first&quot;, steps[0]);
@@ -61,16 +73,16 @@ console.log(&quot;third&quot;, steps[2]);</code></pre>
       <div class="output"><strong>What you should see</strong><pre>count 2
 first boil
 third undefined</pre></div>
-      <p><code>steps[2]</code> does not throw. It is simply <code>undefined</code>, because that mailbox is empty. A later line that treated <code>steps[2]</code> as an object would throw. The print shows you the gap before that happens.</p>
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const steps = [&quot;boil&quot;, &quot;steep&quot;];</code><span>Two items. Valid indexes are 0 and 1.</span></li>
-<li><code>console.log(&quot;count&quot;, steps.length);</code><span>Print a label and a value. Labels keep you from mixing up several numbers on the screen.</span></li>
-<li><code>console.log(&quot;first&quot;, steps[0]);</code><span>Confirm the first item is what you think. Here it is <code>boil</code>.</span></li>
-<li><code>console.log(&quot;third&quot;, steps[2]);</code><span>Ask for an index that does not exist. The evidence is <code>undefined</code>. Your theory of “there is a third step” is the bug.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Print the last item of an empty list and of ["a", "b"]. You should see undefined, then b.</p>
+      <p>Address 2 does not raise an alarm. It is simply empty. A later line that treated that empty value as a form would raise an alarm. The print shows the gap first.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>const steps = [&quot;boil&quot;, &quot;steep&quot;];</code><span>Two items. The real addresses are 0 and 1.</span></li>
+<li><code>console.log(&quot;count&quot;, steps.length);</code><span>Show a label and the count. The count is 2. The label keeps this number separate from the others.</span></li>
+<li><code>console.log(&quot;first&quot;, steps[0]);</code><span>Check the first item. It is boil, which matches the list.</span></li>
+<li><code>console.log(&quot;third&quot;, steps[2]);</code><span>Ask for an address that is empty. The evidence is undefined. The idea “there is a third step” is the bug.</span></li></ol>
+      <h2>Try it</h2>
+      <p>The box asks for the last item of an empty list, then the last item of a list with a and b. You should see undefined, then b.</p>
       <div class="demo" data-kind="js" data-match="exact" data-hint="Call lastItem twice and print both results.">
-      <p class="demo-lead"><strong>Practice.</strong> Look at both results before you decide the function is right.</p>
+      <p class="demo-lead"><strong>Practice.</strong> An empty list and a two-item list. Read both results.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">function lastItem(list) {
   return list[list.length - 1];
 }
@@ -81,12 +93,10 @@ console.log(lastItem(["a", "b"]));</textarea></label>
       <template class="demo-expect">undefined
 b</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Changing several lines before the next run. You will not know which change mattered.</li>
-<li>Printing so much that you stop reading it. Print the one value tied to your current guess.</li>
-<li>Trusting a memory of the file instead of the file. The engine ran the file, not your memory of it.</li></ul>
-      <h2>Recap</h2>
-      <p>Debugging compares what you meant with what happened. Read the line. Print the nearby values. Change one thing and run again.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>Change one thing, then run again. Several changes at once hide which one mattered.</li><li>Show the one value tied to your current guess. A flood of lines is hard to read.</li><li>The helper ran the file. Check the file, rather than your memory of the file.</li></ul>
+      <h2>Remember</h2>
+      <p>Debugging compares what you meant with what happened. Read the line. Show the nearby value. Change one thing and run again.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/16-debugging"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="15-errors.html"><small>Previous</small>Errors</a><a class="next" href="17-putting-it-together.html"><small>Next</small>Putting everything together</a></nav>
     </main>

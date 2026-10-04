@@ -42,16 +42,39 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 3 of 20</p>
       <h1>Browser JavaScript, Node.js, and Playwright</h1>
-      <p class="one-idea"><strong>One idea.</strong> Page JavaScript, Node.js, and Playwright are three different rooms.</p>
-      <h2>The idea</h2>
-      <p>Keep three rooms separate. In the page, JavaScript can read and change that page, and the browser stops it from freely reading your disk. In Node.js, your script can read files and the network, and it cannot see a page. In a Playwright run, a Node.js script drives a separate browser. The page may also be running its own JavaScript. Those are two programs at once.</p>
-<p>Playwright can ask the page to run a snippet, with <code>page.evaluate</code>. Use that rarely, when you truly need a value from inside the page. Prefer locators and assertions, which look at the page the way a person does.</p>
-      <h2>Why it matters</h2>
-      <p>The most common early bug is pasting <code>document.querySelector</code> into a test, or pasting <code>page.getByRole</code> into a web page. Each call belongs in one room.</p>
-      <h2>A picture to hold</h2>
-      <p>A stage play. The actors on stage have the script inside the play (page JavaScript). You sit in the booth with a prompt book (your Node.js test). Playwright is the stage manager who can cue the lights and listen to a line. You are not on stage, even though you can hear it.</p>
-      <table><thead><tr><th>Room</th><th>Who runs</th><th>Sees the page</th><th>Sees your files</th></tr></thead><tbody><tr><td>Page</td><td>The website’s JavaScript</td><td>Yes, that page</td><td>No</td></tr><tr><td>Node.js alone</td><td>Your script</td><td>No</td><td>Yes</td></tr><tr><td>Playwright</td><td>Your script, driving a browser</td><td>Yes, from outside</td><td>Yes</td></tr></tbody></table>
-      <h2>A small example</h2>
+      <p class="one-idea"><strong>One idea.</strong> The page, Node.js, and Playwright are three different rooms.</p>
+      <h2>Start with a normal day</h2>
+      <p>You are watching a play from the booth. The actors on stage have their own script. That script can move the props on stage. It cannot open the filing cabinet in the booth.</p>
+      <p>Your notes live in the booth. They can open the cabinet. They cannot pick up a prop unless you ask the stage manager. Playwright is that stage manager: your Node.js script, driving a browser from outside the page.</p>
+      <h2>New words</h2>
+      <dl class="words">
+        <div><dt>page JavaScript</dt><dd>The script that lives inside the website. It can read and change that page. The browser keeps it away from your files.</dd></div>
+        <div><dt>Node.js</dt><dd>Your script on your computer. It can read files. By itself it cannot see a web page.</dd></div>
+        <div><dt>Playwright</dt><dd>Your Node.js script driving a separate browser. The page may also be running its own script. Two programs at once.</dd></div>
+        <div><dt>window</dt><dd>A name that exists in a browser page. It does not exist in Node.js.</dd></div>
+        <div><dt>typeof</dt><dd>Ask what kind of thing a name is. On a missing name the answer is <code>&quot;undefined&quot;</code>, so the line does not crash.</dd></div>
+        <div><dt>? :</dt><dd>A short choice. <code>test ? &quot;yes&quot; : &quot;no&quot;</code> picks the first answer when the test is true, and the second answer otherwise.</dd></div>
+        <div><dt>document</dt><dd>The page’s own handle on itself. It exists in the page. It does not exist in your test file.</dd></div>
+        <div><dt>page</dt><dd>Playwright’s handle on the tab. It exists in your test. It does not exist inside the page.</dd></div>
+        <div><dt>page.evaluate</dt><dd>Ask the page to run a small snippet. That snippet is in the page’s room, so it may use <code>document</code>. Use this rarely. Later lessons look at the page the way a person does.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Ask whether the name <code>window</code> exists.</li>
+        <li>If it is missing, this file is running in Node.js.</li>
+        <li>If it exists, this file is running in a browser page.</li>
+        <li>Print one sentence that names the room.</li>
+      </ol>
+      <table>
+        <thead><tr><th>Room</th><th>Who runs</th><th>Sees the page</th><th>Sees your files</th></tr></thead>
+        <tbody>
+          <tr><td>Page</td><td>The website’s JavaScript</td><td>Yes, that page</td><td>No</td></tr>
+          <tr><td>Node.js alone</td><td>Your script</td><td>No</td><td>Yes</td></tr>
+          <tr><td>Playwright</td><td>Your script, driving a browser</td><td>Yes, from outside</td><td>Yes</td></tr>
+        </tbody>
+      </table>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">One question, then one sentence. Run it with Node and the sentence names Node.js. The same line in a browser console would name the page.</p>
       
       <figure class="code">
     <figcaption>room.js · node room.js</figcaption>
@@ -60,25 +83,23 @@ console.log(&quot;This file is running in &quot; + room + &quot;.&quot;);</code>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>This file is running in Node.js.</pre></div>
       
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>typeof window === &quot;undefined&quot;</code><span><code>window</code> exists in a browser page and does not exist in Node.js. <code>typeof</code> on a missing name is <code>&quot;undefined&quot;</code>, which avoids a crash.</span></li>
-<li><code>? &quot;Node.js&quot; : &quot;a browser page&quot;</code><span>A conditional expression. When the test is true, the result is <code>&quot;Node.js&quot;</code>. Otherwise it is the other string.</span></li>
-<li><code>console.log(&quot;This file is running in &quot; + room + &quot;.&quot;);</code><span>Run in Node.js, the sentence names Node.js. The same line in a browser console would name the page.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Ask both rooms the same question.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>typeof window === &quot;undefined&quot;</code><span>Ask whether <code>window</code> exists. In Node.js the answer is the text <code>&quot;undefined&quot;</code>.</span></li>
+<li><code>? &quot;Node.js&quot; : &quot;a browser page&quot;</code><span>Pick the first label when the test is true. Pick the second label when the test is false.</span></li>
+<li><code>console.log(&quot;This file is running in &quot; + room + &quot;.&quot;);</code><span>Print the label. In Node.js the sentence names Node.js.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Ask both rooms the same question. Node.js knows <code>process</code>. A normal page does not.</p>
       <div class="demo" data-kind="stage" data-stage="rooms">
-      <p class="demo-lead"><strong>Demo.</strong> process exists in Node.js. A normal web page does not have it.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Same question in two rooms. The answers differ.</p>
       
       <div class="choice"><div><strong>Node.js</strong><p>typeof process</p></div><div><strong>Browser page</strong><p>typeof process</p></div></div>
       <div class="demo-actions"><button type="button" class="demo-run">Ask both rooms</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Using <code>document</code> in the test file. In the test file, you use <code>page</code>.</li>
-<li>Using <code>page</code> inside <code>page.evaluate</code>. The snippet inside <code>evaluate</code> runs in the page, where <code>page</code> does not exist. It may use <code>document</code>.</li>
-<li>Assuming the page and the test share variables. They do not. Values cross only when you pass them.</li></ul>
-      <h2>Recap</h2>
-      <p>Page JavaScript sees the page. Node.js sees files. Playwright is Node.js driving a browser from outside. <code>window</code> tells you which room a file is in.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>In the test file, the handle is <code>page</code>. <code>document</code> belongs inside the page.</li><li>A snippet passed to <code>page.evaluate</code> runs in the page. There, <code>page</code> does not exist. <code>document</code> does.</li><li>The page and the test keep separate variables. A value moves only when your script passes it across.</li></ul>
+      <h2>Remember</h2>
+      <p>The page sees the page. Node.js sees your files. Playwright is Node.js driving a browser from the booth. <code>window</code> tells you which room a file is in.</p>
       <label class="done"><input type="checkbox" data-done="playwright/03-where-javascript-runs"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="02-what-playwright-is.html"><small>Previous</small>What Playwright is</a><a class="next" href="04-installing.html"><small>Next</small>Installing Playwright</a></nav>
     </main>

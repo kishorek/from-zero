@@ -40,16 +40,31 @@
       <p class="kicker">Layer 02 · Lesson 16 of 17</p>
       <h1>Logs and exit codes</h1>
       <p class="one-idea"><strong>One idea.</strong> People read the message. The shell reads the exit code.</p>
-      <h2>The idea</h2>
-      <p><code>console.log</code> is for ordinary progress. <code>console.error</code> is for failures. They are both just streams of text. By convention, error text goes to standard error, a second channel the shell can separate from normal output.</p>
-<p>The exit code is the program’s official result. Use <code>0</code> when the job worked and <code>1</code> when it did not. Set <code>process.exitCode</code>. Let the function return. The process ends, and the code goes with it.</p>
-      <h2>Why it matters</h2>
-      <p>A Playwright run prints a lot and also exits <code>0</code> or <code>1</code>. Scripts you write will sit inside other scripts. Those callers cannot read your prose. They can read the exit code. Give them a reliable one, and give humans a sentence.</p>
-      <h2>A picture to hold</h2>
-      <p>A reception desk with two trays and a lamp. The trays are the two output streams: notes, and problems. The lamp is the exit code: green or red. People read the trays. The next machine only looks at the lamp.</p>
-      
-      <h2>A small example</h2>
-      
+      <h2>Start with a normal day</h2>
+      <p>A front desk keeps two trays and a lamp. Ordinary notes go in one tray. Problems go in the other.</p>
+      <p>The lamp is green when the job finished as planned. It is red when it did not. People read the trays. The next machine looks only at the lamp.</p>
+      <h2>New words</h2>
+      <p>The script reads one extra word from the command. No word is a failure. A word gets a greeting.</p>
+      <dl class="words">
+        <div><dt>shell</dt><dd>The program that started your script. It reads the exit code. It does not read your notes.</dd></div>
+        <div><dt>log</dt><dd>A written note of what happened. console.log prints an ordinary note.</dd></div>
+        <div><dt>console.error</dt><dd>Prints a problem note apart from the ordinary notes.</dd></div>
+        <div><dt>exit code</dt><dd>An exit code is a final number for the program that started you. 0 means it finished as planned. 1 means it did not.</dd></div>
+        <div><dt>process.exitCode</dt><dd>Where the script stores that number. The script can then end on its own.</dd></div>
+        <div><dt>process.exit</dt><dd>Stops the program on that line. Prefer process.exitCode unless you must stop immediately.</dd></div>
+        <div><dt>process.argv</dt><dd>The words used to start the script. process.argv[2] is the first word after the script name. The earlier words name the program itself.</dd></div>
+        <div><dt>if</dt><dd>A test. The lines inside run only when the test is true.</dd></div>
+        <div><dt>!</dt><dd>Means not. !name is true when no word was typed.</dd></div>
+        <div><dt>else</dt><dd>The other path. It runs when the if test was not true.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Read the word typed after the script name.</li>
+        <li>If that word is missing, print a problem and set the exit code to 1.</li>
+        <li>If that word is there, print a hello and set the exit code to 0.</li>
+      </ol>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the three steps again. One file does both paths. A missing word takes the first path. A word takes the second.</p>
       <figure class="code">
     <figcaption>report-status.mjs · node report-status.mjs</figcaption>
     <pre><code class="language-js">const name = process.argv[2];
@@ -61,16 +76,16 @@ if (!name) {
   process.exitCode = 0;
 }</code></pre>
   </figure>
-      
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const name = process.argv[2];</code><span>The input, from the command, as in the arguments lesson.</span></li>
-<li><code>console.error(&quot;Missing name.&quot;);</code><span>A failure sentence on the error stream. Keep it short and specific.</span></li>
-<li><code>process.exitCode = 1;</code><span>Tell the shell this run failed. Do not also call <code>process.exit</code> unless you have a reason to halt immediately.</span></li>
-<li><code>console.log(&quot;Hello, &quot; + name);</code><span>Ordinary output. This is the result a person wanted.</span></li>
-<li><code>process.exitCode = 0;</code><span>Explicit success. Ending with no assignment also exits <code>0</code>. Setting it makes the success look as deliberate as the failure.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run with a name, then clear the words and run again. A missing name should exit 1. A one-letter name should exit 1 too.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>const name = process.argv[2];</code><span>Take the first word typed after the script name.</span></li>
+<li><code>if (!name) {</code><span>The <code>!</code> means not. This path runs when that word is missing.</span></li>
+<li><code>console.error(&quot;Missing name.&quot;);</code><span>Print a short problem note, apart from ordinary notes.</span></li>
+<li><code>process.exitCode = 1;</code><span>Set the exit code to 1. This did not finish as planned.</span></li>
+<li><code>} else {</code><span>A word was typed. Take this other path.</span></li>
+<li><code>console.log(&quot;Hello, &quot; + name);</code><span>Print an ordinary hello. A person reads this.</span></li>
+<li><code>process.exitCode = 0;</code><span>Set the exit code to 0. It finished as planned. Leaving the number unset also means 0. Setting it makes success as clear as failure.</span></li></ol>
+      <h2>Try it</h2>
+      <p>The box is stricter than the file above. One letter counts as missing. Run it with Al. You should see a hello, and the exit code is 0. Clear the word, or type one letter. The exit code is 1.</p>
       <div class="demo" data-kind="js" data-match="one-of" data-show-exit data-hint="Greet Al. Reject a missing name or a one-letter name.">
       <p class="demo-lead"><strong>Practice.</strong> Al is long enough. A is not.</p>
       <label class="demo-field">Words after the script name<input class="demo-args" type="text" value="Al"></label><label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const name = process.argv[2];
@@ -86,12 +101,10 @@ if (!name || name.length &lt; 2) {
       <template class="demo-expect">Hello, Al
 Need a name</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Printing <code>Success</code> and exiting <code>1</code>, or printing an error and exiting <code>0</code>. The lamp and the tray disagree, and callers believe the lamp.</li>
-<li>Using <code>console.log</code> for every failure. When someone redirects normal output to a file, the failures vanish into the file too.</li>
-<li>Calling <code>process.exit(1)</code> inside a function that another file imported. You just closed their whole program. Throw, or return a result, and let the top of the script set the exit code.</li></ul>
-      <h2>Recap</h2>
-      <p><code>console.log</code> for results, <code>console.error</code> for problems, <code>process.exitCode</code> for the shell. Humans read the text. Other programs read the code.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>A cheerful note with exit code 1, or a problem note with exit code 0. The shell trusts the number, not the sentence.</li><li>Printing a failure with <code>console.log</code> mixes it into the ordinary notes. <code>console.error</code> keeps problems apart.</li><li><code>process.exit(1)</code> stops the whole program on that line. In a function another file uses, that can close their script too. Set <code>process.exitCode</code>, then return.</li></ul>
+      <h2>Remember</h2>
+      <p>console.log is for ordinary notes. console.error is for problems. An exit code is a final number for the program that started you. 0 means it finished as planned. People read the text. The shell reads the number.</p>
       <label class="done"><input type="checkbox" data-done="automation/16-logs-and-exit-codes"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="15-http.html"><small>Previous</small>HTTP requests with fetch</a><a class="next" href="17-a-small-automation.html"><small>Next</small>A script that turns a list into a report</a></nav>
     </main>

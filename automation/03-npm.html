@@ -39,41 +39,55 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 3 of 17</p>
       <h1>npm and package.json</h1>
-      <p class="one-idea"><strong>One idea.</strong> package.json is the shopping list. npm refills node_modules from that list.</p>
-      <h2>The idea</h2>
-      <p>A package is someone else’s code, published so you can install it. npm is the tool that downloads packages. It comes with Node.js.</p>
-<p><code>package.json</code> is a file that describes your project: its name, and the packages it needs. <code>npm init -y</code> creates a starter <code>package.json</code> in the current folder. <code>npm install some-package</code> downloads that package into a <code>node_modules</code> folder and writes the name into <code>package.json</code>.</p>
-<p><code>dependencies</code> are packages your program needs when it runs. <code>devDependencies</code> are packages you need while building or testing. Playwright’s test runner belongs in <code>devDependencies</code>. <code>package-lock.json</code> records the exact versions npm installed. Commit it with the project. Do not commit secrets.</p>
-      <h2>Why it matters</h2>
-      <p>You will not write a browser from scratch. You will install Playwright. Knowing what <code>package.json</code> and <code>node_modules</code> are keeps that install from looking like clutter.</p>
-      <h2>A picture to hold</h2>
-      <p>A shopping list on the fridge (<code>package.json</code>) and the grocery bags in the kitchen (<code>node_modules</code>). The list is small and worth keeping. The bags are large and can be refilled from the list with <code>npm install</code>. You do not mail the bags to a friend. You mail the list.</p>
-      
-      <h2>A small example</h2>
-      <p>Run the shell commands in an empty project folder. The JavaScript reads your <code>package.json</code> back, which is a normal file full of text.</p>
+      <p class="one-idea"><strong>One idea.</strong> package.json is the shopping list. npm refills the grocery bags from that list.</p>
+      <h2>Start with a normal day</h2>
+      <p>A shopping list stays on the fridge. The grocery bags are large. You can throw the bags away and refill them from the list.</p>
+      <p>You mail a friend the list. You do not mail the bags.</p>
+      <h2>New words</h2>
+      <p>The commands create the list. The file then reads that list back as ordinary text.</p>
+      <dl class="words">
+        <div><dt>package</dt><dd>Someone else’s code, published so you can install it.</dd></div>
+        <div><dt>npm</dt><dd>The tool that downloads packages. It comes with Node.js.</dd></div>
+        <div><dt>package.json</dt><dd>The shopping list: the project’s name, and the packages it needs.</dd></div>
+        <div><dt>npm init -y</dt><dd>Create a starter list in the current folder. <code>-y</code> means “yes, use the defaults,” so it skips the questionnaire.</dd></div>
+        <div><dt>node_modules</dt><dd>The grocery bags. npm puts downloaded packages here. The next install can refill this folder, so you do not edit files inside it.</dd></div>
+        <div><dt>dependencies</dt><dd>Packages the program needs when it runs.</dd></div>
+        <div><dt>devDependencies</dt><dd>Packages you need only while building or testing.</dd></div>
+        <div><dt>node:fs</dt><dd>File tools that come with Node.js. The <code>node:</code> prefix means “this is built in. It does not come from npm.”</dd></div>
+        <div><dt>readFileSync</dt><dd>Read a whole file and wait until that read is finished. The practice box uses the shorter name <code>readFile</code> for the same idea.</dd></div>
+        <div><dt>import</dt><dd>Take a recipe from another file. This file is <code>.mjs</code> because it uses import.</dd></div>
+        <div><dt>utf8</dt><dd>The usual way to read English and JSON text.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>In a project folder, create a starter shopping list.</li>
+        <li>Ask npm for its version, so you know the tool is there.</li>
+        <li>From a JavaScript file, read package.json as text and show it.</li>
+      </ol>
+      <p>Seeing the text is enough today. A later lesson turns that text into values.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the three steps again. The first box is the terminal. The second box is the file that reads the list. <code>import.meta.url</code> is the address of this file, so it finds package.json beside itself.</p>
       <figure class="code">
     <figcaption>Terminal, from your project folder</figcaption>
     <pre><code class="language-sh">npm init -y
 npm -v</code></pre>
   </figure>
 <figure class="code">
-    <figcaption>read-manifest.mjs · node read-manifest.mjs</figcaption>
+    <figcaption>read-manifest.mjs</figcaption>
     <pre><code class="language-js">import { readFileSync } from &quot;node:fs&quot;;
 
 const raw = readFileSync(new URL(&quot;./package.json&quot;, import.meta.url), &quot;utf8&quot;);
 console.log(raw);</code></pre>
   </figure>
-      
-      <p><code>node:fs</code> is a built-in module. The <code>node:</code> prefix marks “this comes with Node.js, not from npm.” <code>import.meta.url</code> is the address of the current file, so the script finds <code>package.json</code> beside itself even if you launched <code>node</code> from another folder.</p>
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>npm init -y</code><span>Write a default <code>package.json</code> in the current folder. <code>-y</code> accepts the defaults without a questionnaire.</span></li>
-<li><code>import { readFileSync } from &quot;node:fs&quot;;</code><span>Take one function, <code>readFileSync</code>, from Node’s file tools. <code>Sync</code> means the line waits until the file has been read.</span></li>
-<li><code>const raw = readFileSync(new URL(&quot;./package.json&quot;, import.meta.url), &quot;utf8&quot;);</code><span>Read the file as text. <code>utf8</code> is the character encoding, the right choice for JSON and for English source code.</span></li>
-<li><code>console.log(raw);</code><span>Print the JSON text. You will parse it properly in the JSON lesson. Today, seeing the text is enough.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>The file box is a tiny package.json. Change the description, then run. Your sentence should show up in the print.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>npm init -y</code><span>Write a default package.json in this folder. You type this in the terminal.</span></li>
+<li><code>import { readFileSync } from &quot;node:fs&quot;;</code><span>Take the “read a file and wait” recipe from Node’s built-in file tools.</span></li>
+<li><code>const raw = readFileSync(new URL(&quot;./package.json&quot;, import.meta.url), &quot;utf8&quot;);</code><span>Read the shopping list beside this file, as text, and store it under raw.</span></li>
+<li><code>console.log(raw);</code><span>Show that text.</span></li></ol>
+      <h2>Try it</h2>
+      <p>The box has a tiny package.json. Change the description, then press Run. Your sentence should appear in the print.</p>
       <div class="demo" data-kind="js" data-match="includes" data-hint="Keep a description in package.json, then print the file.">
-      <p class="demo-lead"><strong>Practice.</strong> readFile stands in for readFileSync in this box.</p>
+      <p class="demo-lead"><strong>Practice.</strong> readFile in this box is the stand-in for readFileSync.</p>
       <label class="demo-field">package.json<textarea class="demo-file" data-name="package.json">{
   "name": "lab",
   "description": "my first lab"
@@ -83,12 +97,10 @@ console.log(raw);</textarea></label>
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">my first lab</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Editing files inside <code>node_modules</code>. The next install overwrites them. Your code stays outside that folder.</li>
-<li>Forgetting to share <code>package.json</code> and then wondering why a classmate’s <code>npm install</code> does nothing useful.</li>
-<li>Installing a package you only needed for one experiment and leaving it forever. The list is yours to edit.</li></ul>
-      <h2>Recap</h2>
-      <p><code>package.json</code> is the project list. npm fills <code>node_modules</code> from that list. Built-in tools use the <code>node:</code> prefix and do not need an install.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>Edit your own files. The next install overwrites anything you change inside <code>node_modules</code>.</li><li>Share <code>package.json</code>. A classmate runs <code>npm install</code> and the list refills their bags.</li><li>A package you only needed once can leave the list. The list is yours to edit.</li></ul>
+      <h2>Remember</h2>
+      <p><code>package.json</code> is the list. npm fills <code>node_modules</code> from that list. Tools with the <code>node:</code> prefix come with Node.js and do not need an install.</p>
       <label class="done"><input type="checkbox" data-done="automation/03-npm"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="02-running-files.html"><small>Previous</small>Running JavaScript files with Node.js</a><a class="next" href="04-arguments.html"><small>Next</small>Command-line arguments</a></nav>
     </main>

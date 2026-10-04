@@ -39,19 +39,33 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 13 of 17</p>
       <h1>Loops</h1>
-      <p class="one-idea"><strong>One idea.</strong> A loop repeats one block for each item in a list.</p>
-      <h2>The idea</h2>
-      <p>A loop repeats a block. <code>for...of</code> walks an array from first item to last and gives you each item under a name. A counted <code>for</code> is useful when you also need the index.</p>
-<p>The block must make progress. A <code>while</code> that never becomes false runs until you stop the program. In the terminal, Ctrl+C stops it.</p>
-      <h2>Why it matters</h2>
-      <p>Doing the same work for every file, every row, or every link is the heart of automation. You write the step once. The loop supplies the next item.</p>
-      <h2>A picture to hold</h2>
-      <p>A rubber stamp and a stack of envelopes. The stamp is the block. The stack is the array. <code>for...of</code> picks up the next envelope until the stack is empty. You do not rewrite the stamp for each envelope.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> A loop repeats one group of steps, once for each item in a list.</p>
+      <h2>Start with a normal day</h2>
+      <p>You have a rubber stamp and a stack of envelopes. The stamp is the step. The stack is the list.</p>
+      <p>You stamp the first envelope, then the next, until the stack is empty. You do not carve a new stamp for each envelope.</p>
+      <p>Sometimes you also want the envelope’s number. Then you count as you go: 0, then 1, then 2. People often show that count plus 1, so the first line says 1.</p>
+      <h2>New words</h2>
+      <p>The program stamps three tea steps. The practice box numbers three names.</p>
+      <dl class="words">
+        <div><dt>loop</dt><dd>A group of steps that runs again until the list, or the test, is finished.</dd></div>
+        <div><dt>for...of</dt><dd><code>for (const step of steps)</code> means “for each item in this list, call it step, and run the steps in the braces.”</dd></div>
+        <div><dt>counted for</dt><dd><code>for (let i = 0; i &lt; steps.length; i = i + 1)</code>. <code>i</code> starts at 0. The middle test keeps going while <code>i</code> is still a real address. The last part adds 1.</dd></div>
+        <div><dt>i</dt><dd>A common name for the counter. It is an index, so it starts at 0.</dd></div>
+        <div><dt>{ }</dt><dd>The braces hold the steps that repeat.</dd></div>
+        <div><dt>while</dt><dd>Another loop that repeats while a test stays true. If the test never becomes false, it runs until you stop it. In a terminal, Ctrl+C stops it. This page’s program uses <code>for</code>.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Write the list: boil, steep, pour.</li>
+        <li>Take the first word. Show “Now:” and that word.</li>
+        <li>Take the next word and do the same thing.</li>
+        <li>Stop when the list is finished.</li>
+      </ol>
+      <p>You write the “show Now” step once. The loop supplies the next word.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. The line that starts with <code>for</code> is “take each word.” The line inside the braces is the stamp.</p>
       <figure class="code">
-    <figcaption>walk.js · node walk.js</figcaption>
+    <figcaption>walk.js</figcaption>
     <pre><code class="language-js">const steps = [&quot;boil&quot;, &quot;steep&quot;, &quot;pour&quot;];
 for (const step of steps) {
   console.log(&quot;Now: &quot; + step);
@@ -60,16 +74,16 @@ for (const step of steps) {
       <div class="output"><strong>What you should see</strong><pre>Now: boil
 Now: steep
 Now: pour</pre></div>
-      <p>When you need the index too, use a counted loop: <code>for (let i = 0; i &lt; steps.length; i = i + 1)</code>. <code>i</code> starts at 0. The middle test keeps going while <code>i</code> is still a valid index. The last part moves <code>i</code> forward by one.</p>
-      <h2>Line by line</h2>
+      <p>The practice box needs the number as well as the name, so it uses the counted loop from the word list. <code>i + 1</code> turns the address 0 into the number 1 that people expect.</p>
+      <h2>What each line is saying</h2>
       <ol class="walk"><li><code>const steps = [&quot;boil&quot;, &quot;steep&quot;, &quot;pour&quot;];</code><span>The list to walk.</span></li>
-<li><code>for (const step of steps) {</code><span><code>of</code> means “each item in this array.” The first time through, <code>step</code> is <code>boil</code>. Then <code>steep</code>. Then <code>pour</code>.</span></li>
-<li><code>console.log(&quot;Now: &quot; + step);</code><span>This line runs once per item. Plus joins the label and the current item.</span></li>
-<li><code>}</code><span>The closing brace ends the repeated block. After the last item, the program continues under the loop. In this file, that is the end.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Print three names numbered from 1. The first line should start with 1.</p>
+<li><code>for (const step of steps) {</code><span>Take each item. The first time, step is boil. Then steep. Then pour.</span></li>
+<li><code>console.log(&quot;Now: &quot; + step);</code><span>This line runs once per item. The plus sign glues the label and the current word.</span></li>
+<li><code>}</code><span>The closing brace ends the repeated steps. After the last item, the program continues underneath. In this file, that is the end.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Press Run. You should see three names, numbered from 1. Ada is first, so the first line starts with 1.</p>
       <div class="demo" data-kind="js" data-match="includes" data-hint="Print i + 1, then the name.">
-      <p class="demo-lead"><strong>Practice.</strong> People count from 1. The index starts at 0, so add 1 when you print.</p>
+      <p class="demo-lead"><strong>Practice.</strong> The counter starts at 0. Add 1 when you show it to a person.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const names = ["Ada", "Grace", "Lin"];
 for (let i = 0; i &lt; names.length; i = i + 1) {
   console.log((i + 1) + ". " + names[i]);
@@ -78,12 +92,10 @@ for (let i = 0; i &lt; names.length; i = i + 1) {
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">1. Ada</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Writing <code>for (const step of steps.length)</code>. <code>of</code> wants the array, not the number of items.</li>
-<li>Forgetting to move <code>i</code> forward in a counted loop, which makes an infinite loop. The <code>i = i + 1</code> part is the step.</li>
-<li>Changing the array with <code>push</code> inside a <code>for...of</code> that walks that same array. You can grow the walk forever. Build a new array, or loop a copy.</li></ul>
-      <h2>Recap</h2>
-      <p><code>for...of</code> repeats a block once per item. A counted <code>for</code> also gives you the index. Each pass must move toward the end.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li><code>for (const step of steps)</code> wants the list. <code>steps.length</code> is only a number, so it cannot be the list you walk.</li><li>In a counted loop, <code>i = i + 1</code> moves you forward. Leave it out, and the loop never reaches the end.</li><li>Adding items with <code>push</code> to the same list you are walking can make the walk grow forever. Build a new list, or walk a copy.</li></ul>
+      <h2>Remember</h2>
+      <p><code>for...of</code> repeats once per item. A counted <code>for</code> also gives you the address. Each pass has to move toward the end.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/13-loops"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="12-conditions.html"><small>Previous</small>Conditions</a><a class="next" href="14-functions.html"><small>Next</small>Functions</a></nav>
     </main>

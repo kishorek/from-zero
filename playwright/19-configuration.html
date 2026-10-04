@@ -42,18 +42,34 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 19 of 20</p>
       <h1>Configuration, projects, and hooks</h1>
-      <p class="one-idea"><strong>One idea.</strong> The config holds shared settings. A hook runs a small setup before each test.</p>
-      <h2>The idea</h2>
-      <p><code>playwright.config.js</code> exports <code>defineConfig({ ... })</code>. <code>testDir</code> says where tests live. <code>use</code> holds defaults: <code>baseURL</code>, traces, screenshots. With <code>baseURL</code> set, <code>page.goto(&quot;/&quot;)</code> opens <code>baseURL + &quot;/&quot;</code>.</p>
-<p>A project is a named bundle of settings, usually a browser. The starter’s <code>projects</code> array runs your tests in each browser you leave in the list. While you learn, one project, Chromium, is enough. Add Firefox and WebKit when you want that coverage.</p>
-<p><code>test.beforeEach</code> runs before every test in the file. Put shared navigation there. <code>test.afterEach</code> runs after, even when the test failed. Keep hooks short. A hook that hides a complicated login is harder to debug than a helper with a name.</p>
-      <h2>Why it matters</h2>
-      <p>Without a config, every test repeats the browser, the URL, and the trace policy. The config is the one place those decisions live. Hooks are for repetition inside a file. The config is for repetition across files.</p>
-      <h2>A picture to hold</h2>
-      <p>House rules posted at the door, versus a habit you repeat in one room. The config is the house rules: shoes off, the trace camera policy, which doors (browsers) exist. <code>beforeEach</code> is the habit of opening the same curtain before each task in one room.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> Shared settings live in one file, and a small setup step can run before every test.</p>
+      <h2>Start with a normal day</h2>
+      <p>Every morning Ben opens the same website and reads the heading. The house rules already name the site and the browser.</p>
+      <p>A small habit opens the home page before each check.</p>
+      <h2>New words</h2>
+      <p><code>import</code>, <code>test</code>, <code>expect</code>, <code>async</code>, <code>await</code>, <code>page</code>, and <code>getByRole</code> mean the same as in the earlier lessons.</p>
+      <dl class="words">
+        <div><dt>playwright.config.js</dt><dd>The file of shared settings. <code>defineConfig</code> wraps those settings so the runner can read them. <code>export default</code> hands that bundle out as the file’s main result.</dd></div>
+        <div><dt>testDir</dt><dd>The folder of tests. Here it is <code>./tests</code>.</dd></div>
+        <div><dt>fullyParallel</dt><dd><code>true</code> lets tests in one file run at the same time.</dd></div>
+        <div><dt>retries</dt><dd>How many extra runs a failed test gets. <code>process.env.CI</code> is a note a build server sets. On your machine it is usually empty, so the number of retries is 0. On that server it is 2. <code>? :</code> is that short choice.</dd></div>
+        <div><dt>reporter</dt><dd>Where results are written. <code>html</code> means a page of results you can open.</dd></div>
+        <div><dt>use</dt><dd>Defaults every test starts with. <code>baseURL</code> is the site address. A test that opens <code>/</code> starts from there.</dd></div>
+        <div><dt>trace</dt><dd>A saved recording of the steps, the page, and the requests. <code>on-first-retry</code> records one when a failed test runs again.</dd></div>
+        <div><dt>screenshot</dt><dd>A picture of the page. <code>only-on-failure</code> takes it when a test fails.</dd></div>
+        <div><dt>project</dt><dd>One named setup, here called chromium. <code>devices[&quot;Desktop Chrome&quot;]</code> is a ready-made desktop window and Chrome’s browser name. <code>...</code> copies every setting from that setup.</dd></div>
+        <div><dt>beforeEach</dt><dd>A function that runs before every test in the file. Here it opens the home page.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Put the shared rules in one file: the tests folder, the site, and desktop Chrome.</li>
+        <li>Retry failed tests on a build server, and keep a picture when a test fails.</li>
+        <li>Before each test, open the home page.</li>
+        <li>Check that the heading Example Domain is visible.</li>
+      </ol>
+      <p>The program only writes those steps down.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the steps once more. The two boxes below write those steps down. The first box is the shared settings. The second box opens the home page before each test.</p>
       <figure class="code">
     <figcaption>playwright.config.js</figcaption>
     <pre><code class="language-js">import { defineConfig, devices } from &quot;@playwright/test&quot;;
@@ -87,30 +103,37 @@ test(&quot;has the example heading&quot;, async ({ page }) =&gt; {
   ).toBeVisible();
 });</code></pre>
   </figure>
-      
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>export default defineConfig({</code><span>The runner loads this file and reads the object. <code>defineConfig</code> gives you completion in editors that understand it.</span></li>
-<li><code>fullyParallel: true,</code><span>Tests in a file may run at the same time, in separate contexts. Write tests that do not depend on each other’s order.</span></li>
-<li><code>retries: process.env.CI ? 2 : 0,</code><span>Locally, fail once so you notice. In CI, where <code>CI</code> is set in the environment, retry twice to separate a blip from a real failure.</span></li>
-<li><code>baseURL: &quot;https://example.com&quot;,</code><span>A prefix for relative <code>goto</code> calls. The test uses <code>&quot;/&quot;</code> and lands on the site.</span></li>
-<li><code>{ name: &quot;chromium&quot;, use: { ...devices[&quot;Desktop Chrome&quot;] } },</code><span>One project, with a desktop Chrome viewport and user agent from Playwright’s device list. The three dots copy those settings into <code>use</code>.</span></li>
-<li><code>test.beforeEach(async ({ page }) =&gt; {</code><span>Run this before each test in the file. The test body can assume the page is already on <code>/</code>.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run either test with the hook on. Turn the hook off and run one again.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk">
+        <li><code>export default defineConfig({</code><span>Hand these shared settings to Playwright. defineConfig wraps them.</span></li>
+        <li><code>testDir: &quot;./tests&quot;,</code><span>Look in the tests folder for the test files.</span></li>
+        <li><code>fullyParallel: true,</code><span>Tests in one file may run at the same time. Write each test so it can pass on its own.</span></li>
+        <li><code>retries: process.env.CI ? 2 : 0,</code><span>On a build server, a failed test runs two more times. On your machine, retries is 0.</span></li>
+        <li><code>baseURL: &quot;https://example.com&quot;,</code><span>This is the site address. A test that opens the home page starts here.</span></li>
+        <li><code>trace: &quot;on-first-retry&quot;,</code><span>Record a trace when a failed test runs again.</span></li>
+        <li><code>screenshot: &quot;only-on-failure&quot;,</code><span>Take a picture when a test fails.</span></li>
+        <li><code>{ name: &quot;chromium&quot;, use: { ...devices[&quot;Desktop Chrome&quot;] } },</code><span>Run the tests in desktop Chrome. The three dots copy that device’s settings.</span></li>
+        <li><code>test.beforeEach(async ({ page }) =&gt; {</code><span>Run the next line before every test in the file. async means this step can pause.</span></li>
+        <li><code>await page.goto(&quot;/&quot;);</code><span>Open the home page. The config places https://example.com in front of the slash.</span></li>
+        <li><code>await expect(page.getByRole(&quot;heading&quot;, { name: &quot;Example Domain&quot; })).toBeVisible();</code><span>Check that the heading Example Domain is on the screen. The check keeps looking until it is.</span></li>
+      </ol>
+      <h2>Try it</h2>
+      <p>Leave the box checked and run either test. Clear the box and run one test again.</p>
       <div class="demo" data-kind="stage" data-stage="hook">
-      <p class="demo-lead"><strong>Demo.</strong> The hook opens the home page so each test does not repeat that line.</p>
+      <p class="demo-lead"><strong>Practice.</strong> The checked box opens the home page before each test.</p>
       
       <label class="demo-field"><input class="hook" type="checkbox" checked> Open the home page before every test</label>
       <div class="demo-actions"><button type="button" class="test-a">Run heading test</button><button type="button" class="test-b quiet">Run title test</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Depending on test order. Parallel projects and workers will break that dependency on a different day.</li>
-<li>Setting <code>baseURL</code> and also pasting the full URL, then “fixing” the wrong one later. Pick the config as the source of the origin.</li>
-<li>Hiding a failure in <code>afterEach</code> by catching every error. Let the test fail. Use the hook for cleanup, not for silence.</li></ul>
-      <h2>Recap</h2>
-      <p><code>defineConfig</code> holds the directory, retries, reporter, traces, base URL, and projects. <code>beforeEach</code> shares small setup inside a file. Tests should still pass in any order.</p>
+      <h2>Easy to mix up</h2>
+      <ul>
+        <li>Tests may run at the same time. Each test should pass on its own.</li>
+        <li>The site address lives in baseURL. The test opens the home page and lands on that site.</li>
+        <li>Let a failed test stay failed. The failure message is the clue you need.</li>
+      </ul>
+      <h2>Remember</h2>
+      <p>The config file holds the folder, the site, the browser, and the picture rules. beforeEach opens the home page before each test in the file.</p>
       <label class="done"><input type="checkbox" data-done="playwright/19-configuration"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="18-storage-state.html"><small>Previous</small>Saving a login with storage state</a><a class="next" href="20-debugging-a-flow.html"><small>Next</small>Debugging a failing test</a></nav>
     </main>

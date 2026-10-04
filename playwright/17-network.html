@@ -42,17 +42,29 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 17 of 20</p>
       <h1>Network routing</h1>
-      <p class="one-idea"><strong>One idea.</strong> You can answer a request yourself so the page can be practiced without the real server.</p>
-      <h2>The idea</h2>
-      <p>A page asks its server for data. <code>page.route(pattern, handler)</code> intercepts requests whose URL matches the pattern. <code>route.fulfill</code> answers without the network, with a status, headers, and a body you supply. <code>route.continue</code> sends the request onward. <code>route.abort</code> fails it.</p>
-<p>Call <code>page.route</code> before the navigation or the click that triggers the request. As with popups, the listener has to be ready early. Fulfill with JSON when the page expects JSON, and set <code>contentType</code> to <code>application/json</code>.</p>
-      <h2>Why it matters</h2>
-      <p>You can test “what does the page do when the server returns an empty list” without standing up that server. You can also force an error and see the message. This is a test double for the network: a stand-in that answers the way you choose.</p>
-      <h2>A picture to hold</h2>
-      <p>A receptionist who intercepts one kind of letter. Most letters go to the post office (<code>continue</code>). Letters addressed to <code>/api/tasks</code> get an answer you wrote (<code>fulfill</code>). The people upstairs still think the post office replied.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> Answer the page’s data request yourself, then check what the page shows.</p>
+      <h2>Start with a normal day</h2>
+      <p>Luis opens his task page. The page asks another computer for the list of tasks.</p>
+      <p>A stand-in answers with one task, Buy milk, and the page shows that line.</p>
+      <h2>New words</h2>
+      <p><code>import</code>, <code>test</code>, <code>expect</code>, <code>await</code>, and <code>page</code> mean the same as before.</p>
+      <dl class="words">
+        <div><dt>page.route</dt><dd>A rule that catches requests whose address matches a pattern. <code>**</code> stands in for any website. <code>route</code> is one caught request.</dd></div>
+        <div><dt>fulfill</dt><dd>Send a reply you wrote. <code>status: 200</code> means the request worked. <code>500</code> means the server hit a problem. The practice menu can choose either number.</dd></div>
+        <div><dt>JSON</dt><dd>Text that stores a list of facts. <code>contentType: &quot;application/json&quot;</code> labels the reply as that text. <code>JSON.stringify</code> turns the list into the reply body. <code>[0]</code> is the first item. Counting starts at zero.</dd></div>
+        <div><dt>setContent</dt><dd>Replace the tab with a small page. That page calls <code>fetch</code> to ask for <code>/api/tasks</code>, then writes the first task into the page.</dd></div>
+        <div><dt>getByText</dt><dd>Find the words a person can read. <code>toBeVisible</code> keeps checking until those words are on the screen.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Get ready to answer requests for the tasks list.</li>
+        <li>Answer with one task named Buy milk.</li>
+        <li>Open a page that asks for that list.</li>
+        <li>Check that the page shows Buy milk.</li>
+      </ol>
+      <p>The program only writes those steps down.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the steps once more. The box below is those same steps. The reply is prepared before the page asks for tasks.</p>
       <figure class="code">
     <figcaption>tests/route.spec.js · npx playwright test</figcaption>
     <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
@@ -78,29 +90,32 @@ test(&quot;the page shows the task we fulfill&quot;, async ({ page }) =&gt; {
   await expect(page.getByText(&quot;Buy milk&quot;)).toBeVisible();
 });</code></pre>
   </figure>
-      
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>await page.route(&quot;**/api/tasks&quot;, async (route) =&gt; {</code><span><code>**</code> matches any host. The rest must end in <code>/api/tasks</code>. The handler receives the <code>route</code>.</span></li>
-<li><code>await route.fulfill({</code><span>Answer here. The real server is not contacted for this match.</span></li>
-<li><code>body: JSON.stringify([{ title: &quot;Buy milk&quot; }]),</code><span>The body is a string. <code>JSON.stringify</code> makes the string. The page will parse it.</span></li>
-<li><code>fetch(&quot;/api/tasks&quot;)</code><span>This fetch runs inside the page. Playwright sees it and fulfills it because the route was armed first.</span></li>
-<li><code>await expect(page.getByText(&quot;Buy milk&quot;)).toBeVisible();</code><span>Assert what the person sees after the page used the data. Do not assert only that <code>fulfill</code> was called.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Switch the server between 200 and 500. Read the sentence the page shows.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk">
+        <li><code>await page.route(&quot;**/api/tasks&quot;, async (route) =&gt; {</code><span>Catch any request whose address ends in /api/tasks. The arrow is the function that will answer it.</span></li>
+        <li><code>status: 200,</code><span>This number says the reply worked.</span></li>
+        <li><code>contentType: &quot;application/json&quot;,</code><span>This label says the reply is JSON text.</span></li>
+        <li><code>body: JSON.stringify([{ title: &quot;Buy milk&quot; }]),</code><span>The reply is a list with one task, Buy milk. stringify turns that list into text.</span></li>
+        <li><code>fetch(&quot;/api/tasks&quot;)</code><span>The page asks for /api/tasks. The catch from the first line answers that ask.</span></li>
+        <li><code>await expect(page.getByText(&quot;Buy milk&quot;)).toBeVisible();</code><span>Check that the page shows the words Buy milk. Those are the words a person would read.</span></li>
+      </ol>
+      <h2>Try it</h2>
+      <p>The page starts on the 200 answer. Switch the menu to 500 and read the new sentence.</p>
       <div class="demo" data-kind="stage" data-stage="network">
-      <p class="demo-lead"><strong>Demo.</strong> The page believes the answer came from the server.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Choose an answer. Read the sentence the page shows.</p>
       
       <label class="demo-field">Server answer<select class="status"><option value="200">200 OK</option><option value="500">500 Error</option></select></label>
       <div class="mini-page"><p class="page-text"></p></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Routing after <code>goto</code>, when the request already happened during <code>goto</code>. Arm the route first.</li>
-<li>Fulfilling with a JavaScript object as <code>body</code>. The body is text. Stringify JSON.</li>
-<li>Swallowing every request. A pattern that is too wide fulfills images and documents the page needed. Match the API path.</li></ul>
-      <h2>Recap</h2>
-      <p><code>page.route</code> intercepts matching requests. <code>fulfill</code> answers, <code>continue</code> forwards, <code>abort</code> fails. Register the route before the page makes the request.</p>
+      <h2>Easy to mix up</h2>
+      <ul>
+        <li>Set up the route before the page asks. A later rule misses a request that already happened.</li>
+        <li>The body is text. JSON.stringify turns the list into that text.</li>
+        <li>The check looks for the words Buy milk on the page. Those words are what a person sees.</li>
+      </ul>
+      <h2>Remember</h2>
+      <p>page.route catches a matching request, and fulfill sends your reply. Set the route before the page asks, then check the words on the page.</p>
       <label class="done"><input type="checkbox" data-done="playwright/17-network"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="16-frames.html"><small>Previous</small>Frames</a><a class="next" href="18-storage-state.html"><small>Next</small>Saving a login with storage state</a></nav>
     </main>

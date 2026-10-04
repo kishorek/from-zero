@@ -39,19 +39,33 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 17 of 17</p>
       <h1>Putting everything together</h1>
-      <p class="one-idea"><strong>One idea.</strong> A small program stores a list, makes a choice, and repeats a function.</p>
-      <h2>The idea</h2>
-      <p>The pieces from this layer combine. A real program is rarely one idea at a time. It stores values, keeps them in a list or a record, decides, repeats, and calls functions.</p>
-<p>The program below turns a list of tasks into numbered lines. If the list is empty, it says so instead of printing nothing and leaving you unsure.</p>
-      <h2>Why it matters</h2>
-      <p>Layer 2 starts from this shape and aims it at files, JSON, and the network. If you can read this program aloud and say what each part is for, you are ready.</p>
-      <h2>A picture to hold</h2>
-      <p>A kitchen during one meal. The list is the order ticket. The function is the plating rule. The branch is “if there are no orders, tell the front.” The loop is the cook working down the ticket.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> A small program keeps a list, chooses a path, and repeats a recipe.</p>
+      <h2>Start with a normal day</h2>
+      <p>A kitchen has one order ticket. The ticket is a list of chores. A plating rule says how one line should look. The cook walks down the ticket.</p>
+      <p>If the ticket is blank, someone should say “Nothing to do.” Silence looks like a broken kitchen.</p>
+      <p>Every piece below is one you have already met. The list. The recipe. The choice. The counted repeat.</p>
+      <h2>New words</h2>
+      <p>No brand-new idea. These are reminders, because they appear together.</p>
+      <dl class="words">
+        <div><dt>array</dt><dd>The list, written in square brackets. The first address is 0.</dd></div>
+        <div><dt>function</dt><dd>The recipe for one line. It hands text back with <code>return</code>. It does not show the line itself.</dd></div>
+        <div><dt>${ }</dt><dd>Inside backticks, drop a value into the sentence.</dd></div>
+        <div><dt>if</dt><dd>Choose a path. <code>===</code> asks whether two values are the same.</dd></div>
+        <div><dt>for</dt><dd>The counted repeat. <code>i</code> starts at 0, keeps going while it is a real address, and then adds 1.</dd></div>
+        <div><dt>index + 1</dt><dd>People start counting at 1. The address starts at 0. Adding 1 is the translation.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Write three chores in a list.</li>
+        <li>Prepare a recipe that turns one chore, and its address, into a numbered line.</li>
+        <li>If the list is empty, say “Nothing to do.”</li>
+        <li>Otherwise, walk the list. For each chore, show the recipe’s line.</li>
+      </ol>
+      <p>The program is those four steps and nothing more. Read them until you can say them without looking.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps once more. Then look. The first line is the list. The recipe comes next. The choice and the repeat come last.</p>
       <figure class="code">
-    <figcaption>tasks.js · node tasks.js</figcaption>
+    <figcaption>tasks.js</figcaption>
     <pre><code class="language-js">const tasks = [&quot;Buy milk&quot;, &quot;Reply to Ada&quot;, &quot;Water the plant&quot;];
 
 function formatTask(task, index) {
@@ -69,18 +83,17 @@ if (tasks.length === 0) {
       <div class="output"><strong>What you should see</strong><pre>1. Buy milk
 2. Reply to Ada
 3. Water the plant</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const tasks = [&quot;Buy milk&quot;, &quot;Reply to Ada&quot;, &quot;Water the plant&quot;];</code><span>An array of strings. This is the data. The rest of the file is the rules.</span></li>
-<li><code>function formatTask(task, index) {</code><span>A function that knows how one line should look. It does not print. It returns text.</span></li>
-<li><code>return `${index + 1}. ${task}`;</code><span>Indexes start at 0, and people start at 1. Adding 1 is the translation between those two habits.</span></li>
-<li><code>if (tasks.length === 0) {</code><span>A condition. <code>===</code> compares the length to the number 0.</span></li>
-<li><code>for (let i = 0; i &lt; tasks.length; i = i + 1) {</code><span>A counted loop. <code>i</code> is 0, then 1, then 2. The test <code>i &lt; tasks.length</code> stops it at the end.</span></li>
-<li><code>console.log(formatTask(tasks[i], i));</code><span>Take the item at index <code>i</code>, hand it to the function with that index, and print the returned line.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run the four-task list. Then set tasks to [] and run again. You should see Nothing to do.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>const tasks = [&quot;Buy milk&quot;, &quot;Reply to Ada&quot;, &quot;Water the plant&quot;];</code><span>The list of chores. This is the data. The rest of the file is the rules.</span></li>
+<li><code>function formatTask(task, index) {</code><span>The recipe for one line. It waits for a chore and an address. It does not show anything yet.</span></li>
+<li><code>return `${index + 1}. ${task}`;</code><span>Hand back a numbered line. Address 0 becomes the number 1 that a person expects.</span></li>
+<li><code>if (tasks.length === 0) {</code><span>Ask whether the list is empty. Three equals signs ask. They do not store.</span></li>
+<li><code>for (let i = 0; i &lt; tasks.length; i = i + 1) {</code><span>Count 0, then 1, then 2. Stop when the count is no longer a real address.</span></li>
+<li><code>console.log(formatTask(tasks[i], i));</code><span>Take the chore at this address, hand it to the recipe with that address, and show the line that comes back.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Press Run. You should see four chores, with Buy milk first. Then set <code>tasks</code> to <code>[]</code> and run again. You should see Nothing to do.</p>
       <div class="demo" data-kind="js" data-match="one-of" data-hint="With tasks, the first line is Buy milk (1). With an empty list, the line is Nothing to do.">
-      <p class="demo-lead"><strong>Practice.</strong> formatTask builds one line. The loop calls it.</p>
+      <p class="demo-lead"><strong>Practice.</strong> The recipe builds one line. The repeat asks for each chore.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const tasks = ["Buy milk", "Reply to Ada", "Water the plant", "Stretch"];
 function formatTask(task, index) {
   return task + " (" + (index + 1) + ")";
@@ -97,12 +110,10 @@ if (tasks.length === 0) {
       <template class="demo-expect">Buy milk (1)
 Nothing to do.</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Doing the formatting inside the loop and also inside the function, so the number appears twice. Give each job one home.</li>
-<li>Printing <code>i</code> to humans without adding 1, so the list appears to start at 0.</li>
-<li>Skipping the empty check. An empty loop prints nothing, and nothing looks like a broken program.</li></ul>
-      <h2>Recap</h2>
-      <p>You can store a list, format one item with a function, choose a branch when the list is empty, and loop through the rest. That combination is enough to build the automations in the next layer.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>Give the numbering one home. If both the recipe and the repeat add a number, the number shows up twice.</li><li>Showing <code>i</code> by itself starts the list at 0. Add 1 when a person will read it.</li><li>An empty list makes the repeat show nothing. The empty check is what says “Nothing to do.”</li></ul>
+      <h2>Remember</h2>
+      <p>You can store a list, shape one line with a recipe, choose a path when the list is empty, and repeat through the rest. That is a whole small program.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/17-putting-it-together"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="16-debugging.html"><small>Previous</small>Debugging</a><a class="next" href="../automation/01-the-terminal.html"><small>Next</small>The terminal</a></nav>
     </main>

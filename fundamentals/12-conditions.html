@@ -39,19 +39,34 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 12 of 17</p>
       <h1>Conditions</h1>
-      <p class="one-idea"><strong>One idea.</strong> if chooses one branch. The other branches stay quiet.</p>
-      <h2>The idea</h2>
-      <p>A condition chooses a branch. <code>if</code> runs its block only when the test is true. <code>else if</code> tries another test when earlier ones were false. <code>else</code> runs when none of the tests were true.</p>
-<p>The tests use operators from the operators lesson. <code>===</code> asks whether two values are the same. <code>&gt;=</code> compares numbers. <code>&amp;&amp;</code> means both sides are true.</p>
-      <h2>Why it matters</h2>
-      <p>Automation is full of branches: if the file is missing, stop; if the status is 200, continue; if the heading is absent, fail the test. Conditions are how a program notices.</p>
-      <h2>A picture to hold</h2>
-      <p>A trail with signed forks. The sign is the test. You take one fork. You do not walk both. <code>else</code> is the fork marked “none of the above.”</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> if picks one path. The other paths stay quiet.</p>
+      <h2>Start with a normal day</h2>
+      <p>A trail has signed forks. You read the first sign. If it matches, you take that path. You leave the other paths alone.</p>
+      <p>The water is at 92 degrees. The first sign says “100 or more: boiling.” That sign does not match. The next sign says “80 or more: hot enough for tea.” That sign matches. You stop there.</p>
+      <h2>New words</h2>
+      <p>One temperature. Three possible messages. Only one message is shown.</p>
+      <dl class="words">
+        <div><dt>condition</dt><dd>A test that is true or false, used to choose a path.</dd></div>
+        <div><dt>if</dt><dd>Run the steps inside its braces only when the test is true.</dd></div>
+        <div><dt>else if</dt><dd>Try another test when the earlier tests were false.</dd></div>
+        <div><dt>else</dt><dd>The path for “none of the signs matched.”</dd></div>
+        <div><dt>( )</dt><dd>Parentheses hold the test, right after <code>if</code>.</dd></div>
+        <div><dt>{ }</dt><dd>Curly braces hold the steps of one path.</dd></div>
+        <div><dt>&gt;=</dt><dd>Asks “is the first number at least as big as the second?”</dd></div>
+        <div><dt>===</dt><dd>Asks “are these the same?” One equals sign stores. Three equals signs ask. Two equals signs, <code>==</code>, also convert kinds before asking, so avoid them.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Remember the temperature: 92.</li>
+        <li>If it is 100 or more, say “Boiling.”</li>
+        <li>Otherwise, if it is 80 or more, say “Hot enough for tea.”</li>
+        <li>Otherwise, say “Still heating.”</li>
+      </ol>
+      <p>92 matches the second sign. The program says that one sentence and skips the others.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. Each <code>if</code> or <code>else if</code> is a sign on the trail. The braces are the path you take when the sign matches.</p>
       <figure class="code">
-    <figcaption>heat.js · node heat.js</figcaption>
+    <figcaption>heat.js</figcaption>
     <pre><code class="language-js">const temperatureC = 92;
 if (temperatureC &gt;= 100) {
   console.log(&quot;Boiling.&quot;);
@@ -62,17 +77,16 @@ if (temperatureC &gt;= 100) {
 }</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>Hot enough for tea.</pre></div>
-      
-      <h2>Line by line</h2>
+      <h2>What each line is saying</h2>
       <ol class="walk"><li><code>const temperatureC = 92;</code><span>Store the number you will test.</span></li>
-<li><code>if (temperatureC &gt;= 100) {</code><span>The parentheses hold the test. <code>&gt;=</code> means greater than or equal. 92 is not greater than or equal to 100, so this block is skipped.</span></li>
-<li><code>} else if (temperatureC &gt;= 80) {</code><span>Because the first test was false, this test runs. 92 is at least 80, so the engine enters this block.</span></li>
-<li><code>console.log(&quot;Hot enough for tea.&quot;);</code><span>This is the only print that runs. The other branches are skipped.</span></li>
-<li><code>} else {</code><span>This would run only if both tests above were false. They were not, so it is skipped.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run it at 70. Then change the number to 100, and then to 30. Each run should print one sentence.</p>
+<li><code>if (temperatureC &gt;= 100) {</code><span>The parentheses hold the test. 92 is below 100, so this path is skipped.</span></li>
+<li><code>} else if (temperatureC &gt;= 80) {</code><span>The first test was false, so this test runs. 92 is at least 80, so this path is taken.</span></li>
+<li><code>console.log(&quot;Hot enough for tea.&quot;);</code><span>This is the only line that shows a message.</span></li>
+<li><code>} else {</code><span>This path would run if both tests above were false. They were not, so it stays quiet.</span></li></ol>
+      <h2>Try it</h2>
+      <p>The box starts at 70, which prints “Still heating.” Change 70 to 100, then to 30. Each run shows one sentence.</p>
       <div class="demo" data-kind="js" data-match="one-of" data-hint="Use 70, 100, 90, or 30 so one branch matches.">
-      <p class="demo-lead"><strong>Practice.</strong> Only one message should print.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Change the number. One message appears each time.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const temperatureC = 70;
 if (temperatureC >= 100) {
   console.log("Boiling.");
@@ -90,12 +104,10 @@ Boiling.
 Hot enough for tea.
 Too cold.</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Writing <code>=</code> inside an <code>if</code> when you meant <code>===</code>. One equals sign stores a value.</li>
-<li>Using <code>==</code>. It converts types before comparing, so <code>&quot;92&quot; == 92</code> is true. Prefer <code>===</code>, which requires the same type and the same value.</li>
-<li>Forgetting braces around a branch and attaching the wrong following line. Put each branch in <code>{ }</code> while you are learning.</li></ul>
-      <h2>Recap</h2>
-      <p><code>if</code>, <code>else if</code>, and <code>else</code> choose one branch. <code>===</code> compares. <code>&gt;=</code> compares numbers. Only the matching branch runs.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>Inside a test, three equals signs ask a question. One equals sign stores a value.</li><li><code>==</code> converts kinds before it asks, so the text <code>"92"</code> and the number 92 can count as the same. Use <code>===</code>.</li><li>Put each path’s steps inside <code>{ }</code>. A missing pair of braces can attach the next line to the wrong path.</li></ul>
+      <h2>Remember</h2>
+      <p><code>if</code>, <code>else if</code>, and <code>else</code> choose one path. The test sits in parentheses. Only the matching path runs.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/12-conditions"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="11-objects.html"><small>Previous</small>Objects</a><a class="next" href="13-loops.html"><small>Next</small>Loops</a></nav>
     </main>

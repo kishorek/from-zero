@@ -43,16 +43,29 @@
       <p class="kicker">Layer 03 · Lesson 18 of 20</p>
       <h1>Saving a login with storage state</h1>
       <p class="one-idea"><strong>One idea.</strong> Log in once, save the ticket, and hand that ticket to the next visit.</p>
-      <h2>The idea</h2>
-      <p>Logging in through the form on every test is slow, and it pounds the login service. Playwright can save a context’s cookies and local storage to a JSON file: <code>await context.storageState({ path: &quot;auth.json&quot; })</code>. Later, a context created with <code>storageState: &quot;auth.json&quot;</code> starts already logged in.</p>
-<p>In the runner, put that setting in <code>use</code> for a project, or on a single <code>test.use</code>. Produce the file in a setup step you control. Treat <code>auth.json</code> as a secret. Do not commit it.</p>
-      <h2>Why it matters</h2>
-      <p>A suite of twenty tests should not mean twenty logins. One login, saved, gives each fresh context the same keys. The tests stay isolated from each other’s clicks, and they share authentication on purpose.</p>
-      <h2>A picture to hold</h2>
-      <p>A coat-check ticket, the same picture as environment variables, now for a browser profile. You check the coat once (the login). Each new guest room is handed a copy of the ticket at the door (<code>storageState</code>). When the ticket expires, you check the coat again. You do not photocopy the ticket into a public photo album.</p>
-      
-      <h2>A small example</h2>
-      <p>This library script shows the save and the reuse with <code>example.com</code>, which does not actually log in. The mechanics are the same when the cookies come from a real login on a site you are allowed to test. Replace the <code>goto</code> with your login steps when you have them.</p>
+      <h2>Start with a normal day</h2>
+      <p>Noor signs in on a website. The site stores a small ticket in the browser so later pages still know her.</p>
+      <p>She saves a copy of that ticket. Her next visit starts by handing the copy over.</p>
+      <h2>New words</h2>
+      <p><code>import</code>, <code>await</code>, <code>const</code>, and <code>page</code> mean the same as before. This file is a script, <code>save-state.mjs</code>, so you run it with <code>node</code>.</p>
+      <dl class="words">
+        <div><dt>chromium.launch</dt><dd>Open the Chromium browser. Chrome is in that same family.</dd></div>
+        <div><dt>context</dt><dd>One session inside the browser. It holds the tabs and the cookies. <code>newContext</code> starts one. <code>newPage</code> opens a tab. <code>goto</code> opens an address in that tab.</dd></div>
+        <div><dt>cookie</dt><dd>A small note the site stores so it can remember a visit. Local storage is other notes the site stores for itself.</dd></div>
+        <div><dt>storageState</dt><dd>A saved copy of those notes, written as JSON text. <code>auth.json</code> is the file. The next <code>newContext</code> can start from that file.</dd></div>
+        <div><dt>close</dt><dd>Quit the browser. The title is the name of the page, shown on the tab.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Open a browser, a session, and a page on example.com.</li>
+        <li>Save that session’s cookies and site notes to a file.</li>
+        <li>Close the browser.</li>
+        <li>Open a new session from the file and visit the page again.</li>
+        <li>Show the page title.</li>
+      </ol>
+      <p>The program only writes those steps down.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the steps once more. The box below is those same steps. The site is example.com, which has no login form. After a real login, the save and the second visit work the same way.</p>
       <figure class="code">
     <figcaption>save-state.mjs · node save-state.mjs</figcaption>
     <pre><code class="language-js">import { chromium } from &quot;playwright&quot;;
@@ -72,26 +85,31 @@ console.log(&quot;reopened&quot;, await page2.title());
 await again.close();</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>reopened Example Domain</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>await context.storageState({ path: &quot;auth.json&quot; });</code><span>Write cookies and local storage for this context. The file is JSON.</span></li>
-<li><code>await again.newContext({ storageState: &quot;auth.json&quot; });</code><span>A new context starts from that file. It does not share a live connection with the old context. It shares the saved snapshot.</span></li>
-<li><code>console.log(&quot;reopened&quot;, await page2.title());</code><span>Proof the second browser could open a page. On a real app you would assert a heading that only a signed-in person sees.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Log in, start a new visit, then throw the ticket away and visit again.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk">
+        <li><code>const browser = await chromium.launch();</code><span>Open a Chromium browser. The next lines make a session and a tab inside it.</span></li>
+        <li><code>await page.goto(&quot;https://example.com&quot;);</code><span>Open example.com in that session. This visit is the one that gets saved.</span></li>
+        <li><code>await context.storageState({ path: &quot;auth.json&quot; });</code><span>Write the session’s cookies and local storage into auth.json. The file is a copy you can reuse.</span></li>
+        <li><code>const returning = await again.newContext({ storageState: &quot;auth.json&quot; });</code><span>Open a new session that starts from that file. It receives the saved cookies and notes.</span></li>
+        <li><code>console.log(&quot;reopened&quot;, await page2.title());</code><span>Show the title of the page opened from the saved session. Here the title is Example Domain.</span></li>
+      </ol>
+      <h2>Try it</h2>
+      <p>Press Log in and save a ticket, then New visit. Then press Throw the ticket away and visit again.</p>
       <div class="demo" data-kind="stage" data-stage="ticket">
-      <p class="demo-lead"><strong>Demo.</strong> The ticket is the saved storage state. It is not the live room.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Save a ticket, start a new visit, then throw the ticket away.</p>
       
       <p class="who"></p>
       <div class="demo-actions"><button type="button" class="login">Log in and save a ticket</button><button type="button" class="visit quiet">New visit</button><button type="button" class="drop quiet">Throw the ticket away</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Committing <code>auth.json</code>. It is a key to an account.</li>
-<li>Saving storage in the middle of a test and expecting other workers to see it instantly. Generate it in setup, before the tests that need it.</li>
-<li>Reusing one context for every test so you can “stay logged in.” You lose isolation. Reuse the snapshot, not the live context.</li></ul>
-      <h2>Recap</h2>
-      <p><code>storageState</code> writes a context’s cookies and storage to JSON. New contexts can start from that file. Keep the file out of git.</p>
+      <h2>Easy to mix up</h2>
+      <ul>
+        <li>The file auth.json can sign a person in. Keep it out of a shared project.</li>
+        <li>Create the file in a setup step, before the tests that read it.</li>
+        <li>Each new visit can start from the saved file. Each visit still gets its own session.</li>
+      </ul>
+      <h2>Remember</h2>
+      <p>storageState saves cookies and local storage to a file, and a new session can start from that file. Keep the file private, and use a site you are allowed to test.</p>
       <label class="done"><input type="checkbox" data-done="playwright/18-storage-state"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="17-network.html"><small>Previous</small>Network routing</a><a class="next" href="19-configuration.html"><small>Next</small>Configuration, projects, and hooks</a></nav>
     </main>

@@ -39,16 +39,31 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 14 of 17</p>
       <h1>async and await</h1>
-      <p class="one-idea"><strong>One idea.</strong> await pauses one function until a promise finishes.</p>
-      <h2>The idea</h2>
-      <p><code>async</code> marks a function that returns a promise. Inside it, <code>await</code> pauses that function until a promise fulfills, then continues with the value. If the promise rejects, <code>await</code> throws, and a <code>try</code> / <code>catch</code> in that function can handle it.</p>
-<p><code>await</code> pauses the function, not the whole computer. Other work can run. In a short script, you mostly notice that the lines below <code>await</code> happen in the order you wrote, which is the order you meant.</p>
-      <h2>Why it matters</h2>
-      <p>This is the spelling of every Playwright test: <code>async ({ page }) =&gt; { await page.goto(url); }</code>. If <code>await</code> is fuzzy, those tests will look like superstition. They are functions waiting for promises.</p>
-      <h2>A picture to hold</h2>
-      <p>A cook who puts the kettle on and stands at that station until it sings, instead of leaving a sticky note (<code>.then</code>) about what to do when it sings. The rest of the kitchen can still move. This cook’s recipe card is paused on the kettle line.</p>
-      
-      <h2>A small example</h2>
+      <p class="one-idea"><strong>One idea.</strong> await pauses one function until a later answer arrives.</p>
+      <h2>Start with a normal day</h2>
+      <p>You put the kettle on. You stand there until it sings. You do not leave a note and walk off.</p>
+      <p>Other people in the room can still move. Only you are paused. When the kettle sings, you pour, and you do the next thing on your list.</p>
+      <h2>New words</h2>
+      <p>Two words name that pause. The program prints a line, waits a moment, and prints the next line.</p>
+      <dl class="words">
+        <div><dt>async</dt><dd>A mark on a function. That function may use await, and it returns a promise.</dd></div>
+        <div><dt>await</dt><dd>await pauses that one function until the later answer arrives. It does not pause the whole computer.</dd></div>
+        <div><dt>promise</dt><dd>A ticket for an answer that is not here yet. <code>delay</code> hands one back.</dd></div>
+        <div><dt>setTimeout</dt><dd>Ask the computer to run a function after a number of milliseconds. 200 milliseconds is a fifth of a second.</dd></div>
+        <div><dt>arrow</dt><dd><code>=&gt;</code> is a short way to write a function. The practice box writes <code>function</code> instead, which is the same idea.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Make a short wait that hands back a ticket.</li>
+        <li>Mark a function so it is allowed to pause.</li>
+        <li>Print start.</li>
+        <li>Pause that one function until the wait is over.</li>
+        <li>Print the line after the wait.</li>
+        <li>Call the function. Otherwise nothing starts.</li>
+      </ol>
+      <p>The pause is only inside that function. The lines under the pause stay in the order you meant.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the steps again. The box is one file. It prints start, pauses that function, and prints after the wait.</p>
       
       <figure class="code">
     <figcaption>wait.mjs · node wait.mjs</figcaption>
@@ -68,15 +83,17 @@ main();</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>start
 after the wait</pre></div>
-      <p>About a fifth of a second passes between the lines. <code>setTimeout</code> is a timer that exists in Node.js, not only in browsers. You will not sprinkle timers through Playwright tests. Real waits come from locators. This timer only makes <code>await</code> visible.</p>
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>function delay(ms) {</code><span>A helper that returns a promise. The promise fulfills after <code>ms</code> milliseconds. It fulfills with no useful value. Waiting is the point.</span></li>
-<li><code>setTimeout(resolve, ms);</code><span>Ask the runtime to call <code>resolve</code> later. Calling <code>resolve</code> fulfills the promise.</span></li>
-<li><code>async function main() {</code><span>This function always returns a promise. Callers can <code>await main()</code> too.</span></li>
-<li><code>await delay(200);</code><span>Pause <code>main</code> until the delay fulfills. The next line does not run before that.</span></li>
-<li><code>main();</code><span>Start the function. Without this call, nothing happens. An async function you forget to call is a recipe nobody started.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run the box. start prints, then after the wait. The wait is short on purpose.</p>
+      <p>About a fifth of a second passes between the two lines. The timer only makes the pause easy to see.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>function delay(ms) {</code><span>Hand back a promise that finishes after ms milliseconds. The pause is the point.</span></li>
+<li><code>setTimeout(resolve, ms);</code><span>Ask the computer to call resolve after that many milliseconds. That call fulfills the promise.</span></li>
+<li><code>async function main() {</code><span>Mark this function so it may pause. It returns a promise.</span></li>
+<li><code>console.log(&quot;start&quot;);</code><span>Print start now, before the pause.</span></li>
+<li><code>await delay(200);</code><span>Pause this one function until the later answer arrives. The next line does not run before that.</span></li>
+<li><code>console.log(&quot;after the wait&quot;);</code><span>Print this only after the pause. Inside this function, the lines stay in the order you wrote.</span></li>
+<li><code>main();</code><span>Start the function. If you never call it, nothing happens.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Run the box. start prints, then after the wait. The wait is short on purpose. Only that one function was paused.</p>
       <div class="demo" data-kind="js" data-match="includes" data-hint="Log start, await the delay, then log after the wait.">
       <p class="demo-lead"><strong>Practice.</strong> await delay pauses main, not the whole computer.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">function delay(ms) {
@@ -94,12 +111,12 @@ main();</textarea></label>
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">after the wait</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Using <code>await</code> in a function that is not <code>async</code>. The engine reports a syntax error.</li>
-<li>Forgetting to call the async function, or forgetting to <code>await</code> it at the top. The script can exit before the work finishes.</li>
-<li>Sprinkling <code>await delay(1000)</code> into tests to “be safe.” That hides races. Wait for the thing you actually need.</li></ul>
-      <h2>Recap</h2>
-      <p><code>async</code> functions return promises. <code>await</code> pauses that function until the promise fulfills. A rejection becomes a throw you can <code>catch</code>.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>Using <code>await</code> in a function that is not marked <code>async</code>. The program will not run.</li>
+<li>Forgetting to call the function, or forgetting to await its promise. The script can finish before the work does.</li>
+<li>Waiting a fixed time just in case. Wait for the answer you actually need.</li></ul>
+      <h2>Remember</h2>
+      <p><code>async</code> marks a function that can pause. <code>await</code> pauses that one function until the later answer arrives.</p>
       <label class="done"><input type="checkbox" data-done="automation/14-async-await"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="13-promises.html"><small>Previous</small>Promises</a><a class="next" href="15-http.html"><small>Next</small>HTTP requests with fetch</a></nav>
     </main>

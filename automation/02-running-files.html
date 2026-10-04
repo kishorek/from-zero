@@ -39,32 +39,43 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 2 of 17</p>
       <h1>Running JavaScript files with Node.js</h1>
-      <p class="one-idea"><strong>One idea.</strong> node runs a file. The exit code tells the shell whether it worked.</p>
-      <h2>The idea</h2>
-      <p><code>node file.js</code> starts Node.js, asks it to read that file from the top, and waits until the program finishes. When it finishes, it returns an exit code to the shell. Code <code>0</code> means “finished as planned.” Any other code means “something was wrong.”</p>
-<p>You can also type <code>node</code> with no file. That opens a prompt, a REPL, where each line runs immediately. It is useful for a quick question. Real programs live in files so you can run them again.</p>
-<p>A file that uses <code>import</code> needs to be a module. The simple rule for this course: save those files as <code>.mjs</code> and run <code>node file.mjs</code>. Plain scripts with no <code>import</code> can stay <code>.js</code>.</p>
-      <h2>Why it matters</h2>
-      <p>Playwright’s test command is another program you run from the shell. It also uses exit codes: <code>0</code> when tests pass, <code>1</code> when they fail. Learning that signal now makes the later reports easier to trust.</p>
-      <h2>A picture to hold</h2>
-      <p>Handing a recipe card to a cook and waiting by the door. Exit code <code>0</code> is the cook nodding. Any other code is the cook shaking their head. The nod is for the shell, so other tools can react. The printed lines are for you.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> node runs a file. A final number says whether it finished as planned.</p>
+      <h2>Start with a normal day</h2>
+      <p>You hand a recipe card to a cook and wait by the door. The cook nods, or shakes their head.</p>
+      <p>The nod is a number for the terminal. The printed lines are the words for you. Both happen. They are different messages.</p>
+      <h2>New words</h2>
+      <p>The file shows one sentence and then sets that final number.</p>
+      <dl class="words">
+        <div><dt>node file.js</dt><dd>Start Node.js and ask it to read that file from the top, until the file ends.</dd></div>
+        <div><dt>exit code</dt><dd>The final number handed back to the terminal. <code>0</code> means finished as planned. Any other number means something was wrong.</dd></div>
+        <div><dt>process.version</dt><dd>Text naming the Node.js you are running, such as <code>v22.14.0</code>.</dd></div>
+        <div><dt>process.exitCode</dt><dd>Where you store that final number. Setting it does not stop the file immediately. The file still finishes its remaining lines.</dd></div>
+        <div><dt>process.exit</dt><dd>Stop immediately with a number. It can cut off work that is still finishing. Prefer <code>exitCode</code> on this page.</dd></div>
+        <div><dt>.js and .mjs</dt><dd>A plain file ends in <code>.js</code>. A file that uses <code>import</code> (a later lesson) is saved as <code>.mjs</code> so Node.js treats it as a module, a file that can share recipes.</dd></div>
+        <div><dt>REPL</dt><dd>What you get if you type <code>node</code> with no file name. Each line runs at once. Fine for a question. A real program lives in a file so you can run it again.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Show a sentence that includes the Node.js version.</li>
+        <li>Set the final number to 0, meaning finished as planned.</li>
+        <li>Let the file end. The terminal receives that 0.</li>
+      </ol>
+      <p>The practice box also lets you change 0 to 2 and see the failure number.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the three steps again. The first line is the sentence for you. The second line is the number for the terminal.</p>
       <figure class="code">
-    <figcaption>version.js · node version.js</figcaption>
+    <figcaption>version.js</figcaption>
     <pre><code class="language-js">console.log(&quot;Running with Node &quot; + process.version);
 process.exitCode = 0;</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>Running with Node v20.x.x  (your number may be newer)</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>console.log(&quot;Running with Node &quot; + process.version);</code><span><code>process.version</code> is text like <code>v22.14.0</code>. Plus joins your sentence to that text.</span></li>
-<li><code>process.exitCode = 0;</code><span>Set the code the process will hand back when it ends. Setting it does not stop the program immediately. <code>process.exit(0)</code> would stop at once, and it can cut off work that is still finishing, so prefer <code>exitCode</code>.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run the box and read the exit code. Change it from 0 to 2 and run again.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>console.log(&quot;Running with Node &quot; + process.version);</code><span>Show a sentence. The plus sign glues your words to the version text.</span></li>
+<li><code>process.exitCode = 0;</code><span>Store 0 as the final number. The file does not stop on this line. When it ends, the terminal receives 0.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Press Run. You should see the version sentence and exit code 0. Change 0 to 2 and run again. The exit code should be 2.</p>
       <div class="demo" data-kind="js" data-match="one-of" data-show-exit data-hint="Set process.exitCode to 0 or 2.">
-      <p class="demo-lead"><strong>Practice.</strong> 0 means finished as planned. Any other code means something was wrong.</p>
+      <p class="demo-lead"><strong>Practice.</strong> 0 means finished as planned. 2 means something was wrong.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">console.log("Running with Node " + process.version);
 process.exitCode = 0;</textarea></label>
       <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
@@ -72,12 +83,10 @@ process.exitCode = 0;</textarea></label>
       <template class="demo-expect">Exit code: 0
 Exit code: 2</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Opening the REPL and pasting a whole file without saving it. You then have nothing to rerun tomorrow.</li>
-<li>Calling <code>process.exit(1)</code> in the middle of a script that still needs to close a file. Set <code>process.exitCode</code> and let the script reach its end.</li>
-<li>Naming a module <code>file.js</code> and using <code>import</code> without telling Node.js it is a module. Use <code>.mjs</code> until a later lesson sets <code>&quot;type&quot;: &quot;module&quot;</code>.</li></ul>
-      <h2>Recap</h2>
-      <p><code>node file.js</code> runs a file to the end. Exit code <code>0</code> means success. Other codes mean failure. <code>.mjs</code> is the ending for a file that uses <code>import</code>.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>Typing a whole program into <code>node</code> with no file leaves you nothing to run tomorrow. Save the file.</li><li><code>process.exit(1)</code> stops at once. <code>process.exitCode = 1</code> lets the file finish, then reports the number.</li><li>A file that uses <code>import</code> is saved as <code>.mjs</code> in this course. A file with no import can stay <code>.js</code>.</li></ul>
+      <h2>Remember</h2>
+      <p><code>node file.js</code> runs a file to the end. Exit code 0 means it finished as planned. Any other number means something was wrong.</p>
       <label class="done"><input type="checkbox" data-done="automation/02-running-files"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="01-the-terminal.html"><small>Previous</small>The terminal</a><a class="next" href="03-npm.html"><small>Next</small>npm and package.json</a></nav>
     </main>

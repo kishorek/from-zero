@@ -39,33 +39,53 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 5 of 17</p>
       <h1>What are JavaScript and Node.js?</h1>
-      <p class="one-idea"><strong>One idea.</strong> JavaScript is the language. Node.js runs it outside the browser.</p>
-      <h2>The idea</h2>
-      <p>JavaScript is a programming language. It was first built for web pages. A browser still runs JavaScript inside a page. That kind of JavaScript can change what you see, and it is kept away from your files for safety.</p>
-<p>Node.js is a program you install. It runs JavaScript on your computer, outside any page. Node.js can read files, talk on the network, and start other programs. It cannot see a web page by itself. Playwright, much later, is the tool that lets a Node.js program drive a browser.</p>
-<p>You can practice in the box on each page before you install anything. When you want to run a file yourself, install the Long Term Support release from <code>https://nodejs.org</code>, then run <code>node -v</code> in a terminal. A number starting at 20 or higher is what you want. <code>npm -v</code> should also print a number. npm is the installer for JavaScript packages, and it arrives with Node.js.</p>
-      <h2>Why it matters</h2>
-      <p>Mixing these up causes a specific kind of confusion: copying browser code into Node, or Node code into a page, and watching it fail. The example shows a clean test. In Node, <code>document</code> is not there, because <code>document</code> means “the page.”</p>
-      <h2>A picture to hold</h2>
-      <p>JavaScript is a written language. The browser is a reading room with one window onto a page. Node.js is a workshop with doors onto your files and the network, and no window onto a page. Same language, different rooms.</p>
-      <table><thead><tr><th></th><th>Browser JavaScript</th><th>Node.js</th></tr></thead><tbody><tr><td>Where it runs</td><td>Inside a web page</td><td>On your computer, in the terminal</td></tr><tr><td>Typical powers</td><td>Read and change that page</td><td>Read files, use the network, run scripts</td></tr><tr><td>A name you will see</td><td><code>document</code>, <code>window</code></td><td><code>process</code>, <code>node:fs</code></td></tr><tr><td>Can it click a website for you?</td><td>Only as the page’s own script</td><td>Not alone. Playwright does that later</td></tr></tbody></table>
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> JavaScript is the language. Node.js is a program that runs that language on your computer.</p>
+      <h2>Start with a normal day</h2>
+      <p>English can be spoken in a library or in a workshop. The language is the same. The room changes what you are allowed to touch.</p>
+      <p>JavaScript started inside web pages. A browser still runs it there. In that room it can change the page you see. It is kept away from your files.</p>
+      <p>Node.js is a program you can install. It runs the same language in a workshop on your computer. That workshop can read files. It has no web page of its own.</p>
+      <h2>New words</h2>
+      <p>The practice box pretends to be the Node.js workshop. These words name the two rooms.</p>
+      <dl class="words">
+        <div><dt>JavaScript</dt><dd>The spelling rules this course uses.</dd></div>
+        <div><dt>browser</dt><dd>The program that shows web pages. It can run JavaScript inside one page.</dd></div>
+        <div><dt>Node.js</dt><dd>A program that runs JavaScript on your computer, outside any page. The command you type is <code>node</code>.</dd></div>
+        <div><dt>document</dt><dd>A name that means “this web page.” It exists in the browser. It is missing in Node.js.</dd></div>
+        <div><dt>process</dt><dd>A name that means “this running Node.js program.” It exists in Node.js. It is missing in an ordinary page.</dd></div>
+        <div><dt>typeof</dt><dd>A question: what kind of thing is this name? If the name is missing, the answer is <code>undefined</code>.</dd></div>
+        <div><dt>undefined</dt><dd>The answer you get when a name was never created in this room.</dd></div>
+        <div><dt>console.log</dt><dd>The spelling for “show this on the screen.”</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Ask what kind of thing <code>document</code> is. In the Node.js room, that name was never created.</li>
+        <li>Ask what kind of thing <code>process</code> is. In the Node.js room, that name exists.</li>
+      </ol>
+      <p>Same language. Two rooms. A name from one room is missing in the other.</p>
+      <table>
+        <thead><tr><th></th><th>In a web page</th><th>In Node.js</th></tr></thead>
+        <tbody>
+          <tr><td>Where it runs</td><td>Inside one page</td><td>On your computer</td></tr>
+          <tr><td>What it can touch</td><td>That page</td><td>Your files, and other computers</td></tr>
+          <tr><td>A name you will see</td><td><code>document</code></td><td><code>process</code></td></tr>
+        </tbody>
+      </table>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">The practice box below is the Node.js room. Read the two questions again, then look at these two lines. You can install Node.js later, from nodejs.org, when you want files of your own. A version number of 20 or higher is the one this course uses.</p>
       <figure class="code">
-    <figcaption>where.js · node where.js</figcaption>
-    <pre><code class="language-js">console.log(&quot;Running with Node &quot; + process.version);
-console.log(typeof document);</code></pre>
+    <figcaption>where.js</figcaption>
+    <pre><code class="language-js">console.log(typeof document);
+console.log(typeof process);</code></pre>
   </figure>
-      <div class="output"><strong>What you should see</strong><pre>Running with Node v22.x.x
-undefined</pre></div>
-      <p>Your version number will differ. <code>undefined</code> here means “there is no <code>document</code> in this room.” In a browser console, <code>typeof document</code> is <code>&quot;object&quot;</code>.</p>
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>console.log(&quot;Running with Node &quot; + process.version);</code><span><code>process</code> is a Node.js object that describes the running program. <code>process.version</code> is the Node.js version text.</span></li>
-<li><code>console.log(typeof document);</code><span><code>typeof</code> asks what kind of thing a name points at. <code>document</code> was never created in Node.js, so the answer is <code>undefined</code>.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run the box. In this pretend Node room, document is missing and process exists. You can install real Node.js later, when you want files of your own.</p>
+      <div class="output"><strong>What you should see</strong><pre>undefined
+object</pre></div>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>console.log(typeof document);</code><span>Ask what kind of thing <code>document</code> is, and show the answer. In this room the name is missing, so the answer is <code>undefined</code>.</span></li>
+<li><code>console.log(typeof process);</code><span>Ask what kind of thing <code>process</code> is. In this room the name exists, so the answer is <code>object</code>. An object is a grouped set of facts. A later lesson spends a page on that word.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Press Run. The first line should say undefined. The second line should say object.</p>
       <div class="demo" data-kind="js" data-match="exact" data-hint="Leave both lines. document is missing here. process exists.">
-      <p class="demo-lead"><strong>Practice.</strong> typeof asks what kind of thing a name points at.</p>
+      <p class="demo-lead"><strong>Practice.</strong> This box is the Node.js room. document is missing. process is here.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">console.log(typeof document);
 console.log(typeof process);</textarea></label>
       <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
@@ -73,12 +93,10 @@ console.log(typeof process);</textarea></label>
       <template class="demo-expect">undefined
 object</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Opening a <code>.js</code> file by double-clicking it and expecting Node.js to run. Use the terminal: <code>node where.js</code>.</li>
-<li>Pasting <code>document.querySelector</code> into a Node.js file. That name belongs to the browser.</li>
-<li>Installing an old Node.js. This course, and current Playwright, want Node.js 20 or newer.</li></ul>
-      <h2>Recap</h2>
-      <p>JavaScript is the language. Browsers run it inside a page. Node.js runs it in a workshop on your computer. <code>document</code> belongs to the page. <code>process</code> belongs to Node.js.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>JavaScript is the language. Node.js is one program that runs that language. A browser is a different program that runs it too.</li><li>Double-clicking a <code>.js</code> file does not start Node.js. The command is <code>node</code>, then the file name. The next lesson walks through that.</li><li><code>document</code> belongs to a web page. Pasting it into a Node.js file asks for a name that room does not have.</li></ul>
+      <h2>Remember</h2>
+      <p>JavaScript is the language. The browser runs it inside a page. Node.js runs it on your computer. <code>document</code> belongs to the page. <code>process</code> belongs to Node.js.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/05-javascript-and-node"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="04-what-is-a-language.html"><small>Previous</small>What is a programming language?</a><a class="next" href="06-your-first-program.html"><small>Next</small>Your first program</a></nav>
     </main>

@@ -42,17 +42,31 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 11 of 20</p>
       <h1>Auto-waiting</h1>
-      <p class="one-idea"><strong>One idea.</strong> Wait until the button is ready. Do not guess a number of seconds.</p>
-      <h2>The idea</h2>
-      <p>Before Playwright clicks, it checks that the element is attached to the page, visible, stable (not mid-animation), able to receive events, and, where it applies, enabled. If not, it waits and tries again until the timeout.</p>
-<p>Assertions such as <code>toBeVisible</code> and <code>toHaveText</code> retry too. A fixed pause does not. <code>page.waitForTimeout</code> exists for debugging a single run. Playwright’s documentation is plain: do not put it in tests you trust. It passes on your laptop and fails when the pause was a little short.</p>
-      <h2>Why it matters</h2>
-      <p>The old pattern was “sleep two seconds, then click.” It is the main source of flaky tests, tests that sometimes pass. Auto-waiting removes the pause and names the condition you actually needed.</p>
-      <h2>A picture to hold</h2>
-      <p>Waiting until the kettle boils, instead of staring at the clock for a number you guessed. The boil is the condition. Five minutes is a guess. Guesses are too long on good days and too short on bad ones.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> Playwright waits until a button is ready, then it clicks.</p>
+      <h2>Start with a normal day</h2>
+      <p>Sam opens a website and looks for a Save button. The button is missing at first, then it shows up.</p>
+      <p>Sam presses it only after it is visible.</p>
+      <h2>New words</h2>
+      <p><code>import</code>, <code>test</code>, <code>expect</code>, <code>async</code>, <code>await</code>, and <code>page</code> mean the same as in the earlier lessons.</p>
+      <dl class="words">
+        <div><dt>setContent</dt><dd>Replace the tab with page text written inside the check. Backticks, the <code>`</code> marks, wrap text that covers more than one line.</dd></div>
+        <div><dt>hidden</dt><dd>A mark that keeps the button out of sight. This button’s <code>id</code> is <code>save</code>.</dd></div>
+        <div><dt>setTimeout</dt><dd>Inside the page, run code after a short delay. <code>300</code> is that delay in thousandths of a second. <code>document.querySelector</code> is the page’s own search for the button.</dd></div>
+        <div><dt>getByRole</dt><dd>Find an element by its job and the name a person sees. A button is one job. The result is a locator, a description that is searched again when you use it.</dd></div>
+        <div><dt>click</dt><dd>Press the element. Playwright waits until it is visible and can be pressed.</dd></div>
+        <div><dt>toBeVisible</dt><dd>Keep checking until the element is on the screen.</dd></div>
+        <div><dt>fixed wait</dt><dd>A pause of a length you guessed. The practice button Short fixed wait uses one.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Open a page where Save is hidden.</li>
+        <li>Wait until Save is visible and can be pressed.</li>
+        <li>Press Save.</li>
+        <li>Check that Save is on the screen.</li>
+      </ol>
+      <p>The program only writes those steps down.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the steps once more. The box below is those same steps, written as a test.</p>
       <figure class="code">
     <figcaption>tests/wait.spec.js · npx playwright test</figcaption>
     <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
@@ -70,28 +84,31 @@ test(&quot;the button can be clicked when it appears&quot;, async ({ page }) =&g
   await expect(page.getByRole(&quot;button&quot;, { name: &quot;Save&quot; })).toBeVisible();
 });</code></pre>
   </figure>
-      
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>await page.setContent(`</code><span>Replace the document with HTML you wrote. Useful for learning a behavior without depending on a website.</span></li>
-<li><code>&lt;button id=&quot;save&quot; hidden&gt;Save&lt;/button&gt;</code><span>The button starts hidden. A locator will not click a hidden button.</span></li>
-<li><code>setTimeout(() =&gt; {</code><span>The page’s own JavaScript reveals the button 300 milliseconds later. This <code>setTimeout</code> is inside the page, not a sleep in the test.</span></li>
-<li><code>await page.getByRole(&quot;button&quot;, { name: &quot;Save&quot; }).click();</code><span>This line waits until the button is a real, visible, stable click target, then clicks. No pause is written in the test.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Load the page. Click when ready succeeds. The short fixed wait misses if you press it too soon.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk">
+        <li><code>&lt;button id=&quot;save&quot; hidden&gt;Save&lt;/button&gt;</code><span>The Save button starts out of sight. A person cannot press a button they cannot see.</span></li>
+        <li><code>setTimeout(() =&gt; {</code><span>The page shows the button a moment later. That delay lives in the page’s own script.</span></li>
+        <li><code>await page.getByRole(&quot;button&quot;, { name: &quot;Save&quot; }).click();</code><span>Find the button named Save and press it. This line waits until the button is ready.</span></li>
+        <li><code>await expect(page.getByRole(&quot;button&quot;, { name: &quot;Save&quot; })).toBeVisible();</code><span>Check that Save is on the screen. The check keeps looking until it is.</span></li>
+      </ol>
+      <p>Ready means the button is on the screen, has stopped moving, and can be pressed.</p>
+      <h2>Try it</h2>
+      <p>Press Load page, then Click when ready. The short fixed wait misses the button if you press it too soon.</p>
       <div class="demo" data-kind="stage" data-stage="wait">
-      <p class="demo-lead"><strong>Demo.</strong> The Save button appears after about a second.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Load the page. Save shows up after a short wait.</p>
       
       <div class="demo-actions"><button type="button" class="load">Load page</button><button type="button" class="click-ready">Click when ready</button><button type="button" class="click-early quiet">Short fixed wait</button></div>
       <div class="mini-page"><button type="button" class="save" hidden>Save</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Adding <code>waitForTimeout</code> whenever a test fails once. Find the fact you should have waited for, and assert it.</li>
-<li>Waiting for <code>networkidle</code> before every click. Auto-waiting on the action is already the wait.</li>
-<li>Catching a timeout and ignoring it. A timeout is the test telling you the condition never arrived.</li></ul>
-      <h2>Recap</h2>
-      <p>Clicks and web assertions retry until the element is ready or time runs out. Write the condition. Leave fixed sleeps out of tests.</p>
+      <h2>Easy to mix up</h2>
+      <ul>
+        <li>A fixed wait guesses the timing. The click already waits until the button can be pressed.</li>
+        <li>The button can sit in the page and still be hidden. The click waits until a person could see it.</li>
+        <li>If time runs out, the button never became ready. Read that message before you change the check.</li>
+      </ul>
+      <h2>Remember</h2>
+      <p>A click waits until the button is ready. You name the button, and Playwright does the waiting.</p>
       <label class="done"><input type="checkbox" data-done="playwright/11-auto-waiting"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="10-actions.html"><small>Previous</small>Actions</a><a class="next" href="12-assertions.html"><small>Next</small>Assertions</a></nav>
     </main>

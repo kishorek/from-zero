@@ -42,17 +42,28 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 16 of 20</p>
       <h1>Frames</h1>
-      <p class="one-idea"><strong>One idea.</strong> A frame is a page inside the page. Look there before you look for the field.</p>
-      <h2>The idea</h2>
-      <p>An iframe embeds another document inside the page. Locators on <code>page</code> do not see inside that document. <code>page.frameLocator(&quot;iframe[title=\&quot;Payment\&quot;]&quot;)</code> points at the frame. Locators you call on the frame locator look inside it.</p>
-<p>Give the iframe a title in pages you control, and use that title in the frame locator. A CSS description of the frame is reasonable here because you are naming the frame, not the button inside it. The button inside should still use <code>getByRole</code> or <code>getByLabel</code>.</p>
-      <h2>Why it matters</h2>
-      <p>Payment widgets, embedded editors, and some consent dialogs are frames. A test that says the button does not exist, while you can see the button, is often looking in the outer page.</p>
-      <h2>A picture to hold</h2>
-      <p>A shop with a service window cut into the wall. The counter you first walk up to cannot pass a form through the glass. You address the window (<code>frameLocator</code>), then you talk to the person behind it (<code>getByLabel</code>). Two addresses, in that order.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> A frame is a page inside the page, so look there for the field.</p>
+      <h2>Start with a normal day</h2>
+      <p>Rita checks out on a website. The card box sits in a small window inside the page.</p>
+      <p>She looks at that window first, then types in the box.</p>
+      <h2>New words</h2>
+      <p><code>import</code>, <code>test</code>, <code>expect</code>, <code>await</code>, and <code>page</code> mean the same as before. Here <code>page</code> is the outer tab.</p>
+      <dl class="words">
+        <div><dt>frame</dt><dd>A separate page set inside this page. The <code>iframe</code> tag places it. This one is titled Payment. <code>srcdoc</code> is the inner page, written in place.</dd></div>
+        <div><dt>frameLocator</dt><dd>Point at that frame by its title. Searches you call on this value stay inside the frame.</dd></div>
+        <div><dt>getByLabel</dt><dd>Find the field by the words tied to it, here Card number. <code>fill</code> replaces the text. <code>toHaveValue</code> waits until the field holds <code>4242</code>.</dd></div>
+        <div><dt>backslash</dt><dd>In quoted text, a backslash in front of a quote keeps that quote as part of the text.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Open a page that contains a payment frame.</li>
+        <li>Point at the frame named Payment.</li>
+        <li>Find Card number inside the frame and write 4242.</li>
+        <li>Read the field back and see 4242.</li>
+      </ol>
+      <p>The program only writes those steps down.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the steps once more. The box below is those same steps. The card field is filled inside the frame.</p>
       <figure class="code">
     <figcaption>tests/frame.spec.js · npx playwright test</figcaption>
     <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
@@ -68,28 +79,31 @@ test(&quot;fill a field inside a frame&quot;, async ({ page }) =&gt; {
   await expect(frame.getByLabel(&quot;Card number&quot;)).toHaveValue(&quot;4242&quot;);
 });</code></pre>
   </figure>
-      
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>&lt;iframe title=&quot;Payment&quot;</code><span>The outer page owns the frame. <code>title</code> is the accessible name of the frame and a stable handle for tests.</span></li>
-<li><code>srcdoc=&quot;</code><span><code>srcdoc</code> supplies the inner document without a second website. The inner document has its own label and input.</span></li>
-<li><code>const frame = page.frameLocator(&quot;iframe[title=\&quot;Payment\&quot;]&quot;);</code><span>Describe the frame. This value is a frame locator, not a page. You call <code>getByLabel</code> on it.</span></li>
-<li><code>await frame.getByLabel(&quot;Card number&quot;).fill(&quot;4242&quot;);</code><span>The label lookup happens inside the frame. The same lookup on <code>page</code> would not see this input.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Look in the outer page, then look in the frame.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk">
+        <li><code>&lt;iframe title=&quot;Payment&quot;</code><span>The outer page holds a frame named Payment. The card field lives inside that frame.</span></li>
+        <li><code>srcdoc=&quot;</code><span>The inner page is written right here. It contains the label Card number and a box.</span></li>
+        <li><code>const frame = page.frameLocator(&quot;iframe[title=\&quot;Payment\&quot;]&quot;);</code><span>Point at the frame whose title is Payment. Later searches on frame look inside it.</span></li>
+        <li><code>await frame.getByLabel(&quot;Card number&quot;).fill(&quot;4242&quot;);</code><span>Inside the frame, find Card number and write 4242. The same search on the outer page misses this box.</span></li>
+        <li><code>await expect(frame.getByLabel(&quot;Card number&quot;)).toHaveValue(&quot;4242&quot;);</code><span>Read the field inside the frame. It should hold 4242.</span></li>
+      </ol>
+      <h2>Try it</h2>
+      <p>Press Look in the page. Then press Look in the frame.</p>
       <div class="demo" data-kind="stage" data-stage="frame">
-      <p class="demo-lead"><strong>Demo.</strong> The card field lives in the white frame.</p>
+      <p class="demo-lead"><strong>Practice.</strong> The card field is in the white frame.</p>
       
       <div class="mini-page"><p>Outer page. No card field here.</p><div class="frame-box"><label>Card number <input class="card" type="text" value=""></label></div></div>
       <div class="demo-actions"><button type="button" class="outer quiet">Look in the page</button><button type="button" class="inner">Look in the frame</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Searching the outer page for an element that lives in the frame.</li>
-<li>Using a long CSS path inside the frame when the inner control has a label.</li>
-<li>Nesting confusion: a frame inside a frame needs a frame locator from the first frame locator. Walk one level at a time.</li></ul>
-      <h2>Recap</h2>
-      <p>Iframe contents are a separate document. <code>frameLocator</code> selects the frame. Locators on that object look inside it.</p>
+      <h2>Easy to mix up</h2>
+      <ul>
+        <li>The card field is inside the frame. A search on the outer page misses it.</li>
+        <li>Choose the frame first. The label search then happens inside it.</li>
+        <li>A frame can sit inside another frame. Point at the outer frame, then at the inner one.</li>
+      </ul>
+      <h2>Remember</h2>
+      <p>A frame is a separate page inside the page. Point at the frame, then find the field inside it.</p>
       <label class="done"><input type="checkbox" data-done="playwright/16-frames"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="15-popups.html"><small>Previous</small>Pages and popups</a><a class="next" href="17-network.html"><small>Next</small>Network routing</a></nav>
     </main>

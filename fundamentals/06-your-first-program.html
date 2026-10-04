@@ -39,50 +39,62 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 6 of 17</p>
       <h1>Your first program</h1>
-      <p class="one-idea"><strong>One idea.</strong> A first program is one file and one command: node, then the file name.</p>
-      <h2>The idea</h2>
-      <p>A JavaScript file is a plain text file whose name ends in <code>.js</code>. Node.js runs that file when you type <code>node</code>, a space, and the file name.</p>
-<p>The terminal is the window where you type those commands. On macOS it is Terminal. The folder you are “in” matters, because Node.js looks for the file there.</p>
-      <h2>Why it matters</h2>
-      <p>From here on, every example is something you run. Reading code and running code are different skills. Running shows you what the engine actually did.</p>
-      <h2>A picture to hold</h2>
-      <p>The file is a recipe card. <code>node hello.js</code> is you handing that card to the cook. The terminal is the pass where the cook sends plates back, one printed line at a time.</p>
-      
-      <h2>A small example</h2>
-      <p>In the terminal, create a folder, enter it, and create the file in your editor. Then run it from that folder.</p>
+      <p class="one-idea"><strong>One idea.</strong> Write one line in a file. Then type node and the file name.</p>
+      <h2>Start with a normal day</h2>
+      <p>A recipe card sits on the counter. Handing the card to the cook is a separate action from writing the card.</p>
+      <p>The file is the card. The terminal is the window where you type short commands. On a Mac, that window is called Terminal.</p>
+      <p>You type <code>node</code>, a space, and the file name. Node.js reads the file and sends back what the program prints.</p>
+      <h2>New words</h2>
+      <p>The commands come first as words. The program is one line you already know.</p>
+      <dl class="words">
+        <div><dt>file</dt><dd>A saved text document. A JavaScript file’s name ends in <code>.js</code>.</dd></div>
+        <div><dt>terminal</dt><dd>The window where you type commands to your computer.</dd></div>
+        <div><dt>folder</dt><dd>A place that holds files. People also say directory.</dd></div>
+        <div><dt>mkdir</dt><dd>The command “make a folder.” You type it in the terminal.</dd></div>
+        <div><dt>cd</dt><dd>The command “go into this folder.” After it, the next commands look in that folder.</dd></div>
+        <div><dt>node</dt><dd>The command that starts Node.js and names the file to run. You type it in the terminal, not inside the file.</dd></div>
+        <div><dt>console.log</dt><dd>Inside the file, the spelling for “show this on the screen.”</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Make a folder named from-zero-lab.</li>
+        <li>Go into that folder.</li>
+        <li>In your editor, save a file there named hello.js, with one line that shows a greeting.</li>
+        <li>In the terminal, type node hello.js.</li>
+      </ol>
+      <p>The practice box on this page only does the greeting. The folder commands are for when you install Node.js.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. The first box is what you type in the terminal. The second box is the whole file. One line. One greeting.</p>
       <figure class="code">
-    <figcaption>Terminal</figcaption>
+    <figcaption>What you type in the terminal</figcaption>
     <pre><code class="language-sh">mkdir from-zero-lab
 cd from-zero-lab
 node hello.js</code></pre>
   </figure>
-<figure class="code">
-    <figcaption>hello.js</figcaption>
+      <figure class="code">
+    <figcaption>hello.js, the file</figcaption>
     <pre><code class="language-js">console.log(&quot;Hello, I am your first program.&quot;);</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>Hello, I am your first program.</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>mkdir from-zero-lab</code><span><code>mkdir</code> means make directory. A directory is a folder. This creates a new folder in the place you currently are.</span></li>
-<li><code>cd from-zero-lab</code><span><code>cd</code> means change directory. After this, commands look inside that folder.</span></li>
-<li><code>console.log(&quot;Hello, I am your first program.&quot;);</code><span>The whole program. One instruction. Node.js prints the text and then finishes.</span></li>
-<li><code>node hello.js</code><span>Starts Node.js and tells it which file to read. You type this in the terminal, not inside the JavaScript file.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Print your name on one line and your city on the next. Two console.log lines are enough.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>mkdir from-zero-lab</code><span>Make a new folder in the place you are now. You type this in the terminal.</span></li>
+<li><code>cd from-zero-lab</code><span>Go into that folder. Node.js will look for the file there.</span></li>
+<li><code>console.log(&quot;Hello, I am your first program.&quot;);</code><span>This line lives in the file. It shows the greeting. The semicolon ends the step.</span></li>
+<li><code>node hello.js</code><span>Start Node.js and hand it the file. You type this in the terminal, after you are inside the folder.</span></li></ol>
+      <h2>Try it</h2>
+      <p>The box has a name and a city. Change both to yours. Press Run. You should see two lines.</p>
       <div class="demo" data-kind="js" data-match="lines" data-min="2" data-hint="Print two lines.">
-      <p class="demo-lead"><strong>Practice.</strong> Replace the sample name and city with yours.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Two lines. Your name, then your city.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">console.log("Ada");
 console.log("Lagos");</textarea></label>
       <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
       <div class="demo-out" role="status"></div>
       
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Typing <code>console.log</code> into the terminal by itself. The terminal runs commands such as <code>node</code>. The JavaScript goes in the file.</li>
-<li>Saving the file as <code>hello.js.txt</code>. Turn on file extensions in your editor and confirm the name ends in <code>.js</code>.</li>
-<li>Running <code>node hello.js</code> from a different folder than the file. <code>cd</code> into the folder first.</li></ul>
-      <h2>Recap</h2>
-      <p>Write JavaScript in a <code>.js</code> file. From that file’s folder, run <code>node</code> and the file name. The terminal shows what the program prints.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li><code>console.log</code> belongs in the file. <code>node</code> belongs in the terminal.</li><li>The file name ends in <code>.js</code>. A name like hello.js.txt is a different file.</li><li>Type <code>cd</code> into the folder before <code>node hello.js</code>. Node.js looks in the folder you are in.</li></ul>
+      <h2>Remember</h2>
+      <p>Write the steps in a <code>.js</code> file. From that file’s folder, type <code>node</code> and the file name. The terminal shows what the program prints.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/06-your-first-program"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="05-javascript-and-node.html"><small>Previous</small>What are JavaScript and Node.js?</a><a class="next" href="07-variables.html"><small>Next</small>Variables</a></nav>
     </main>

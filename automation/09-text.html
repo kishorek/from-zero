@@ -39,16 +39,42 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 9 of 17</p>
       <h1>Cleaning up text</h1>
-      <p class="one-idea"><strong>One idea.</strong> Trim the edges, split on a separator, then compare in one case.</p>
-      <h2>The idea</h2>
-      <p>Text from files and websites is messy. <code>trim</code> removes spaces, tabs, and newlines from both ends. <code>toLowerCase</code> makes comparison calmer. <code>split</code> cuts one string into an array. <code>includes</code> asks whether a smaller string sits inside.</p>
-<p>None of these change the original string. Strings are immutable: methods return a new string. You store that new string if you want to keep it.</p>
-      <h2>Why it matters</h2>
-      <p>A task list copied from email, a heading with a trailing space, a comma-separated export: automation spends more time cleaning text than inventing it. Playwright’s accessible names are also text, and an extra space can make a lookup miss.</p>
-      <h2>A picture to hold</h2>
-      <p>Washing vegetables before cooking. The recipe is simple. The dirt comes from the trip. <code>trim</code> and <code>split</code> are the wash. You still cook the same vegetables. You just stop biting into the crate.</p>
-      
-      <h2>A small example</h2>
+      <p class="one-idea"><strong>One idea.</strong> Trim the edges, cut the text into words, and compare it in small letters.</p>
+      <h2>Start with a normal day</h2>
+      <p>A name shows up with spaces before it and spaces after it. A shopping note is one line. A comma and a space sit between tea, milk, and sugar. One note says Tea. Another says tea.</p>
+      <p>You wipe the spaces off the ends of the name. You cut the shopping line into separate words. You make the letters small, so Tea and tea count as the same word.</p>
+      <h2>New words</h2>
+      <p>The small program cleans a name and cuts a shopping line. The practice box walks a list of words. Read these before the program.</p>
+      <dl class="words">
+        <div><dt>const</dt><dd>A name stuck to a value. The name stays on that text.</dd></div>
+        <div><dt>trim</dt><dd>Cut spaces, tabs, and newlines off both ends. Spaces between words stay. You get new text. The old text stays as it was.</dd></div>
+        <div><dt>toLowerCase</dt><dd>Make new text with capital letters turned into small letters. Tea becomes tea.</dd></div>
+        <div><dt>split</dt><dd>Cut one piece of text into a list. You name the cut, such as a comma and a space. The cut itself is not kept.</dd></div>
+        <div><dt>join</dt><dd>Glue a list back into one piece of text. You choose what goes between the pieces. split cuts. join puts the pieces back. This program does not call join.</dd></div>
+        <div><dt>includes</dt><dd>Ask whether smaller text sits inside bigger text. On a list, ask whether an item is already there. The answer is true or false.</dd></div>
+        <div><dt>true and false</dt><dd>The only two answers a yes-or-no question can give.</dd></div>
+        <div><dt>console.log</dt><dd>Show a value on the screen.</dd></div>
+        <div><dt>map</dt><dd>Build a new list by changing each item. The practice box uses it so each word comes back in small letters. The old list stays.</dd></div>
+        <div><dt>function</dt><dd>A small recipe. The name in parentheses is the current item. <code>map</code> calls the recipe once per item.</dd></div>
+        <div><dt>return</dt><dd>Hand a value back from that recipe, and stop there.</dd></div>
+        <div><dt>[ ]</dt><dd>Square brackets hold a list. Commas separate the items. <code>[]</code> is a list with nothing in it yet.</dd></div>
+        <div><dt>for...of</dt><dd>Take each item in a list, one at a time. <code>for (const word of parts)</code> takes each word in parts.</dd></div>
+        <div><dt>if</dt><dd>Do the next step only when a test is true.</dd></div>
+        <div><dt>!</dt><dd>Not. It flips a yes-or-no answer. <code>!unique.includes(word)</code> means this word is not already in the list.</dd></div>
+        <div><dt>push</dt><dd>Add one item at the end of a list.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Start with a name that has spaces on both ends.</li>
+        <li>Cut those spaces off the ends, and keep the new text.</li>
+        <li>Cut the line tea, milk, sugar into separate words. The cut is a comma followed by a space.</li>
+        <li>Show the cleaned name in small letters.</li>
+        <li>Show the three words.</li>
+        <li>Ask whether ell sits inside Hello, and show the answer.</li>
+      </ol>
+      <p>Each step gives you new text or a new list. The text you started with stays as it was.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the six steps again. The first lines store the messy name, the cleaned name, and the cut-up shopping line. The last three lines show the answers.</p>
       
       <figure class="code">
     <figcaption>clean.mjs · node clean.mjs</figcaption>
@@ -63,13 +89,15 @@ console.log(&quot;Hello&quot;.includes(&quot;ell&quot;));</code></pre>
 [ 'tea', 'milk', 'sugar' ]
 true</pre></div>
       
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const clean = messy.trim();</code><span><code>trim</code> returns a new string with the outer spaces gone. <code>messy</code> itself is unchanged.</span></li>
-<li><code>const parts = &quot;tea, milk, sugar&quot;.split(&quot;, &quot;);</code><span>Cut on the comma-space. You get three strings in an array. The separator is not kept.</span></li>
-<li><code>console.log(clean.toLowerCase());</code><span>A new string in lowercase. Useful before you compare names that may arrive as <code>Ada</code> or <code>ada</code>.</span></li>
-<li><code>console.log(&quot;Hello&quot;.includes(&quot;ell&quot;));</code><span><code>includes</code> returns a boolean. <code>ell</code> sits inside <code>Hello</code>, so the answer is <code>true</code>.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run the box. You should see tea twice, then a list that keeps tea once.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>const messy = &quot;  Ada Lovelace  &quot;;</code><span>Store a name that still has spaces on both ends. The quotes mark the text. The spaces inside the quotes are part of it.</span></li>
+<li><code>const clean = messy.trim();</code><span>Cut the spaces off both ends, and store that new text as clean. The name in messy is unchanged.</span></li>
+<li><code>const parts = &quot;tea, milk, sugar&quot;.split(&quot;, &quot;);</code><span>Cut the shopping line where a comma is followed by a space. You get three words. The comma and the space are not kept.</span></li>
+<li><code>console.log(clean.toLowerCase());</code><span>Show the cleaned name in small letters. You see ada lovelace.</span></li>
+<li><code>console.log(parts);</code><span>Show the list of three words.</span></li>
+<li><code>console.log(&quot;Hello&quot;.includes(&quot;ell&quot;));</code><span>Ask whether ell sits inside Hello. It does, so the answer is true.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Press Run. The first list is tea, milk, and tea again, in small letters. The second list keeps tea once, then milk.</p>
       <div class="demo" data-kind="js" data-match="includes" data-hint="Lowercase the pieces and print them.">
       <p class="demo-lead"><strong>Practice.</strong> trim clears the ends. It does not clear spaces between words.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const messy = "  Tea, Milk, tea  ";
@@ -86,12 +114,10 @@ console.log(unique);</textarea></label>
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">tea</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Comparing <code>&quot;Ada&quot;</code> and <code>&quot;ada&quot;</code> with <code>===</code> and treating the mismatch as a mystery. Case is part of the text.</li>
-<li>Splitting on <code>&quot;,&quot;</code> when the file has <code>&quot;, &quot;</code>, and then wondering about the leftover spaces. Include the spaces in the separator, or <code>trim</code> each piece.</li>
-<li>Expecting <code>trim</code> to remove spaces between words. It only clears the two ends.</li></ul>
-      <h2>Recap</h2>
-      <p><code>trim</code>, <code>toLowerCase</code>, <code>split</code>, and <code>includes</code> return new strings or arrays. Use them to make messy input predictable before you branch on it.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li><code>&quot;Ada&quot;</code> and <code>&quot;ada&quot;</code> are not the same text. includes cares about capital letters. Make both sides small letters before you compare.</li><li>Cutting on a comma alone leaves a space on the next word when the line used a comma and a space. Put that space in the cut, or trim each piece.</li><li>trim clears only the two ends. Spaces between words stay.</li></ul>
+      <h2>Remember</h2>
+      <p>trim clears the two ends. toLowerCase makes small letters. split cuts text into a list. join glues a list back into text. includes asks whether one piece sits inside another. map builds a new list by changing each item. The original text stays as it was.</p>
       <label class="done"><input type="checkbox" data-done="automation/09-text"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="08-json.html"><small>Previous</small>JSON</a><a class="next" href="10-lists.html"><small>Next</small>Transforming lists</a></nav>
     </main>

@@ -39,43 +39,52 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 2 of 17</p>
       <h1>What is code?</h1>
-      <p class="one-idea"><strong>One idea.</strong> Code is the exact text the computer reads. Comments are notes it skips.</p>
-      <h2>The idea</h2>
-      <p>Code is the text of a program. It is written in a fixed spelling so a translator program can read it. The ideas in your head are not code yet. Code is the marks on the screen: words, quotes, parentheses, and semicolons.</p>
-<p>People often say “code” when they mean the whole activity of programming. In this course, code means the text. The program is what that text asks the computer to do.</p>
-      <h2>Why it matters</h2>
-      <p>Small spelling differences change the program. A missing quote is not a style choice. It makes the translator stop. Learning to look closely at the text saves hours later.</p>
-      <h2>A picture to hold</h2>
-      <p>Sheet music is not the sound. It is a written form of the sound, with rules about notes and rests. Two musicians can play the same page and get the same song because they share those rules. Code works the same way between you and the computer.</p>
-      
-      <h2>A small example</h2>
-      <p>Lines that start with <code>//</code> are comments. They are code for humans. The translator skips them. The other lines are instructions.</p>
+      <p class="one-idea"><strong>One idea.</strong> Code is the written text of a program. A comment is a note the computer skips.</p>
+      <h2>Start with a normal day</h2>
+      <p>A recipe card is not the meal. It is the meal written down, with rules about the order of the lines.</p>
+      <p>Two people can follow the same card and get the same meal, because they share those rules. Code is that card. The program is the meal the computer makes from it.</p>
+      <p>You can also write a note in the margin for the next person. The cook skips the margin.</p>
+      <h2>New words</h2>
+      <p>Read these before the program. Each one is a small mark on the page.</p>
+      <dl class="words">
+        <div><dt>code</dt><dd>The text of a program: the words and marks the computer reads.</dd></div>
+        <div><dt>comment</dt><dd>A note for a person. The computer skips it.</dd></div>
+        <div><dt>//</dt><dd>Two slashes. They start a comment. The rest of that line is the note.</dd></div>
+        <div><dt>console.log</dt><dd>The spelling for “show this on the screen.”</dd></div>
+        <div><dt>quotes</dt><dd>The marks <code>"</code> around text. They mean “show these words as they are.”</dd></div>
+        <div><dt>semicolon</dt><dd>The mark <code>;</code> at the end. It means “this step is finished.”</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Leave a note: this line greets someone.</li>
+        <li>Show the word Hello.</li>
+      </ol>
+      <p>The note is for you. The second step is the only one the computer follows.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the two steps again. The first line of the program is the note. The second line is the greeting. The greeting is the only thing that should appear.</p>
       <figure class="code">
-    <figcaption>hello.js · node hello.js</figcaption>
+    <figcaption>hello.js</figcaption>
     <pre><code class="language-js">// A note to the next reader. The computer skips this line.
 console.log(&quot;Hello&quot;);</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>Hello</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>// A note to the next reader. The computer skips this line.</code><span>Two slashes start a comment. Everything after them on that line is ignored when the program runs.</span></li>
-<li><code>console.log(&quot;Hello&quot;);</code><span>This is an instruction. The quotes mark text. Without the quotes, <code>Hello</code> would be read as a name, not as a sentence.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Add a comment above the print. The comment should not appear when you run it. Then delete the last quote, run, read the error, and put the quote back.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>// A note to the next reader. The computer skips this line.</code><span>This is a comment. Two slashes mark the note. Nothing from this line appears on the screen.</span></li>
+<li><code>console.log(&quot;Hello&quot;);</code><span>Show the text Hello. The quotes mark that text. The semicolon ends the step.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Press Run. You should see Hello, and you should not see the note. Then delete the last quote, press Run, read the message, and put the quote back.</p>
       <div class="demo" data-kind="js" data-match="includes" data-hint="The output should be Hello, and the comment should stay out of the output.">
-      <p class="demo-lead"><strong>Practice.</strong> A comment starts with two slashes.</p>
+      <p class="demo-lead"><strong>Practice.</strong> The note starts with two slashes. Hello is the step.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">// Prints a greeting.
 console.log("Hello");</textarea></label>
       <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">Hello</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Treating comments as instructions. A comment explains. It does not run.</li>
-<li>Using curly quotes from a word processor. Programming quotes are straight quotes: <code>&quot;</code>.</li>
-<li>Calling any English sentence code. Code follows the spelling rules of a language.</li></ul>
-      <h2>Recap</h2>
-      <p>Code is the written text of a program. Comments are for people. Instructions are for the computer. The spelling is part of the meaning.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>A comment is a note. It does not run. An instruction is a step. It does run.</li><li>Use straight quotes, <code>"</code>. Curly quotes from a word processor are a different mark, and the computer rejects them.</li><li>An English sentence becomes code only when it follows the spelling rules.</li></ul>
+      <h2>Remember</h2>
+      <p>Code is the written text. Comments are for people. Instructions are for the computer. The spelling is part of the meaning.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/02-what-is-code"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="01-what-is-a-program.html"><small>Previous</small>What is a computer program?</a><a class="next" href="03-how-a-computer-understands.html"><small>Next</small>How does a computer understand instructions?</a></nav>
     </main>

@@ -39,17 +39,32 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 1 of 17</p>
       <h1>The terminal</h1>
-      <p class="one-idea"><strong>One idea.</strong> The terminal takes one short command at a time.</p>
-      <h2>The idea</h2>
-      <p>The terminal is a text window onto a shell. A shell is a program that reads a command, runs it, and prints the result. You have already used <code>node</code>. The same window also moves you between folders.</p>
-<p><code>pwd</code> prints the folder you are in. <code>ls</code> lists what is there. <code>cd somewhere</code> enters a folder. <code>cd ..</code> goes up to the parent. <code>mkdir notes</code> creates a folder.</p>
-      <h2>Why it matters</h2>
-      <p>Node.js, npm, and Playwright are all driven from this window. If the shell feels like a locked door, every later command feels risky. It is a counter. You ask for one thing. It answers, then waits.</p>
-      <h2>A picture to hold</h2>
-      <p>A service counter in a workshop. You do not wander into the storeroom. You say “where am I,” “what is on this shelf,” or “make a new box.” The shell is the person behind the counter. Each line you type is one request.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> The terminal is a window where you ask for one thing at a time.</p>
+      <h2>Start with a normal day</h2>
+      <p>Think of a service counter. You do not walk into the storeroom. You ask one question. The person answers. Then they wait for the next question.</p>
+      <p>The terminal is that counter. You type a short command. The computer answers. Then it waits.</p>
+      <h2>New words</h2>
+      <p>These commands move you around. The small program at the end asks the same “where am I?” question from JavaScript.</p>
+      <dl class="words">
+        <div><dt>terminal</dt><dd>The text window where you type commands.</dd></div>
+        <div><dt>shell</dt><dd>The program behind that window. It reads a command, runs it, and prints the result.</dd></div>
+        <div><dt>folder</dt><dd>A place that holds files. A path is the address of a folder or a file.</dd></div>
+        <div><dt>pwd</dt><dd>“Where am I?” It prints the address of the folder you are in.</dd></div>
+        <div><dt>ls</dt><dd>“What is here?” It lists the names in that folder. It does not open them.</dd></div>
+        <div><dt>mkdir</dt><dd>“Make a folder.” <code>mkdir notes</code> creates a folder named notes.</dd></div>
+        <div><dt>cd</dt><dd>“Go into this folder.” <code>cd ..</code> goes up to the folder that contains this one.</dd></div>
+        <div><dt>process.cwd()</dt><dd>The same “where am I?” question, asked from a JavaScript file. cwd means current working directory, the folder you were in when you started the file.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Ask which folder you are in.</li>
+        <li>Ask what is in it.</li>
+        <li>Make a folder named notes.</li>
+        <li>Go into notes, and ask again where you are.</li>
+      </ol>
+      <p>Each line is one request at the counter. The JavaScript file asks the same location question a second way.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. The first box is what you type, one line at a time. The second box is a file. It shows a sentence, then the folder the file was started from.</p>
       <figure class="code">
     <figcaption>Commands, typed one at a time</figcaption>
     <pre><code class="language-sh">pwd
@@ -59,35 +74,32 @@ cd notes
 pwd</code></pre>
   </figure>
 <figure class="code">
-    <figcaption>where-am-i.js · node where-am-i.js</figcaption>
+    <figcaption>where-am-i.js</figcaption>
     <pre><code class="language-js">console.log(&quot;This script is running from:&quot;);
 console.log(process.cwd());</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>This script is running from:
 /your/current/folder</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>pwd</code><span>Print working directory. The answer is a path, the address of the folder the shell is using.</span></li>
-<li><code>ls</code><span>List the names in that folder. It does not enter them.</span></li>
-<li><code>mkdir notes</code><span>Create a folder named <code>notes</code> inside the current folder.</span></li>
-<li><code>cd notes</code><span>Change the shell’s current folder to <code>notes</code>. Later commands, including <code>node</code>, start from here.</span></li>
-<li><code>console.log(process.cwd());</code><span>The same fact, asked from JavaScript. <code>cwd</code> means current working directory. It matches <code>pwd</code> when you launched <code>node</code> from that folder.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>In the pretend terminal, make a folder named lab, step into it, and ask where you are.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>pwd</code><span>Ask for the address of the folder you are in. You type this in the terminal.</span></li>
+<li><code>ls</code><span>List the names in that folder.</span></li>
+<li><code>mkdir notes</code><span>Create a folder named notes inside the current folder.</span></li>
+<li><code>cd notes</code><span>Go into notes. The next command starts from there.</span></li>
+<li><code>console.log(process.cwd());</code><span>From inside the JavaScript file, ask for that same folder and show it.</span></li></ol>
+      <h2>Try it</h2>
+      <p>In the pretend terminal, type <code>mkdir lab</code>, then <code>cd lab</code>, then <code>pwd</code>. The last answer should end in lab.</p>
       <div class="demo" data-kind="stage" data-stage="terminal">
-      <p class="demo-lead"><strong>Demo.</strong> Type a command and press Enter. Useful commands: pwd, ls, mkdir lab, cd lab.</p>
+      <p class="demo-lead"><strong>Practice.</strong> One command, then Enter. Try mkdir lab, then cd lab, then pwd.</p>
       
       <pre class="term-screen"></pre>
       <label class="demo-field">Command<input class="term-input" type="text" autocomplete="off"></label>
       <div class="demo-actions"><button type="button" class="demo-run">Enter</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Typing a JavaScript line into the shell and a shell command into a <code>.js</code> file. They are different languages at the same counter.</li>
-<li>Assuming <code>cd</code> inside one terminal window changes any other window. Each window has its own current folder.</li>
-<li>Panicking at a long path. Read it from the right: the last piece is the folder you are in.</li></ul>
-      <h2>Recap</h2>
-      <p>The shell reads one command at a time. <code>pwd</code>, <code>ls</code>, <code>cd</code>, and <code>mkdir</code> move you around. <code>process.cwd()</code> is that same folder, seen from JavaScript.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li><code>pwd</code> belongs in the terminal. <code>console.log</code> belongs in a JavaScript file.</li><li>Going into a folder in one window leaves every other window where it was.</li><li>A long address is still just a folder. The last piece is the folder you are in.</li></ul>
+      <h2>Remember</h2>
+      <p>The terminal takes one command at a time. <code>pwd</code>, <code>ls</code>, <code>cd</code>, and <code>mkdir</code> move you around. <code>process.cwd()</code> is that same folder, asked from JavaScript.</p>
       <label class="done"><input type="checkbox" data-done="automation/01-the-terminal"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="../fundamentals/17-putting-it-together.html"><small>Previous</small>Putting everything together</a><a class="next" href="02-running-files.html"><small>Next</small>Running JavaScript files with Node.js</a></nav>
     </main>

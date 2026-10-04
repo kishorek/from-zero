@@ -42,16 +42,32 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 7 of 20</p>
       <h1>Browser, context, and page</h1>
-      <p class="one-idea"><strong>One idea.</strong> A context is a fresh profile. A page is one tab inside it.</p>
-      <h2>The idea</h2>
-      <p>Playwright splits the browser into three objects. The browser is the running application. A browser context is an isolated profile: its own cookies, its own storage, like a fresh guest window. A page is one tab inside a context.</p>
-<p>In the runner you usually receive <code>page</code> and never mention the other two. They are still there. The <code>page</code> fixture’s context is new for every test, which is why tests do not leak logins into each other. When you need a second tab, you ask the context for another page.</p>
-      <h2>Why it matters</h2>
-      <p>Two tests that secretly share cookies will pass alone and fail together, or the reverse. Isolation is the reason the context exists. Knowing the three nouns makes later lessons (popups, saved login) fit a picture you already have.</p>
-      <h2>A picture to hold</h2>
-      <p>A hotel. The browser is the building. A context is a guest room with its own key and an empty minibar. A page is a desk in that room. Guests do not share minibars unless you handed them the same key on purpose.</p>
-      
-      <h2>A small example</h2>
+      <p class="one-idea"><strong>One idea.</strong> The browser is the building. Each room has its own key. A page is one desk in that room.</p>
+      <h2>Start with a normal day</h2>
+      <p>A hotel has a building, rooms, and desks. Guests in room A leave a note in the minibar. Guests in room B open their own minibar and find it empty.</p>
+      <p>A cookie is that note. Each test gets a new room, so a login saved in one test stays in that test.</p>
+      <h2>New words</h2>
+      <dl class="words">
+        <div><dt>browser</dt><dd>The running browser program. <code>chromium.launch()</code> starts one. One program appears on the computer.</dd></div>
+        <div><dt>context</dt><dd>A private room inside that browser. Its own cookies, its own saved site data. <code>browser.newContext()</code> opens one. A fresh guest window is the same idea.</dd></div>
+        <div><dt>page</dt><dd>One tab, which is one desk in that room. <code>context.newPage()</code> opens it. <code>goto</code>, clicks, and reading the title happen on the page.</dd></div>
+        <div><dt>cookie</dt><dd>A small note a site stores in the room, such as “this person is signed in.” A different context does not see it.</dd></div>
+        <div><dt>await</dt><dd>Pause until that step finishes. The top of a library script may use it because the file is run as a module.</dd></div>
+        <div><dt>import</dt><dd>Load <code>chromium</code> from the <code>playwright</code> library. This file is a script, so you start and close the browser yourself.</dd></div>
+        <div><dt>title()</dt><dd>The document title, the words on the tab. For example.com that is <code>Example Domain</code>.</dd></div>
+        <div><dt>close()</dt><dd><code>context.close()</code> shuts the room and its tabs. <code>browser.close()</code> shuts the building.</dd></div>
+        <div><dt>fixture</dt><dd>A tool the test runner sets up for you. In a test you usually receive <code>page</code> and never write <code>launch</code>. That page already sits in a new context.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Start Chromium. That is the building.</li>
+        <li>Open a new context. That is an empty room.</li>
+        <li>Open a page in that room and go to <code>https://example.com</code>.</li>
+        <li>Print the title.</li>
+        <li>Close the room, then close the browser.</li>
+      </ol>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Five actions, in that order. In the test runner you only see the page. The room and the building are still there, opened for you.</p>
       
       <figure class="code">
     <figcaption>rooms.mjs · node rooms.mjs</figcaption>
@@ -67,25 +83,23 @@ await browser.close();</code></pre>
   </figure>
       <div class="output"><strong>What you should see</strong><pre>Example Domain</pre></div>
       
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const browser = await chromium.launch();</code><span>Start the building. One operating-system process appears.</span></li>
-<li><code>const context = await browser.newContext();</code><span>Open a guest room. Cookies set in this context stay in this context.</span></li>
-<li><code>const page = await context.newPage();</code><span>Open a tab in that room. Most actions (<code>goto</code>, <code>click</code>, locators) happen on the page.</span></li>
-<li><code>await context.close();</code><span>Close the room, which closes its tabs. Closing the browser next shuts the building.</span></li></ol>
-      <h2>Try it yourself</h2>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>const browser = await chromium.launch();</code><span>Start the building. One browser program appears.</span></li>
+<li><code>const context = await browser.newContext();</code><span>Open a guest room. A cookie saved here stays in this room.</span></li>
+<li><code>const page = await context.newPage();</code><span>Open a tab in that room. Going to an address, clicking, and reading the title happen on the page.</span></li>
+<li><code>await context.close();</code><span>Close the room, which closes its tabs. The next line closes the building.</span></li></ol>
+      <h2>Try it</h2>
       <p>Save a cookie in room A, then look in room B.</p>
       <div class="demo" data-kind="stage" data-stage="cookies">
-      <p class="demo-lead"><strong>Demo.</strong> Two rooms do not share a minibar.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Save a note in room A. Room B’s minibar stays empty.</p>
       
       <div class="demo-actions"><button type="button" class="save-a">Save a cookie in room A</button><button type="button" class="look-b quiet">Look in room B</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Storing cookies in one test and expecting the next test to see them. Each test has a new context.</li>
-<li>Calling <code>browser.newPage()</code> in old examples you find online. Current code creates a context, then a page, so the isolation is visible. The runner’s <code>page</code> fixture already follows that shape.</li>
-<li>Closing the browser and then using the page. The tab is gone. Close at the end.</li></ul>
-      <h2>Recap</h2>
-      <p>Browser, then context, then page. A context is a clean profile. Tests get a fresh context so they do not share cookies.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>A cookie saved in one test stays in that test. The next test gets a new room, so the note is not there.</li><li>Older examples call <code>browser.newPage()</code> directly. The shape here is browser, then context, then page, so the room is visible. The runner’s <code>page</code> already sits in a fresh room.</li><li>Close at the end. After <code>browser.close()</code>, the tab is gone.</li></ul>
+      <h2>Remember</h2>
+      <p>Browser, then context, then page. A context is a clean room with its own cookies. Each test gets a new room.</p>
       <label class="done"><input type="checkbox" data-done="playwright/07-browser-context-page"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="06-your-first-test.html"><small>Previous</small>Your first test</a><a class="next" href="08-navigating.html"><small>Next</small>Navigating</a></nav>
     </main>

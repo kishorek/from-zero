@@ -42,17 +42,35 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 4 of 20</p>
       <h1>Installing Playwright</h1>
-      <p class="one-idea"><strong>One idea.</strong> Install Node, the test runner, and the browsers. The library alone is not the browser.</p>
-      <h2>The idea</h2>
-      <p>You need Node.js 20 or newer. In an empty folder, the official starter is <code>npm init playwright@latest</code>. It asks four things. Choose JavaScript, not TypeScript. Put tests in <code>tests</code>. Skip the GitHub Actions workflow for this course. Say yes to installing browsers.</p>
-<p>That command writes <code>package.json</code>, a config file, an example test, and it downloads browser binaries. Those binaries are the actual browsers Playwright will launch. The npm package alone is not enough.</p>
-<p>If you prefer to see each step, the manual version is <code>npm init -y</code>, then <code>npm i -D @playwright/test</code>, then <code>npx playwright install</code>. <code>@playwright/test</code> is the test runner. It depends on the <code>playwright</code> library. <code>npx</code> runs a command from the packages you installed.</p>
-      <h2>Why it matters</h2>
-      <p>A missing browser binary looks like a broken test. It is an incomplete install. Separating “install the library” from “install the browsers” makes that message readable.</p>
-      <h2>A picture to hold</h2>
-      <p>Buying a driving textbook and also renting the cars. <code>npm i -D @playwright/test</code> is the textbook. <code>npx playwright install</code> collects the cars. You need both before the first lesson on the road.</p>
-      
-      <h2>A small example</h2>
+      <p class="one-idea"><strong>One idea.</strong> Install Node, the test runner, and the browsers. The package alone is not a browser.</p>
+      <h2>Start with a normal day</h2>
+      <p>A driving lesson needs two things: the textbook, and a car. Buying the textbook does not put a car in the driveway.</p>
+      <p>Node.js is the building you already have. The test runner is the textbook. The browsers are the cars. You collect all three before the first drive.</p>
+      <h2>New words</h2>
+      <dl class="words">
+        <div><dt>Node.js 20</dt><dd>The version this course needs. <code>node -v</code> prints it. A number starting at 20 or higher is enough.</dd></div>
+        <div><dt>npm init playwright@latest</dt><dd>The starter command. It asks four questions, then writes the project and downloads the browsers.</dd></div>
+        <div><dt>JavaScript</dt><dd>The spelling this course uses. The starter also offers TypeScript, a stricter spelling. Choose JavaScript.</dd></div>
+        <div><dt>tests</dt><dd>The folder where test files live. Tell the starter to use that name.</dd></div>
+        <div><dt>GitHub Actions</dt><dd>An automatic check that runs on GitHub. Skip it for this course.</dd></div>
+        <div><dt>package.json</dt><dd>The project’s list of tools. The starter writes it for you.</dd></div>
+        <div><dt>@playwright/test</dt><dd>The test runner. It starts the browser, runs each test, and reports pass or fail. It uses the <code>playwright</code> library.</dd></div>
+        <div><dt>npm i -D</dt><dd>Install a tool for building and testing. The manual steps are <code>npm init -y</code>, then <code>npm i -D @playwright/test</code>, then <code>npx playwright install</code>.</dd></div>
+        <div><dt>npx</dt><dd>Run a command from a package you just installed.</dd></div>
+        <div><dt>browser binary</dt><dd>The real browser program, saved on your disk. <code>npx playwright install</code> downloads it. The npm package alone does not include it.</dd></div>
+        <div><dt>import</dt><dd>Load a tool from a package. <code>chromium</code> is Playwright’s name for the Chromium family.</dd></div>
+        <div><dt>executablePath()</dt><dd>The folder path of the Chromium program Playwright will launch. A real path means the browsers were downloaded.</dd></div>
+        <div><dt>&quot;type&quot;: &quot;module&quot;</dt><dd>A line you can add to <code>package.json</code> so <code>import</code> works in an ordinary script.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Make a folder named <code>playwright-lab</code> and step into it.</li>
+        <li>Run <code>npm init playwright@latest</code>. Answer: JavaScript, a <code>tests</code> folder, no GitHub workflow, yes to browsers.</li>
+        <li>Run <code>node -v</code> and read a version of 20 or newer.</li>
+        <li>A small script loads Playwright and prints where Chromium was saved.</li>
+      </ol>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">The first block is the terminal. The second block is the check. If the import fails, you are outside the project folder, or the install did not finish.</p>
       
       <figure class="code">
     <figcaption>Terminal</figcaption>
@@ -69,26 +87,23 @@ console.log(&quot;Playwright loaded.&quot;);
 console.log(chromium.executablePath());</code></pre>
   </figure>
       
-      <p><code>executablePath()</code> prints where Chromium was downloaded. If this import fails, you are not in the project folder, or the install did not finish. Add <code>&quot;type&quot;: &quot;module&quot;</code> to <code>package.json</code> so this course’s <code>import</code> lines work in ordinary scripts.</p>
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>npm init playwright@latest</code><span>Run the starter. Answer JavaScript, <code>tests</code>, no workflow, yes to browsers.</span></li>
-<li><code>import { chromium } from &quot;playwright&quot;;</code><span>Load the browser type from the library. This file is a script, not a test. Tests import from <code>@playwright/test</code> instead.</span></li>
-<li><code>console.log(chromium.executablePath());</code><span>Ask which Chromium binary will launch. A real filesystem path means the browsers were installed.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Walk the four steps in order. This picture is the install. The real commands can wait until the picture is familiar.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>npm init playwright@latest</code><span>Run the starter. Answer JavaScript, tests, no GitHub workflow, yes to browsers.</span></li>
+<li><code>import { chromium } from &quot;playwright&quot;;</code><span>Load Chromium’s name from the library. This file is a script. A test file imports from <code>@playwright/test</code> instead.</span></li>
+<li><code>console.log(chromium.executablePath());</code><span>Print where the Chromium program was saved. A real folder path means the browsers arrived.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Press the button once per step. This picture is the install. The real commands are the four lines above.</p>
       <div class="demo" data-kind="stage" data-stage="install">
-      <p class="demo-lead"><strong>Demo.</strong> Press the button once per step.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Node, a folder, the runner, then the browsers.</p>
       
       <p>Steps done: <span class="step-count">0 of 4</span></p>
       <div class="demo-actions"><button type="button" class="demo-run">Do the next step</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Installing Node.js 18 or older. Current <code>@playwright/test</code> requires Node.js 20 or newer.</li>
-<li>Forgetting <code>npx playwright install</code> after a manual <code>npm i</code>. The library is present and the browsers are not.</li>
-<li>Choosing TypeScript in the starter and then pasting these JavaScript files unchanged. This course stays in JavaScript. Pick JavaScript.</li></ul>
-      <h2>Recap</h2>
-      <p>Install <code>@playwright/test</code>, then install the browsers. <code>npm init playwright@latest</code> does both and writes a project. Node.js 20 or newer is required.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>Node.js 18 is too old for the current runner. <code>node -v</code> needs to start at 20.</li><li>After a manual <code>npm i</code>, the runner is on the list and the browsers may still be missing. <code>npx playwright install</code> downloads them.</li><li>The starter’s TypeScript choice expects different files. This course is JavaScript, so choose JavaScript.</li></ul>
+      <h2>Remember</h2>
+      <p>Install the runner, then install the browsers. <code>npm init playwright@latest</code> does both. Node.js 20 or newer is the version this course uses.</p>
       <label class="done"><input type="checkbox" data-done="playwright/04-installing"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="03-where-javascript-runs.html"><small>Previous</small>Browser JavaScript, Node.js, and Playwright</a><a class="next" href="05-library-and-runner.html"><small>Next</small>The library and the test runner</a></nav>
     </main>

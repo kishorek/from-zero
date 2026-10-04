@@ -42,17 +42,30 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 13 of 20</p>
       <h1>Forms</h1>
-      <p class="one-idea"><strong>One idea.</strong> Find a field by its label, set it, then read the result.</p>
-      <h2>The idea</h2>
-      <p>A form control should have a label. <code>getByLabel(&quot;Your name&quot;)</code> finds the input connected to that label text. <code>getByRole(&quot;textbox&quot;, { name: &quot;Your name&quot; })</code> is the same idea, said through the role.</p>
-<p><code>fill</code> sets a text field. <code>check</code> ticks a checkbox. <code>selectOption</code> picks a value in a dropdown, by the value or by the visible label. Then assert the value that stuck, with <code>toHaveValue</code> or <code>toBeChecked</code>, and assert whatever the form did next.</p>
-      <h2>Why it matters</h2>
-      <p>Forms are where automation does real work: search boxes, settings, checkout on a site you own. Labels are also how a person finds the field. A test that uses the label documents the form.</p>
-      <h2>A picture to hold</h2>
-      <p>A paper form on a clipboard. You do not say “write in the third rectangle.” You say “write beside Your name.” <code>getByLabel</code> is that sentence. <code>fill</code> is writing the answer in one motion.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> Find a field by its label, set it, then read what the page shows.</p>
+      <h2>Start with a normal day</h2>
+      <p>Asha fills in a form on a website. She writes her name beside Your name, ticks Subscribe, and presses Save.</p>
+      <p>The page answers with the words Saved Asha.</p>
+      <h2>New words</h2>
+      <p><code>import</code>, <code>test</code>, <code>expect</code>, <code>await</code>, <code>page</code>, and <code>getByRole</code> mean the same as before.</p>
+      <dl class="words">
+        <div><dt>setContent</dt><dd>Replace the tab with a small form written inside the check. Backticks wrap that form because it covers several lines.</dd></div>
+        <div><dt>label</dt><dd>The words tied to a field, such as Your name or Subscribe. <code>getByLabel</code> finds that field.</dd></div>
+        <div><dt>fill</dt><dd>Replace the field’s text with a new value. Here the value is Asha.</dd></div>
+        <div><dt>check</dt><dd>Tick a box and leave it ticked.</dd></div>
+        <div><dt>click</dt><dd>Press the Save button. Inside the page, <code>addEventListener</code> runs the page’s own steps on that press and writes <code>Saved</code> plus the name.</dd></div>
+        <div><dt>toHaveValue</dt><dd>Keep checking until the field holds this text. <code>toBeChecked</code> waits until the box is ticked. <code>getByText</code> finds words a person can read, and <code>toBeVisible</code> waits until those words are on the screen.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Find the name field by the words Your name.</li>
+        <li>Write Asha, and tick Subscribe.</li>
+        <li>Press Save.</li>
+        <li>Read the name, the tick, and the words Saved Asha.</li>
+      </ol>
+      <p>The program only writes those steps down.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the steps once more. The box below is those same steps. The fields are found by the words a person can see.</p>
       <figure class="code">
     <figcaption>tests/form.spec.js · npx playwright test</figcaption>
     <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
@@ -78,28 +91,32 @@ test(&quot;saving a name&quot;, async ({ page }) =&gt; {
   await expect(page.getByText(&quot;Saved Asha&quot;)).toBeVisible();
 });</code></pre>
   </figure>
-      
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>&lt;label&gt;Your name &lt;input name=&quot;name&quot; /&gt;&lt;/label&gt;</code><span>Wrapping the input in a label connects them. <code>getByLabel(&quot;Your name&quot;)</code> depends on that connection, which is also what makes the form usable.</span></li>
-<li><code>await page.getByLabel(&quot;Your name&quot;).fill(&quot;Asha&quot;);</code><span>Replace the field’s value with <code>Asha</code>.</span></li>
-<li><code>await page.getByLabel(&quot;Subscribe&quot;).check();</code><span>Tick the checkbox. <code>check</code> leaves it checked even if it was already checked. <code>click</code> would toggle, which is a different intention.</span></li>
-<li><code>await page.getByRole(&quot;button&quot;, { name: &quot;Save&quot; }).click();</code><span>Press the button that submits, here by running the page’s own listener.</span></li>
-<li><code>await expect(page.getByText(&quot;Saved Asha&quot;)).toBeVisible();</code><span>Confirm the outcome a person would read, not only the click.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Type a name, choose Milk, and press Save.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk">
+        <li><code>&lt;label&gt;Your name &lt;input name=&quot;name&quot; /&gt;&lt;/label&gt;</code><span>The words Your name wrap the box. That wrap ties the label to the field.</span></li>
+        <li><code>await page.getByLabel(&quot;Your name&quot;).fill(&quot;Asha&quot;);</code><span>Find the field by its label and write Asha. fill replaces the text that was in the box.</span></li>
+        <li><code>await page.getByLabel(&quot;Subscribe&quot;).check();</code><span>Tick the Subscribe box and leave it ticked. The label is how the line finds it.</span></li>
+        <li><code>await page.getByRole(&quot;button&quot;, { name: &quot;Save&quot; }).click();</code><span>Press the Save button. The page’s own script then writes a result line.</span></li>
+        <li><code>await expect(page.getByLabel(&quot;Your name&quot;)).toHaveValue(&quot;Asha&quot;);</code><span>Read the field back. It should hold Asha.</span></li>
+        <li><code>await expect(page.getByLabel(&quot;Subscribe&quot;)).toBeChecked();</code><span>Check that Subscribe is ticked.</span></li>
+        <li><code>await expect(page.getByText(&quot;Saved Asha&quot;)).toBeVisible();</code><span>Check that a person can see the words Saved Asha. The check keeps looking until those words show.</span></li>
+      </ol>
+      <h2>Try it</h2>
+      <p>Type a name, choose Milk, and press Save. The line under the button shows what you entered.</p>
       <div class="demo" data-kind="stage" data-stage="form">
-      <p class="demo-lead"><strong>Demo.</strong> The label is how a person finds the field.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Use the labels. Type a name, choose a drink, and press Save.</p>
       
       <div class="mini-page"><label>Your name <input class="person" type="text" value=""></label><label> Drink <select class="drink"><option>Tea</option><option>Milk</option></select></label><p><button type="button" class="save">Save</button></p><p class="saved"></p></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Locating inputs by a CSS name that the designer will rename, when a visible label already exists.</li>
-<li>Using <code>click</code> on a checkbox when you mean “make it checked.” <code>check</code> states the goal.</li>
-<li>Filling a field and never asserting the value. A silent no-op looks like success.</li></ul>
-      <h2>Recap</h2>
-      <p>Find fields with <code>getByLabel</code> or a named textbox role. <code>fill</code>, <code>check</code>, and <code>selectOption</code> set them. Assert the value and the visible result.</p>
+      <h2>Easy to mix up</h2>
+      <ul>
+        <li>The label is the way a person finds the field. The check uses that same label.</li>
+        <li>check leaves the box ticked. A click on the box switches it, so a second click would clear it.</li>
+        <li>After you fill a field, read the value back. The last lines of the test do that.</li>
+      </ul>
+      <h2>Remember</h2>
+      <p>Find fields by their labels. fill and check set them, and the last lines read the value, the tick, and the words on the page.</p>
       <label class="done"><input type="checkbox" data-done="playwright/13-forms"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="12-assertions.html"><small>Previous</small>Assertions</a><a class="next" href="14-screenshots-and-traces.html"><small>Next</small>Screenshots, video, and traces</a></nav>
     </main>

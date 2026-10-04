@@ -39,43 +39,50 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 4 of 17</p>
       <h1>What is a programming language?</h1>
-      <p class="one-idea"><strong>One idea.</strong> A programming language is a set of spelling rules for instructions.</p>
-      <h2>The idea</h2>
-      <p>A programming language is a set of rules for writing instructions so a translator can accept them. JavaScript is one language. Python is another. The processor does not prefer either. The tools you install do.</p>
-<p>Languages differ in vocabulary and punctuation. They can still express the same job: remember a name, repeat a step, stop when a condition is met. You are learning JavaScript because the tools in this course speak it.</p>
-      <h2>Why it matters</h2>
-      <p>When a later lesson says “this is JavaScript, and it runs in Node,” you will know that the language and the tool are two things. The language is the rules. Node.js is a program that carries out JavaScript on your computer.</p>
-      <h2>A picture to hold</h2>
-      <p>French and Japanese can both tell a cook to simmer a soup. The cook needs someone who knows the language you chose. JavaScript and Python can both describe the same task. Node.js is a listener for JavaScript.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> A programming language is a shared set of spelling rules.</p>
+      <h2>Start with a normal day</h2>
+      <p>French and Japanese can both ask a cook to simmer a soup. The cook needs someone who knows the language you chose.</p>
+      <p>JavaScript and Python can both describe the same job. The spelling changes. The job can stay the same.</p>
+      <p>This course uses JavaScript. The helper that runs these pages knows that spelling.</p>
+      <h2>New words</h2>
+      <p>Two names, and the marks in the one-line program.</p>
+      <dl class="words">
+        <div><dt>programming language</dt><dd>An agreed set of rules for writing steps so a helper can follow them.</dd></div>
+        <div><dt>JavaScript</dt><dd>The language used in this course.</dd></div>
+        <div><dt>Python</dt><dd>A different language, with different spelling, that can describe many of the same jobs.</dd></div>
+        <div><dt>console.log</dt><dd>JavaScript spelling for “show this on the screen.”</dd></div>
+        <div><dt>quotes</dt><dd>The marks <code>"</code> around text.</dd></div>
+        <div><dt>semicolon</dt><dd>The mark <code>;</code> that ends a step.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Decide to show one sentence.</li>
+        <li>Write that sentence with JavaScript’s spelling rules.</li>
+      </ol>
+      <p>The sentence mentions another language. The file itself still follows JavaScript’s rules.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">There is one step: show a sentence. The words inside the quotes are the sentence. The words outside the quotes are JavaScript’s spelling.</p>
       <figure class="code">
-    <figcaption>language.js · node language.js</figcaption>
-    <pre><code class="language-js">const language = &quot;JavaScript&quot;;
-console.log(&quot;This file is written in &quot; + language + &quot;.&quot;);</code></pre>
+    <figcaption>language.js</figcaption>
+    <pre><code class="language-js">console.log(&quot;This file follows JavaScript rules.&quot;);</code></pre>
   </figure>
-      <div class="output"><strong>What you should see</strong><pre>This file is written in JavaScript.</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const language = &quot;JavaScript&quot;;</code><span><code>const</code> creates a name, <code>language</code>, and stores the text <code>JavaScript</code> under that name. Lesson 7 spends a whole page on this.</span></li>
-<li><code>console.log(&quot;This file is written in &quot; + language + &quot;.&quot;);</code><span>Plus joins three pieces: text, the stored name, and a period. The engine looks up <code>language</code> and uses the text stored there.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Change the word inside the quotes to Python and run. The sentence changes. The file is still JavaScript.</p>
-      <div class="demo" data-kind="js" data-match="includes" data-hint="Store Python in the language name.">
-      <p class="demo-lead"><strong>Practice.</strong> The word in quotes is data. The rules around it are the language.</p>
-      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const language = "Python";
-console.log("This file is written in " + language + ".");</textarea></label>
+      <div class="output"><strong>What you should see</strong><pre>This file follows JavaScript rules.</pre></div>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>console.log(&quot;This file follows JavaScript rules.&quot;);</code><span>Show the sentence between the quotes. <code>console.log</code> is JavaScript’s way to ask for that. A different language would use a different word for the same job.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Press Run. The second line mentions Python. The spelling around it is still JavaScript, so the box can run it. You should see both lines.</p>
+      <div class="demo" data-kind="js" data-match="includes" data-hint="The second line should mention Python.">
+      <p class="demo-lead"><strong>Practice.</strong> The words in quotes are the sentence. The spelling around them is JavaScript.</p>
+      <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">console.log("This file follows JavaScript rules.");
+console.log("People also use Python for this job.");</textarea></label>
       <div class="demo-actions"><button type="button" class="demo-run">Run</button><button type="button" class="demo-reset quiet">Reset</button></div>
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">Python</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Treating the programming language and the application as the same thing. JavaScript is the language. Node.js, Chrome, and Playwright are programs that use it.</li>
-<li>Expecting Python spelling to work in a JavaScript file. Each language has its own rules.</li>
-<li>Thinking a language is only for websites, or only for math. A language can describe many jobs. The tools decide which jobs are easy.</li></ul>
-      <h2>Recap</h2>
-      <p>A programming language is a shared rulebook for instructions. JavaScript is the rulebook in this course. Node.js is one program that follows that rulebook.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>JavaScript is the set of spelling rules. A browser, and the tool that runs a file, are programs that follow those rules.</li><li>Python spelling stays in a Python file. This course’s files follow JavaScript spelling.</li><li>A language can describe many jobs. The tools you install decide which jobs are easy.</li></ul>
+      <h2>Remember</h2>
+      <p>A programming language is a shared rulebook. JavaScript is the rulebook in this course. The same job can be written in another rulebook, with different spelling.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/04-what-is-a-language"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="03-how-a-computer-understands.html"><small>Previous</small>How does a computer understand instructions?</a><a class="next" href="05-javascript-and-node.html"><small>Next</small>What are JavaScript and Node.js?</a></nav>
     </main>

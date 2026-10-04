@@ -39,18 +39,31 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 15 of 17</p>
       <h1>HTTP requests with fetch</h1>
-      <p class="one-idea"><strong>One idea.</strong> fetch gets a response. A 404 is still a response. Check response.ok.</p>
-      <h2>The idea</h2>
-      <p>HTTP is the language browsers and servers use to request a document. <code>fetch(url)</code> returns a promise of a response. The response has a status number. <code>200</code> means okay. <code>404</code> means the server has no such page.</p>
-<p><code>fetch</code> rejects when the network fails: no connection, no DNS, the request never completed. It does not reject for a <code>404</code>. The server did answer. Check <code>response.ok</code>, which is true for statuses 200 through 299, and throw your own error when it is false.</p>
-<p><code>response.text()</code> reads the body as text. <code>response.json()</code> reads it as JSON. Each of those returns a promise, so you <code>await</code> them too. Node.js 20 includes <code>fetch</code>. You do not install a package for it.</p>
-      <h2>Why it matters</h2>
-      <p>A lot of automation never opens a browser. It asks an API for JSON. Playwright can do that too, and it can also watch the page’s own requests. Both start from this picture: request, status, body.</p>
-      <h2>A picture to hold</h2>
-      <p>Sending a letter and getting a numbered reply. The post office losing the letter is a rejection. A reply that says “no such person” is still a reply. You have to read the number. <code>response.ok</code> is you checking that the number means “here is what you asked for.”</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> fetch gets an answer. A missing page is still an answer. Check response.ok.</p>
+      <h2>Start with a normal day</h2>
+      <p>You phone a shop and ask for a book. A person answers. They may have it. They may not. Both times, someone answered.</p>
+      <p>If the call never connects, nobody answered. A script has the same split. “Not found” is an answer. Silence is not.</p>
+      <h2>New words</h2>
+      <p><code>if</code>, <code>!</code>, <code>async</code>, <code>await</code>, <code>.catch</code>, and <code>process.exitCode</code> mean the same as before.</p>
+      <dl class="words">
+        <div><dt>HTTP</dt><dd>The rules one computer uses to ask another for a page.</dd></div>
+        <div><dt>fetch</dt><dd>Ask for an address. The answer is a response.</dd></div>
+        <div><dt>status</dt><dd>The number on that answer. <code>200</code> means the page was found. <code>404</code> means there is no such page.</dd></div>
+        <div><dt>ok</dt><dd><code>response.ok</code> is true when the status is 200 through 299. <code>!response.ok</code> is true for a 404.</dd></div>
+        <div><dt>body</dt><dd>The page that came with the answer. <code>response.text()</code> reads it. <code>slice(0, 80)</code> keeps the first 80 characters.</dd></div>
+        <div><dt>throw</dt><dd>Stop because of a problem. <code>catch</code> receives it. <code>error.message</code> is the short sentence. <code>console.error</code> prints that sentence apart from ordinary notes.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Ask example.com for its page.</li>
+        <li>Read the status number.</li>
+        <li>If the status is not ok, stop and report that number.</li>
+        <li>Read the page as text.</li>
+        <li>Print only the first 80 characters.</li>
+        <li>If a problem was thrown, print the sentence and set the exit code to 1.</li>
+      </ol>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the six steps again. This file waits for the answer, checks the number, then prints a short piece of the page. The last lines catch a problem and set the exit code.</p>
       <figure class="code">
     <figcaption>fetch-example.mjs · node fetch-example.mjs</figcaption>
     <pre><code class="language-js">async function main() {
@@ -70,16 +83,19 @@ main().catch((error) =&gt; {
   </figure>
       <div class="output"><strong>What you should see</strong><pre>200
 &lt;!doctype html&gt;\n&lt;html&gt;\n&lt;head&gt;\n    &lt;title&gt;Example Domain&lt;/title&gt;...</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const response = await fetch(&quot;https://example.com&quot;);</code><span>Send a GET request, the default, and wait for the headers to come back.</span></li>
-<li><code>console.log(response.status);</code><span>Print the status number. For this URL it is <code>200</code>.</span></li>
-<li><code>if (!response.ok) {</code><span>Statuses outside 200–299 land here. This is how a 404 becomes your error instead of a quiet success.</span></li>
-<li><code>const text = await response.text();</code><span>Read the body. This second wait is required. The headers arrived first. The body is a separate read.</span></li>
-<li><code>console.log(text.slice(0, 80));</code><span><code>slice</code> takes the first 80 characters so the terminal stays readable.</span></li>
-<li><code>main().catch((error) =&gt; {</code><span>The promise returned by <code>main</code> rejects if you throw. This catch prints the message and sets a failing exit code.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Run the starter against example.com. Then change the address to https://example.com/missing and run again. You should see 404 and the error line.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>async function main() {</code><span>Start a function that is allowed to wait. main is only its name.</span></li>
+<li><code>const response = await fetch(&quot;https://example.com&quot;);</code><span>Ask that computer for information. Wait until the response arrives.</span></li>
+<li><code>console.log(response.status);</code><span>Print the status number. For this address it is 200.</span></li>
+<li><code>if (!response.ok) {</code><span>The <code>!</code> means not. This path runs when ok is false. A 404 lands here.</span></li>
+<li><code>throw new Error(&quot;Request failed with status &quot; + response.status);</code><span>Stop, and send a sentence joined to the status number.</span></li>
+<li><code>const text = await response.text();</code><span>Wait again. Read the body as text.</span></li>
+<li><code>console.log(text.slice(0, 80));</code><span>Print the first 80 characters. The note stays short.</span></li>
+<li><code>main().catch((error) =&gt; {</code><span>Run main. If it throws, catch receives the Error.</span></li>
+<li><code>console.error(error.message);</code><span>Print the problem sentence.</span></li>
+<li><code>process.exitCode = 1;</code><span>Set the exit code to 1. The program that started you can see that this did not finish as planned.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Run the box as it is. You should see 200. Change the address to https://example.com/missing and run again. You should see 404.</p>
       <div class="demo" data-kind="js" data-match="one-of" data-hint="example.com prints 200. The missing page prints 404.">
       <p class="demo-lead"><strong>Practice.</strong> This demo knows example.com and example.com/missing only.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">async function main() {
@@ -97,12 +113,10 @@ main();</textarea></label>
       <template class="demo-expect">200
 404</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Treating every rejection as a 404, or treating every 404 as a rejection. They are different events.</li>
-<li>Calling <code>response.json()</code> on a body that is HTML. Parsing throws a syntax error. Read text unless you know the body is JSON.</li>
-<li>Forgetting the second <code>await</code> and printing a promise instead of the body.</li></ul>
-      <h2>Recap</h2>
-      <p><code>fetch</code> returns a response. Check <code>response.ok</code> and the status. <code>await response.text()</code> or <code>await response.json()</code> reads the body. Network failure rejects. A 404 does not.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>A lost connection throws. A 404 does not. The other computer did answer. You still check <code>response.ok</code>.</li><li><code>response.json()</code> reads a body made of named values. This page is ordinary text. Use <code>response.text()</code>. The other read fails.</li><li>You wait once for the response and once for the body. Skip the second <code>await</code> and you do not have the text yet.</li></ul>
+      <h2>Remember</h2>
+      <p>fetch means “ask another computer for information.” The response has a status. response.ok is true only for 200 through 299. Read the body with await response.text(). A 404 is still a response. Set the exit code when you throw.</p>
       <label class="done"><input type="checkbox" data-done="automation/15-http"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="14-async-await.html"><small>Previous</small>async and await</a><a class="next" href="16-logs-and-exit-codes.html"><small>Next</small>Logs and exit codes</a></nav>
     </main>

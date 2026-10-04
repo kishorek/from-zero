@@ -39,19 +39,33 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 01 · Lesson 10 of 17</p>
       <h1>Arrays</h1>
-      <p class="one-idea"><strong>One idea.</strong> An array is an ordered list. The first item is index 0.</p>
-      <h2>The idea</h2>
-      <p>An array holds values in order. You write it with square brackets: <code>[&quot;boil&quot;, &quot;steep&quot;, &quot;pour&quot;]</code>. Each item has an index, a number address. The first index is <code>0</code>, not <code>1</code>. The second is <code>1</code>.</p>
-<p><code>length</code> tells you how many items are in the array. <code>push</code> adds an item at the end.</p>
-      <h2>Why it matters</h2>
-      <p>Real jobs come in lists: files in a folder, rows in a report, links on a page. An array is how JavaScript holds a list so you can walk it later with a loop.</p>
-      <h2>A picture to hold</h2>
-      <p>A row of mailboxes numbered from 0. Mailbox 0 is the first box, the one closest to the door. Asking for mailbox 3 in a row of three boxes (0, 1, and 2) does not find a fourth box. It finds nothing.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> An array is a list in order. The first item is number 0.</p>
+      <h2>Start with a normal day</h2>
+      <p>Picture a row of mailboxes. The first box, the one by the door, is numbered 0. The next is 1. The one after that is 2.</p>
+      <p>Three boxes are numbered 0, 1, and 2. Asking for box 3 finds an empty slot. There is no fourth box yet.</p>
+      <p>You can add a box at the end of the row. The count of boxes goes up by one.</p>
+      <h2>New words</h2>
+      <p>The list in this lesson is three tea steps.</p>
+      <dl class="words">
+        <div><dt>array</dt><dd>A list of values kept in order.</dd></div>
+        <div><dt>[ ]</dt><dd>Square brackets. They wrap the list. Commas separate the items.</dd></div>
+        <div><dt>index</dt><dd>The number address of one item. The first index is 0. The second is 1.</dd></div>
+        <div><dt>length</dt><dd>How many items are in the list. Three items means length is 3. The last index is then 2.</dd></div>
+        <div><dt>push</dt><dd>Add one item at the end of the list.</dd></div>
+        <div><dt>const</dt><dd>The name <code>steps</code> stays on this same list. You may still change what is inside the list.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Write a list of three words: boil, steep, pour.</li>
+        <li>Show the first word. Its address is 0.</li>
+        <li>Show how many words are in the list.</li>
+        <li>Add the word sip at the end, and show the whole list.</li>
+      </ol>
+      <p>The program writes that list with square brackets.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the four steps again. <code>steps[0]</code> means “the item at address 0.” The first item is boil.</p>
       <figure class="code">
-    <figcaption>steps.js · node steps.js</figcaption>
+    <figcaption>steps.js</figcaption>
     <pre><code class="language-js">const steps = [&quot;boil&quot;, &quot;steep&quot;, &quot;pour&quot;];
 console.log(steps[0]);
 console.log(steps.length);
@@ -61,17 +75,16 @@ console.log(steps);</code></pre>
       <div class="output"><strong>What you should see</strong><pre>boil
 3
 [ 'boil', 'steep', 'pour', 'sip' ]</pre></div>
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const steps = [&quot;boil&quot;, &quot;steep&quot;, &quot;pour&quot;];</code><span>Create an array of three strings. Commas separate items.</span></li>
-<li><code>console.log(steps[0]);</code><span>Square brackets after the name read one item. Index <code>0</code> is the first item, <code>boil</code>.</span></li>
-<li><code>console.log(steps.length);</code><span><code>length</code> is 3. There are three items, even though the last index is 2.</span></li>
-<li><code>steps.push(&quot;sip&quot;);</code><span><code>push</code> adds <code>sip</code> at the end. <code>const</code> blocks replacing <code>steps</code> itself. It does not block changing the contents of the array.</span></li>
-<li><code>console.log(steps);</code><span>Print the whole array. Node.js shows it in brackets.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Print the first breakfast, the last one, and the length. Then push one more item and print the length again. The last number should be 4.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>const steps = [&quot;boil&quot;, &quot;steep&quot;, &quot;pour&quot;];</code><span>Store a list of three pieces of text. Commas separate them. The name steps stays on this list.</span></li>
+<li><code>console.log(steps[0]);</code><span>Show the item at address 0. That is the first item, boil.</span></li>
+<li><code>console.log(steps.length);</code><span>Show how many items there are. There are 3, even though the last address is 2.</span></li>
+<li><code>steps.push(&quot;sip&quot;);</code><span>Add sip at the end. The name steps still points at the same list. The inside of the list changed.</span></li>
+<li><code>console.log(steps);</code><span>Show the whole list. It now has four words.</span></li></ol>
+      <h2>Try it</h2>
+      <p>The box shows the first breakfast, the last one, and the count. Then it adds fruit. The last number should be 4. The last item’s address is length minus 1.</p>
       <div class="demo" data-kind="js" data-match="includes" data-hint="After push, the length is 4.">
-      <p class="demo-lead"><strong>Practice.</strong> The last index is length - 1.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Address 0 is the first item. The last address is length minus 1.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const breakfast = ["eggs", "toast", "tea"];
 console.log(breakfast[0]);
 console.log(breakfast[breakfast.length - 1]);
@@ -82,12 +95,10 @@ console.log(breakfast.length);</textarea></label>
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">4</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Starting at index 1 and skipping the first item.</li>
-<li>Using <code>length</code> as if it were the last index. The last index is <code>length - 1</code>.</li>
-<li>Writing a list without commas between the items. The engine will stop at the syntax error.</li></ul>
-      <h2>Recap</h2>
-      <p>An array is an ordered list in square brackets. Indexes begin at 0. <code>length</code> counts items. <code>push</code> adds to the end.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>Address 0 is the first item. Starting at 1 skips it.</li><li><code>length</code> counts items. The last address is <code>length - 1</code>.</li><li>Items in a list need commas between them. A missing comma stops the program, and the message points at that line.</li></ul>
+      <h2>Remember</h2>
+      <p>An array is an ordered list in square brackets. Indexes begin at 0. <code>length</code> counts the items. <code>push</code> adds one at the end.</p>
       <label class="done"><input type="checkbox" data-done="fundamentals/10-arrays"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="09-operators.html"><small>Previous</small>Operators</a><a class="next" href="11-objects.html"><small>Next</small>Objects</a></nav>
     </main>

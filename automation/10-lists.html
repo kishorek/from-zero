@@ -39,16 +39,44 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 02 · Lesson 10 of 17</p>
       <h1>Transforming lists</h1>
-      <p class="one-idea"><strong>One idea.</strong> map makes a new list. filter keeps some items. The old list stays.</p>
-      <h2>The idea</h2>
-      <p><code>map</code> builds a new array by turning each item into something else. <code>filter</code> builds a new array of the items that pass a test. <code>reduce</code> folds the whole array into one value, such as a total.</p>
-<p>Each of these accepts a function. That function is a callback: a function you hand over, which the array method calls for you. Arrow functions are the usual spelling here. The original array stays as it was.</p>
-      <h2>Why it matters</h2>
-      <p>Automation is “do this to every row that matches.” <code>for...of</code> can do it. <code>map</code> and <code>filter</code> name the intention, and they pair well with the lists you will pull from files and from web pages.</p>
-      <h2>A picture to hold</h2>
-      <p>A kitchen pass. <code>map</code> plates every dish according to one rule. <code>filter</code> sends back only the plates a diner asked for. <code>reduce</code> is the bill: one number folded from every plate. The order ticket (<code>prices</code>) is still on the counter.</p>
-      
-      <h2>A small example</h2>
+      <p class="one-idea"><strong>One idea.</strong> map builds a new list by changing each item. filter keeps some items. reduce combines the list into one value.</p>
+      <h2>Start with a normal day</h2>
+      <p>Three prices sit on a scrap of paper: 4, 2.5, and 9. You do not scribble on the scrap.</p>
+      <p>You write a new list with a little tax on each price. You write another list that keeps only the prices that are 4 or more. Then you add the prices into one total. The scrap is still the scrap.</p>
+      <h2>New words</h2>
+      <p>The small program uses a list of prices. The practice box cleans a list of words. Read these before the program.</p>
+      <dl class="words">
+        <div><dt>const</dt><dd>A name stuck to a value. The name prices stays on the original list.</dd></div>
+        <div><dt>[ ]</dt><dd>Square brackets hold a list. Commas separate the items. <code>[4, 2.5, 9]</code> is three prices.</dd></div>
+        <div><dt>trim</dt><dd>Cut spaces off both ends of a piece of text. Spaces in the middle stay. The practice box uses this.</dd></div>
+        <div><dt>toLowerCase</dt><dd>Make new text with capital letters turned into small letters. Tea becomes tea.</dd></div>
+        <div><dt>map</dt><dd>Build a new list by changing each item. Three prices go in, and three new prices come out. The old list stays.</dd></div>
+        <div><dt>filter</dt><dd>Keep some items. The new list holds only the items that pass a test. The old list stays.</dd></div>
+        <div><dt>reduce</dt><dd>Combine the list into one value. The total starts at 0. Each price is added in.</dd></div>
+        <div><dt>=&gt;</dt><dd>An arrow. It writes a short function. The name in parentheses is the current item. The value after the arrow is what you hand back.</dd></div>
+        <div><dt>*</dt><dd>Multiply two numbers. <code>price * 1.1</code> makes each price a bit larger.</dd></div>
+        <div><dt>&gt;=</dt><dd>Ask whether the first number is at least as big as the second. The answer is true or false.</dd></div>
+        <div><dt>+</dt><dd>Add two numbers.</dd></div>
+        <div><dt>console.log</dt><dd>Show a value on the screen.</dd></div>
+        <div><dt>function</dt><dd>A recipe written with the word function. The practice box uses this spelling. map and filter call it once per item.</dd></div>
+        <div><dt>return</dt><dd>Hand a value back from the function, and stop there. With no return, nothing useful comes back.</dd></div>
+        <div><dt>length</dt><dd>How many characters are in a piece of text. Blank text has length 0.</dd></div>
+        <div><dt>&gt;</dt><dd>Ask whether the first number is bigger than the second. <code>length &gt; 0</code> asks whether the text is not blank.</dd></div>
+        <div><dt>true and false</dt><dd>The only two answers a yes-or-no question can give.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Store the prices 4, 2.5, and 9.</li>
+        <li>Build a new list by changing each item. Multiply each price by 1.1.</li>
+        <li>Keep some items. Keep a price only when it is at least 4.</li>
+        <li>Combine the list into one value. Start at 0, and add each original price.</li>
+        <li>Show the taxed list.</li>
+        <li>Show the prices that were kept.</li>
+        <li>Show the total.</li>
+      </ol>
+      <p>The original list is never rewritten. Each step stores a new result.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the steps again. map builds the taxed list. filter keeps the big prices. reduce combines the prices into one total. The last three lines show those results.</p>
       
       <figure class="code">
     <figcaption>prices.mjs · node prices.mjs</figcaption>
@@ -64,15 +92,18 @@ console.log(total);</code></pre>
 [ 4, 9 ]
 15.5</pre></div>
       
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>const prices = [4, 2.5, 9];</code><span>The source list. It is not modified by the three lines below.</span></li>
-<li><code>const withTax = prices.map((price) =&gt; price * 1.1);</code><span><code>map</code> calls the arrow once per price. The arrow’s return value becomes the new item. Three prices in, three taxed prices out.</span></li>
-<li><code>const expensive = prices.filter((price) =&gt; price &gt;= 4);</code><span><code>filter</code> keeps items whose arrow returns true. <code>2.5</code> fails the test and is left out.</span></li>
-<li><code>const total = prices.reduce((sum, price) =&gt; sum + price, 0);</code><span><code>reduce</code> starts <code>sum</code> at <code>0</code>. Each price is added to <code>sum</code>. The final <code>sum</code> is the total.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Trim each item, drop the blanks, and lowercase the rest. The result is tea, then milk. The original list is unchanged.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk"><li><code>const prices = [4, 2.5, 9];</code><span>Store the original list of three prices. The later lines do not change this list.</span></li>
+<li><code>const withTax = prices.map((price) =&gt; price * 1.1);</code><span>Build a new list by changing each item. Each price is multiplied by 1.1. The list named prices stays as it was.</span></li>
+<li><code>const expensive = prices.filter((price) =&gt; price &gt;= 4);</code><span>Keep some items. A price stays only when it is at least 4. 2.5 is left out.</span></li>
+<li><code>const total = prices.reduce((sum, price) =&gt; sum + price, 0);</code><span>Combine the list into one value. The total starts at 0. Each price is added to it. The last total is 15.5.</span></li>
+<li><code>console.log(withTax);</code><span>Show the new taxed list.</span></li>
+<li><code>console.log(expensive);</code><span>Show the prices that were kept.</span></li>
+<li><code>console.log(total);</code><span>Show the one combined total.</span></li></ol>
+      <h2>Try it</h2>
+      <p>Press Run. Each piece of text is trimmed and put in small letters. Blank text is dropped. You should see tea, then milk. The second list is the original, spaces and all.</p>
       <div class="demo" data-kind="js" data-match="includes" data-hint="Print the cleaned list. It should contain tea and milk, not a blank.">
-      <p class="demo-lead"><strong>Practice.</strong> Chain map, then filter.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Change each item, then keep the ones that are not blank.</p>
       <label class="demo-field">Code<textarea class="demo-code" spellcheck="false">const raw = ["  Tea ", "milk", "  "];
 const cleaned = raw.map(function (item) {
   return item.trim().toLowerCase();
@@ -85,12 +116,10 @@ console.log(raw);</textarea></label>
       <div class="demo-out" role="status"></div>
       <template class="demo-expect">tea</template>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Forgetting that the arrow in <code>map</code> must return the new item. An arrow with braces and no <code>return</code> fills the new array with <code>undefined</code>.</li>
-<li>Using <code>map</code> when you only want to keep some items. That is <code>filter</code>. Using <code>filter</code> when you want to change the items. That is <code>map</code>.</li>
-<li>Skipping the starting value in <code>reduce</code> on an empty array. <code>prices.reduce(...)</code> with no <code>0</code> throws if <code>prices</code> is empty. Pass the starting value.</li></ul>
-      <h2>Recap</h2>
-      <p><code>map</code> transforms every item. <code>filter</code> keeps some. <code>reduce</code> folds them into one value. All three return something new and take a callback.</p>
+      <h2>Easy to mix up</h2>
+      <ul><li>map builds a new list by changing each item. filter keeps some items. They do different jobs.</li><li>The arrow here has no braces. The value after the arrow comes back. Add braces and forget return, and each new item has no value.</li><li>reduce combines the list into one value. The 0 is the start of that value. On an empty list, leaving out the start stops the program with an error.</li></ul>
+      <h2>Remember</h2>
+      <p>map builds a new list by changing each item. filter keeps some items. reduce combines the list into one value. The original list stays.</p>
       <label class="done"><input type="checkbox" data-done="automation/10-lists"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="09-text.html"><small>Previous</small>Cleaning up text</a><a class="next" href="11-dates.html"><small>Next</small>Dates and times</a></nav>
     </main>

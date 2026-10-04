@@ -43,16 +43,28 @@
       <p class="kicker">Layer 03 · Lesson 15 of 20</p>
       <h1>Pages and popups</h1>
       <p class="one-idea"><strong>One idea.</strong> Start listening for the new tab before the click that opens it.</p>
-      <h2>The idea</h2>
-      <p>A link with <code>target=&quot;_blank&quot;</code>, or a script that calls <code>window.open</code>, creates another page. In Playwright that other page arrives as a <code>popup</code> event on the current page. You must start waiting before the click. If you click first, the popup can happen before you began listening, and the wait misses it.</p>
-<p>The pattern is: create the promise with <code>page.waitForEvent(&quot;popup&quot;)</code>, then click, then <code>await</code> the promise. The result is a <code>Page</code>. You assert on that page the same way you assert on any page.</p>
-      <h2>Why it matters</h2>
-      <p>Help windows, OAuth windows, and “open in a new tab” links all use this shape. The ordering bug is so regular that it deserves its own lesson.</p>
-      <h2>A picture to hold</h2>
-      <p>Holding your hands out before someone tosses you a key. If you put your hands out after the toss, the key is already on the floor and your wait is for a second toss that will not come.</p>
-      
-      <h2>A small example</h2>
-      
+      <h2>Start with a normal day</h2>
+      <p>Jon uses a help link on a website. He gets ready to catch a new tab.</p>
+      <p>Then he clicks the link. The new tab arrives, and he can read it.</p>
+      <h2>New words</h2>
+      <p><code>import</code>, <code>test</code>, <code>expect</code>, <code>await</code>, <code>page</code>, and <code>getByRole</code> mean the same as before.</p>
+      <dl class="words">
+        <div><dt>setContent</dt><dd>Replace the tab with a small page written inside the check. <code>href</code> is the address a link points to. <code>target=&quot;_blank&quot;</code> asks the browser to open that link in a new tab.</dd></div>
+        <div><dt>popup</dt><dd>That new tab. Playwright hands it to you as another page.</dd></div>
+        <div><dt>waitForEvent</dt><dd>Start listening for <code>&quot;popup&quot;</code>. The result is a promise, work that finishes later. You start listening, then click, then <code>await</code> the new tab.</dd></div>
+        <div><dt>click</dt><dd>Press the link. This is the click that opens the new tab, so the listener is already waiting.</dd></div>
+        <div><dt>toHaveTitle</dt><dd>Keep checking until the new tab’s title matches these words.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Get ready to catch a new tab.</li>
+        <li>Click the link that opens help.</li>
+        <li>Take the new tab when it arrives.</li>
+        <li>Read the title of that tab.</li>
+      </ol>
+      <p>The program only writes those steps down.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the steps once more. The box below is those same steps. Listening starts on the line before the click.</p>
       <figure class="code">
     <figcaption>tests/popup.spec.js · npx playwright test</figcaption>
     <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
@@ -67,28 +79,30 @@ test(&quot;a new tab opens&quot;, async ({ page }) =&gt; {
   await expect(popup).toHaveTitle(&quot;Example Domain&quot;);
 });</code></pre>
   </figure>
-      
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>target=&quot;_blank&quot;</code><span>Ask the browser to open the link in a new tab. That new tab is the popup Playwright will hand you.</span></li>
-<li><code>const popupPromise = page.waitForEvent(&quot;popup&quot;);</code><span>Start listening. Do not <code>await</code> yet. You want the listener armed before the click.</span></li>
-<li><code>await page.getByRole(&quot;link&quot;, { name: &quot;Open help&quot; }).click();</code><span>Now cause the popup.</span></li>
-<li><code>const popup = await popupPromise;</code><span>Receive the new <code>Page</code>. It has its own URL, locators, and assertions.</span></li>
-<li><code>await expect(popup).toHaveTitle(&quot;Example Domain&quot;);</code><span>Assert against the new page, not the original one. The original page still shows the link.</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Try both orders. Only hands-first catches the tab.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk">
+        <li><code>target=&quot;_blank&quot;</code><span>This link asks the browser for a new tab. The words Open help are what a person clicks.</span></li>
+        <li><code>const popupPromise = page.waitForEvent(&quot;popup&quot;);</code><span>Start listening for that new tab. Save the listening in a name, and click on the next line.</span></li>
+        <li><code>await page.getByRole(&quot;link&quot;, { name: &quot;Open help&quot; }).click();</code><span>Click the link named Open help. That click opens the new tab.</span></li>
+        <li><code>const popup = await popupPromise;</code><span>Now wait for the new tab, and name it popup. popup is another page, with its own address.</span></li>
+        <li><code>await expect(popup).toHaveTitle(&quot;Example Domain&quot;);</code><span>Check the title of the new tab. The first page still shows the link.</span></li>
+      </ol>
+      <h2>Try it</h2>
+      <p>Press Hands out, then click. Then press Click, then put hands out.</p>
       <div class="demo" data-kind="stage" data-stage="popup">
-      <p class="demo-lead"><strong>Demo.</strong> If you put your hands out after the toss, you miss the key.</p>
+      <p class="demo-lead"><strong>Practice.</strong> Try hands out first. Then try the other order.</p>
       
       <div class="demo-actions"><button type="button" class="hands-first">Hands out, then click</button><button type="button" class="click-first quiet">Click, then put hands out</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Awaiting <code>waitForEvent</code> before the click. That line never returns, because the click has not happened, so the event never arrives.</li>
-<li>Asserting the title on <code>page</code> when the title changed on <code>popup</code>.</li>
-<li>Closing the context and expecting the popup to survive. The popup lives in the same context.</li></ul>
-      <h2>Recap</h2>
-      <p>Start <code>waitForEvent(&quot;popup&quot;)</code> before the click that opens a tab. Await it after the click. The value is another page.</p>
+      <h2>Easy to mix up</h2>
+      <ul>
+        <li>If you wait for the new tab before the click, the click never runs. Start listening, click, then await.</li>
+        <li>Check the title on the new tab. The first page still shows the link.</li>
+        <li>The new tab lives in the same browser session. Closing that session closes the tab.</li>
+      </ul>
+      <h2>Remember</h2>
+      <p>Start listening for the popup before the click. Await that listening after the click, and you receive the new page.</p>
       <label class="done"><input type="checkbox" data-done="playwright/15-popups"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="14-screenshots-and-traces.html"><small>Previous</small>Screenshots, video, and traces</a><a class="next" href="16-frames.html"><small>Next</small>Frames</a></nav>
     </main>

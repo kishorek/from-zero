@@ -42,17 +42,29 @@
     <main id="content" class="lesson">
       <p class="kicker">Layer 03 · Lesson 12 of 20</p>
       <h1>Assertions</h1>
-      <p class="one-idea"><strong>One idea.</strong> A check on a locator keeps looking. A check on a copied string looks once.</p>
-      <h2>The idea</h2>
-      <p>An assertion says what should be true. <code>await expect(locator).toBeVisible()</code>, <code>toHaveText</code>, <code>toHaveValue</code>, <code>toBeEnabled</code>, and <code>toBeChecked</code> are web-first assertions. They retry until the timeout.</p>
-<p><code>await expect(page).toHaveTitle</code> and <code>toHaveURL</code> retry as well. The moment you pull a plain value out, retrying stops. <code>const text = await locator.textContent(); expect(text).toBe(&quot;Saved&quot;)</code> checks once. If the text arrives a moment later, the test fails even though a person would have seen it.</p>
-      <h2>Why it matters</h2>
-      <p>This single distinction explains a huge share of “it fails, but when I look, the text is there.” You looked after the check. The locator assertion would have looked again.</p>
-      <h2>A picture to hold</h2>
-      <p>Two inspectors. One stays at the platform and watches the board until the train name appears. The other glances once and leaves. Web-first <code>expect</code> stays. <code>expect</code> on an already-fetched string glances once.</p>
-      
-      <h2>A small example</h2>
-      
+      <p class="one-idea"><strong>One idea.</strong> A check can keep looking until the words on the page are right.</p>
+      <h2>Start with a normal day</h2>
+      <p>Asha sends a form on a website. The page still says Waiting.</p>
+      <p>She watches the status until the word changes to Submitted.</p>
+      <h2>New words</h2>
+      <p><code>import</code>, <code>test</code>, <code>async</code>, <code>await</code>, and <code>page</code> mean the same as before. <code>expect</code> on a locator can keep looking.</p>
+      <dl class="words">
+        <div><dt>setContent</dt><dd>Replace the tab with page text written inside the check. Backticks wrap text that covers more than one line.</dd></div>
+        <div><dt>data-testid</dt><dd>An extra name put on an element for a test. Here the name is <code>status</code>. <code>getByTestId</code> finds it. The result is a locator.</dd></div>
+        <div><dt>setTimeout</dt><dd>Inside the page, change the text after a short delay. <code>200</code> is that delay in thousandths of a second. <code>textContent</code> is the text inside the element.</dd></div>
+        <div><dt>toHaveText</dt><dd>Keep checking until the element’s whole text matches these words.</dd></div>
+        <div><dt>check once</dt><dd>Read the text a single time and decide immediately. A practice button does this.</dd></div>
+        <div><dt>keep looking</dt><dd>Read again and again until the text is right, or time runs out.</dd></div>
+      </dl>
+      <h2>The steps, before any program</h2>
+      <ol class="plain">
+        <li>Open a page whose status says Waiting.</li>
+        <li>Let the page change that word to Submitted.</li>
+        <li>Keep looking until the status shows Submitted.</li>
+      </ol>
+      <p>The program only writes those steps down.</p>
+      <h2>The same steps, written as a program</h2>
+      <p class="bridge">Read the steps once more. The box below is those same steps. The last line keeps looking until the status says Submitted.</p>
       <figure class="code">
     <figcaption>tests/assert.spec.js · npx playwright test</figcaption>
     <pre><code class="language-js">import { test, expect } from &quot;@playwright/test&quot;;
@@ -69,27 +81,30 @@ test(&quot;status becomes Submitted&quot;, async ({ page }) =&gt; {
   await expect(page.getByTestId(&quot;status&quot;)).toHaveText(&quot;Submitted&quot;);
 });</code></pre>
   </figure>
-      
-      
-      <h2>Line by line</h2>
-      <ol class="walk"><li><code>&lt;p data-testid=&quot;status&quot;&gt;Waiting&lt;/p&gt;</code><span>A test id is a dedicated attribute, <code>data-testid</code>, that exists for automation. It does not depend on styling.</span></li>
-<li><code>textContent = &quot;Submitted&quot;</code><span>The page changes its own text shortly after load. A one-shot check can lose this race.</span></li>
-<li><code>await expect(page.getByTestId(&quot;status&quot;)).toHaveText(&quot;Submitted&quot;);</code><span>Retry until the text is exactly <code>Submitted</code>. Exact means the whole string. <code>toContainText</code> is the looser cousin when you mean “includes.”</span></li></ol>
-      <h2>Try it yourself</h2>
-      <p>Reload, then check once immediately. Then keep looking. The second way sees Submitted.</p>
+      <h2>What each line is saying</h2>
+      <ol class="walk">
+        <li><code>&lt;p data-testid=&quot;status&quot;&gt;Waiting&lt;/p&gt;</code><span>The status starts as the word Waiting. The test id status is how the check finds it.</span></li>
+        <li><code>textContent = &quot;Submitted&quot;</code><span>A moment later, the page changes that word to Submitted. The change is in the page’s own script.</span></li>
+        <li><code>await expect(page.getByTestId(&quot;status&quot;)).toHaveText(&quot;Submitted&quot;);</code><span>Keep looking until the whole status text is Submitted. await makes the test wait for that looking.</span></li>
+      </ol>
+      <p>A check on a locator keeps looking. A check on text you already copied looks one time.</p>
+      <h2>Try it</h2>
+      <p>Press Reload, then Check once now, then Keep looking. Keep looking is the check that sees Submitted.</p>
       <div class="demo" data-kind="stage" data-stage="glance">
-      <p class="demo-lead"><strong>Demo.</strong> The status changes to Submitted shortly after load.</p>
+      <p class="demo-lead"><strong>Practice.</strong> The status changes to Submitted a moment after load.</p>
       
       <div class="mini-page"><p>Status: <strong class="status">Waiting</strong></p></div>
       <div class="demo-actions"><button type="button" class="once quiet">Check once now</button><button type="button" class="keep">Keep looking</button><button type="button" class="reload quiet">Reload</button></div>
       <div class="demo-out" role="status"></div>
     </div>
-      <h2>Common mistakes</h2>
-      <ul><li>Using <code>toHaveText</code> when the element has extra whitespace you do not care about. <code>toHaveText</code> can take a pattern. Or assert the part that matters with <code>toContainText</code>.</li>
-<li>Asserting a CSS class to mean “the success message showed.” Assert the text a person reads.</li>
-<li>Dropping <code>await</code> in front of <code>expect(...).toHaveText</code>. You get a floating promise and a false sense of success.</li></ul>
-      <h2>Recap</h2>
-      <p>Expect on a locator retries. Expect on a string you already pulled does not. Prefer <code>toHaveText</code>, <code>toBeVisible</code>, <code>toHaveURL</code>, and <code>toHaveTitle</code>.</p>
+      <h2>Easy to mix up</h2>
+      <ul>
+        <li>This check wants the whole text. Extra words around Submitted make it fail.</li>
+        <li>Check the words a person can read. Those words are the result that matters.</li>
+        <li>Put await in front of the check. The test then waits while the check keeps looking.</li>
+      </ul>
+      <h2>Remember</h2>
+      <p>A check on a locator keeps looking until the text matches. A check on text you already copied looks one time.</p>
       <label class="done"><input type="checkbox" data-done="playwright/12-assertions"> I can explain this lesson in my own words.</label>
       <nav class="pager" aria-label="Lesson sequence"><a class="prev" href="11-auto-waiting.html"><small>Previous</small>Auto-waiting</a><a class="next" href="13-forms.html"><small>Next</small>Forms</a></nav>
     </main>
